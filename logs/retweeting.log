@@ -1,0 +1,505 @@
+[2025-11-16T20:45:51.507938] === リツイートジョブ開始 ===
+[2025-11-16T20:45:51.508945] 致命的エラー: Expecting value: line 1 column 1 (char 0)
+[2025-11-16T20:50:51.920473] === リツイートジョブ開始 ===
+[2025-11-16T20:50:51.921500] [DEBUG] API_KEYS: key=SQJ1*** secret=Uy2B*** token=1970*** token_secret=94im***
+[2025-11-16T20:50:51.934200] [FATAL] 例外内容: Expecting value: line 1 column 1 (char 0)
+[2025-11-16T20:50:51.934200] [FATAL] Traceback: Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 102, in main
+    retweeted_ids = load_retweeted_list()
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\data_manager.py", line 56, in load_retweeted_list
+    arr = json.load(f)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\json\__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+[2025-11-16T20:54:56.594333] === リツイートジョブ開始 ===
+[2025-11-16T20:54:56.594333] [DEBUG] API_KEYS: key=SQJ1*** secret=Uy2B*** token=1970*** token_secret=94im***
+[2025-11-16T20:54:56.595347] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T20:54:56.596355] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T20:54:56.597414] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T20:54:56.597414] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta OR from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion OR from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND 歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T20:54:56.598423] [DEBUG] 実行クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta OR from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion OR from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND 歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T20:54:56.598423] [ERROR] search_tweets 例外: search_tweets() got an unexpected keyword argument 'return_raw'
+[2025-11-16T20:54:56.599429] === リツイート完了（0件） ===
+[2025-11-16T21:43:13.274940] === リツイートジョブ開始 ===
+[2025-11-16T21:43:13.275963] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T21:43:13.275963] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T21:43:13.277476] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T21:43:13.277476] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T21:43:13.278482] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta OR from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion OR from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND 歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T21:43:13.617296] [FATAL] 例外内容: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 278)
+[2025-11-16T21:43:13.619635] [FATAL] Traceback:
+Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 113, in main
+    raw_resp = search_tweets(
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\twitter_api.py", line 188, in search_tweets
+    resp = client.search_recent_tweets(**params)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 1276, in search_recent_tweets
+    return self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 129, in _make_request
+    response = self.request(method, route, params=request_params,
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 96, in request
+    raise BadRequest(response)
+tweepy.errors.BadRequest: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 278)
+
+[2025-11-16T21:46:40.379213] === リツイートジョブ開始 ===
+[2025-11-16T21:46:40.380246] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T21:46:40.380246] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T21:46:40.381915] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T21:46:40.381915] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T21:46:40.383014] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta OR from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion OR from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND (歌枠 OR 歌ってみた OR カラオケ)) -is:retweet -is:reply
+[2025-11-16T22:04:03.980782] === リツイートジョブ開始 ===
+[2025-11-16T22:04:03.981795] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T22:04:03.981795] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T22:04:03.982911] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:04:03.982911] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:04:03.983930] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta OR from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion OR from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND (歌枠 OR 歌ってみた OR カラオケ)) -is:retweet -is:reply
+[2025-11-16T22:04:04.245399] [FATAL] 例外内容: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 278)
+[2025-11-16T22:04:04.248501] [FATAL] Traceback:
+Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 113, in main
+    raw_resp = search_tweets(
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\twitter_api.py", line 193, in search_tweets
+    resp = client.search_recent_tweets(**params)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 1276, in search_recent_tweets
+    return self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 129, in _make_request
+    response = self.request(method, route, params=request_params,
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 96, in request
+    raise BadRequest(response)
+tweepy.errors.BadRequest: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 278)
+
+[2025-11-16T22:07:30.907267] === リツイートジョブ開始 ===
+[2025-11-16T22:07:30.907267] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T22:07:30.907267] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T22:07:30.912304] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:07:30.912932] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta']
+[2025-11-16T22:07:30.912932] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta) (youtube AND (歌枠 OR 歌ってみた OR カラオケ)) -is:retweet -is:reply
+[2025-11-16T22:07:30.912932] [DEBUG] クエリ対象ユーザー: ['inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion']
+[2025-11-16T22:07:30.912932] [DEBUG] 生成クエリ: (from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion) (youtube AND (歌枠 OR 歌ってみた OR カラオケ)) -is:retweet -is:reply
+[2025-11-16T22:07:30.912932] [DEBUG] クエリ対象ユーザー: ['846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:07:30.912932] [DEBUG] 生成クエリ: (from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) (youtube AND (歌枠 OR 歌ってみた OR カラオケ)) -is:retweet -is:reply
+[2025-11-16T22:19:05.498792] [FATAL] 例外内容: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 109)
+[2025-11-16T22:19:05.502895] [FATAL] Traceback:
+Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 113, in main
+    raw_resp = search_tweets(
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\twitter_api.py", line 193, in search_tweets
+    resp = client.search_recent_tweets(**params)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 1276, in search_recent_tweets
+    return self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 129, in _make_request
+    response = self.request(method, route, params=request_params,
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 113, in request
+    return self.request(method, route, params, json, user_auth)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 96, in request
+    raise BadRequest(response)
+tweepy.errors.BadRequest: 400 Bad Request
+There were errors processing your request: Ambiguous use of and as a keyword. Use a space to logically join two clauses, or "and" to find occurrences of and in text (at position 109)
+
+[2025-11-16T22:26:13.645632] === リツイートジョブ開始 ===
+[2025-11-16T22:26:13.646686] [DEBUG] start_time=2025-11-15 00:00:00+00:00
+[2025-11-16T22:26:13.646686] [DEBUG] end_time=2025-11-16 00:00:00+00:00
+[2025-11-16T22:26:13.647688] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:26:13.647688] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta']
+[2025-11-16T22:26:13.648756] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T22:26:13.648756] [DEBUG] クエリ対象ユーザー: ['inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion']
+[2025-11-16T22:26:13.649763] [DEBUG] 生成クエリ: (from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T22:26:13.649763] [DEBUG] クエリ対象ユーザー: ['846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-16T22:26:13.650869] [DEBUG] 生成クエリ: (from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-16T22:34:06.456644] [DEBUG] Raw API status: {'result_count': 0}
+[2025-11-16T22:34:06.457723] [DEBUG] 取得ツイート件数: 0
+[2025-11-16T22:49:07.959185] [DEBUG] Raw API status: {'result_count': 0}
+[2025-11-16T22:49:07.963027] [DEBUG] 取得ツイート件数: 0
+[2025-11-16T23:04:08.418555] [DEBUG] Raw API status: {'newest_id': '1989488455366447609', 'oldest_id': '1989488455366447609', 'result_count': 1}
+[2025-11-16T23:04:08.420761] [DEBUG] 取得ツイート件数: 1
+[2025-11-16T23:04:08.662322] リツイート成功: 1989488455366447609 / 【歌枠】とこ先輩とカラオケ！！冬も喋って歌うぞ！【早乙女ベリー/戌亥とこ/にじさんじ】 https:...
+[2025-11-16T23:04:08.666665] === リツイート完了（1件） ===
+[2025-11-18T02:25:13.448682] === リツイートジョブ開始 ===
+[2025-11-18T02:25:13.455613] [DEBUG] start_time=2025-11-17 00:00:00+00:00
+[2025-11-18T02:25:13.456912] [DEBUG] end_time=2025-11-18 00:00:00+00:00
+[2025-11-18T02:25:13.456912] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-18T02:25:13.457919] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta']
+[2025-11-18T02:25:13.457919] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:25:13.458925] [DEBUG] クエリ対象ユーザー: ['inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion']
+[2025-11-18T02:25:13.458925] [DEBUG] 生成クエリ: (from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:25:13.458925] [DEBUG] クエリ対象ユーザー: ['846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-18T02:25:13.459930] [DEBUG] 生成クエリ: (from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:25:13.738942] [FATAL] 例外内容: 400 Bad Request
+Invalid 'end_time':'2025-11-18T00:00Z'. 'end_time' must be a minimum of 10 seconds prior to the request time.
+[2025-11-18T02:25:13.753901] [FATAL] Traceback:
+Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 113, in main
+    raw_resp = search_tweets(
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\twitter_api.py", line 193, in search_tweets
+    resp = client.search_recent_tweets(**params)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 1276, in search_recent_tweets
+    return self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 129, in _make_request
+    response = self.request(method, route, params=request_params,
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 96, in request
+    raise BadRequest(response)
+tweepy.errors.BadRequest: 400 Bad Request
+Invalid 'end_time':'2025-11-18T00:00Z'. 'end_time' must be a minimum of 10 seconds prior to the request time.
+
+[2025-11-18T02:34:01.459925] === リツイートジョブ開始 ===
+[2025-11-18T02:34:01.460932] [DEBUG] start_time=2025-11-16 15:00:00+00:00
+[2025-11-18T02:34:01.460932] [DEBUG] end_time=2025-11-17 15:00:00+00:00
+[2025-11-18T02:34:01.461950] [DEBUG] following.json 読み込み: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta', 'inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion', '846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-18T02:34:01.462952] [DEBUG] クエリ対象ユーザー: ['nijisanji_app', 'furen_2434', 'Eli_Conifer', 'Vamp_Kuzu', 'Lize_Helesta']
+[2025-11-18T02:34:01.462952] [DEBUG] 生成クエリ: (from:nijisanji_app OR from:furen_2434 OR from:Eli_Conifer OR from:Vamp_Kuzu OR from:Lize_Helesta) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:34:01.462952] [DEBUG] クエリ対象ユーザー: ['inui_toko', 'belmond_b_2434', 'Ange_Katrina_', 'amamiya_kokoro', 'TakamiyaRion']
+[2025-11-18T02:34:01.463955] [DEBUG] 生成クエリ: (from:inui_toko OR from:belmond_b_2434 OR from:Ange_Katrina_ OR from:amamiya_kokoro OR from:TakamiyaRion) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:34:01.463955] [DEBUG] クエリ対象ユーザー: ['846kizuQ', 'Saotome_Berry', 'KazakiMorinaka']
+[2025-11-18T02:34:01.464958] [DEBUG] 生成クエリ: (from:846kizuQ OR from:Saotome_Berry OR from:KazakiMorinaka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-18T02:40:13.969058] [DEBUG] Raw API status: {'result_count': 0}
+[2025-11-18T02:40:13.971647] [DEBUG] 取得ツイート件数: 0
+[2025-11-18T02:55:13.518818] [DEBUG] Raw API status: {'result_count': 0}
+[2025-11-18T02:55:13.519898] [DEBUG] 取得ツイート件数: 0
+[2025-11-18T03:10:13.964586] [DEBUG] Raw API status: {'newest_id': '1990148532406518101', 'oldest_id': '1990148532406518101', 'result_count': 1}
+[2025-11-18T03:10:13.964586] [DEBUG] 取得ツイート件数: 1
+[2025-11-18T03:10:14.196280] リツイート成功: 1990148532406518101 / 【朝活雑談】20万人ありがとう！！！！朝活雑談！！！【早乙女ベリー/にじさんじ】 https://t...
+[2025-11-18T03:10:14.198333] === リツイート完了（1件） ===
+[2025-11-30T21:27:42.466835] === リツイートジョブ開始 ===
+[2025-11-30T21:27:42.474231] [DEBUG] start_time=2025-11-28 15:00:00+00:00
+[2025-11-30T21:27:42.475739] [DEBUG] end_time=2025-11-29 15:00:00+00:00
+[2025-11-30T21:27:42.483073] [DEBUG] following.json 読み込み: ['ANYCOLOR_Inc', 'nijisanji_app', 'NIJISANJI_World', 'chronoir_info', 'ROF_MAO', '_Nornis', 'seitokai_07', 'ViVO_info', 'Elu_World', 'ShizuRin23', 'sibuya_hajime', 'MitoTsukino', 'HiguchiKaede', 'Moiramoimoimoi', 'ienaga_mugi23', 'ushimi_ichigo', 'Gilzaren_III', 'rei_Toya_rei', 'gaku_fushimi', 'nekokan_chu', 'AliceMononobe', 'KazakiMorinaka', 'Yuuhi_Riri', 'Youko_Akabane', 'Kanae_2434', 'udukikohh', 'SisterCleaire', 'Darkness_Eater', '___Dola', 'KT_seeds', 'ZulmIhP1nlMOT5y', '846kizuQ', 'midori_2434', 'harusakiair2434', 'saku_sasaki', 'honmahimawari', 'Vamp_Kuzu', 'yuika_siina', 'makaino_ririmu', 'hina__asuka', 'Sayo_Amemori', 'Kanda_Shoichi', 'TakamiyaRion', 'maimoto_k', 'SAKURA_RITSUKI', 'JoeRikiichi', 'debidebiru_sama', 'chima_machita23', 'RindouMikoto', 'BlackShiba_chan', 'belmond_b_2434', 'Rine_Yaguruma', 'kakeru_yumeoi', 'yuzuki_roa', 'onomachi_haruka', 'KataribeTsumugu', 'Ange_Katrina_', 'inui_toko', 'Lize_Helesta', 'manami_aizono', '333akina', 'MahiroYukishiro', 'Ex_Albio', 'Levi_E_2434', 'Nui_Sociere', 'Hayama_Marin', 'H_KAGAMI2434', 'Hakase_Fuyuki', 'rena_yorumi', 'ars_almal', 'amamiya_kokoro', 'Eli_Conifer', 'ratna_petit', 'Hana_Macchia', 'ShellinBurgundy', 'sukosuko_sukoya', 'SouHayase', 'FumiVirtual', 'Sara_Hoshikawa', 'Karuta_Yamagami', 'emma_august_', 'matsukai_mao', 'Luis_Cammy', 'Tomoe_Shirayuki', 'Fuwa_Minato', 'Rai_Galilei', 'kurusu72me', 'mashiro2434', 'Gaon2434', 'SuhaMin2434', 'honmono_ibrahim', 'furen_2434', 'LaylaAlstro2434', 'VALZ_info', 'Kaida_Haru', '1O46V', 'kei_nagao2434', 'NagiSo2434', 'kirame_2434', 'Hisui_Kitakoji', 'Suo_Sango', 'kohaku_todo', 'Chigusa_24zono', 'RayAkira2434', 'RohaLee2434', 'Etna_Crimson', 'JiyuOh2434', 'NariYang2434', 'HariRyu2434', 'DeremKado', 'NagisaArcinia', 'Seffyna2434', 'oliverD_23', 'Lain_Paterson', 'Leos_Vincent', 'Lauren_iroas', 'NaSera2434', 'HaYun2434', 'Muyu_Amagase', 'Yotsuha_Umise', 'ponto_nei', '1000000lome', 'VOLTACTION_info', 'Shikinagi_2434', 'SerAph_DazZ', 'KNTFR2434', 'watarai_hibari', '1garashi_Rika', 'I_Nozomi_', '65_kaburaki', 'k_meruto', 'toru_2434', '44do_akari', 'SophiaV214', 'Oriens_honmono', 'akagi_wen', 'usamirito_power', 'Saiki_Supadari', 'Hibachi_Mana', 'rai_173', 'Rou_2434', 'Show_SylveSTAR', 'Kagetsu_2434', 'Ruri_4ori8', 'tctt10_10', 'Milan_Kestrel', '3SKM_INFO', 'Kaisei_2434', 'Kitami_Coolguy', 'Ness_Sakaki', 'AYAKAKI_INFO', 'Kisara_2434', 'KozueMone', 'Shigariko_', '7_tamanoi', 'mo_lunlun_gu', 'Speciale_info', 'kirara_tamako', 'Saotome_Berry', 'sakayori_soma', 'Tr0uT_2434', 'Suzuna_Nanase', 'Itsuki_Sakyo', 'Aya10_1tsubashi', 'yoiyume_info', 'Kadou_Mikaru', 'Togawa_Nonoha', 'Nekoyashiki_39', 'YagyuShino', 'splare_info', 'Yuno_Shino38', 'Shiro_Isumyan', 'sumeragi_0o', 'Hanakago_2434rr', 'EliraPendora', 'FinanaRyugu', 'Petra_Gurin', 'EnnaAlouette', 'MillieParfait', 'luca_kaneshiro', 'shu_yamino', 'Vox_Akuma', 'alban_knox', 'sonny_brisko', 'uki_violeta', 'AiaAmare', 'MariaMari0nette', 'RenZott0', 'ScarleYonaguni', 'D_Dropscythe', 'MelocoKyoran', 'Ver_Vermillion', 'Tyrant_Vanta', 'VezaliusBandage', 'YuQWilson', 'ClaudeClawmark', 'KlaraCharmwood', 'RyomaBarrenwort', 'Freo_2434', 'KaelixDebonair', 'Seible_2434', 'ZealGinjoka']
+[2025-11-30T21:27:42.484424] [DEBUG] クエリ対象ユーザー: ['ANYCOLOR_Inc', 'nijisanji_app', 'NIJISANJI_World', 'chronoir_info', 'ROF_MAO']
+[2025-11-30T21:27:42.485420] [DEBUG] 生成クエリ: (from:ANYCOLOR_Inc OR from:nijisanji_app OR from:NIJISANJI_World OR from:chronoir_info OR from:ROF_MAO) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.486451] [DEBUG] クエリ対象ユーザー: ['_Nornis', 'seitokai_07', 'ViVO_info', 'Elu_World', 'ShizuRin23']
+[2025-11-30T21:27:42.486451] [DEBUG] 生成クエリ: (from:_Nornis OR from:seitokai_07 OR from:ViVO_info OR from:Elu_World OR from:ShizuRin23) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.487541] [DEBUG] クエリ対象ユーザー: ['sibuya_hajime', 'MitoTsukino', 'HiguchiKaede', 'Moiramoimoimoi', 'ienaga_mugi23']
+[2025-11-30T21:27:42.488544] [DEBUG] 生成クエリ: (from:sibuya_hajime OR from:MitoTsukino OR from:HiguchiKaede OR from:Moiramoimoimoi OR from:ienaga_mugi23) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.489667] [DEBUG] クエリ対象ユーザー: ['ushimi_ichigo', 'Gilzaren_III', 'rei_Toya_rei', 'gaku_fushimi', 'nekokan_chu']
+[2025-11-30T21:27:42.489667] [DEBUG] 生成クエリ: (from:ushimi_ichigo OR from:Gilzaren_III OR from:rei_Toya_rei OR from:gaku_fushimi OR from:nekokan_chu) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.490669] [DEBUG] クエリ対象ユーザー: ['AliceMononobe', 'KazakiMorinaka', 'Yuuhi_Riri', 'Youko_Akabane', 'Kanae_2434']
+[2025-11-30T21:27:42.490669] [DEBUG] 生成クエリ: (from:AliceMononobe OR from:KazakiMorinaka OR from:Yuuhi_Riri OR from:Youko_Akabane OR from:Kanae_2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.491677] [DEBUG] クエリ対象ユーザー: ['udukikohh', 'SisterCleaire', 'Darkness_Eater', '___Dola', 'KT_seeds']
+[2025-11-30T21:27:42.491677] [DEBUG] 生成クエリ: (from:udukikohh OR from:SisterCleaire OR from:Darkness_Eater OR from:___Dola OR from:KT_seeds) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.492813] [DEBUG] クエリ対象ユーザー: ['ZulmIhP1nlMOT5y', '846kizuQ', 'midori_2434', 'harusakiair2434', 'saku_sasaki']
+[2025-11-30T21:27:42.492813] [DEBUG] 生成クエリ: (from:ZulmIhP1nlMOT5y OR from:846kizuQ OR from:midori_2434 OR from:harusakiair2434 OR from:saku_sasaki) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.492813] [DEBUG] クエリ対象ユーザー: ['honmahimawari', 'Vamp_Kuzu', 'yuika_siina', 'makaino_ririmu', 'hina__asuka']
+[2025-11-30T21:27:42.494215] [DEBUG] 生成クエリ: (from:honmahimawari OR from:Vamp_Kuzu OR from:yuika_siina OR from:makaino_ririmu OR from:hina__asuka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.494215] [DEBUG] クエリ対象ユーザー: ['Sayo_Amemori', 'Kanda_Shoichi', 'TakamiyaRion', 'maimoto_k', 'SAKURA_RITSUKI']
+[2025-11-30T21:27:42.494215] [DEBUG] 生成クエリ: (from:Sayo_Amemori OR from:Kanda_Shoichi OR from:TakamiyaRion OR from:maimoto_k OR from:SAKURA_RITSUKI) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.495719] [DEBUG] クエリ対象ユーザー: ['JoeRikiichi', 'debidebiru_sama', 'chima_machita23', 'RindouMikoto', 'BlackShiba_chan']
+[2025-11-30T21:27:42.496875] [DEBUG] 生成クエリ: (from:JoeRikiichi OR from:debidebiru_sama OR from:chima_machita23 OR from:RindouMikoto OR from:BlackShiba_chan) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.496875] [DEBUG] クエリ対象ユーザー: ['belmond_b_2434', 'Rine_Yaguruma', 'kakeru_yumeoi', 'yuzuki_roa', 'onomachi_haruka']
+[2025-11-30T21:27:42.496875] [DEBUG] 生成クエリ: (from:belmond_b_2434 OR from:Rine_Yaguruma OR from:kakeru_yumeoi OR from:yuzuki_roa OR from:onomachi_haruka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.498347] [DEBUG] クエリ対象ユーザー: ['KataribeTsumugu', 'Ange_Katrina_', 'inui_toko', 'Lize_Helesta', 'manami_aizono']
+[2025-11-30T21:27:42.498347] [DEBUG] 生成クエリ: (from:KataribeTsumugu OR from:Ange_Katrina_ OR from:inui_toko OR from:Lize_Helesta OR from:manami_aizono) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.499377] [DEBUG] クエリ対象ユーザー: ['333akina', 'MahiroYukishiro', 'Ex_Albio', 'Levi_E_2434', 'Nui_Sociere']
+[2025-11-30T21:27:42.500374] [DEBUG] 生成クエリ: (from:333akina OR from:MahiroYukishiro OR from:Ex_Albio OR from:Levi_E_2434 OR from:Nui_Sociere) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.500374] [DEBUG] クエリ対象ユーザー: ['Hayama_Marin', 'H_KAGAMI2434', 'Hakase_Fuyuki', 'rena_yorumi', 'ars_almal']
+[2025-11-30T21:27:42.501370] [DEBUG] 生成クエリ: (from:Hayama_Marin OR from:H_KAGAMI2434 OR from:Hakase_Fuyuki OR from:rena_yorumi OR from:ars_almal) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.501370] [DEBUG] クエリ対象ユーザー: ['amamiya_kokoro', 'Eli_Conifer', 'ratna_petit', 'Hana_Macchia', 'ShellinBurgundy']
+[2025-11-30T21:27:42.502369] [DEBUG] 生成クエリ: (from:amamiya_kokoro OR from:Eli_Conifer OR from:ratna_petit OR from:Hana_Macchia OR from:ShellinBurgundy) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.502369] [DEBUG] クエリ対象ユーザー: ['sukosuko_sukoya', 'SouHayase', 'FumiVirtual', 'Sara_Hoshikawa', 'Karuta_Yamagami']
+[2025-11-30T21:27:42.503669] [DEBUG] 生成クエリ: (from:sukosuko_sukoya OR from:SouHayase OR from:FumiVirtual OR from:Sara_Hoshikawa OR from:Karuta_Yamagami) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.503669] [DEBUG] クエリ対象ユーザー: ['emma_august_', 'matsukai_mao', 'Luis_Cammy', 'Tomoe_Shirayuki', 'Fuwa_Minato']
+[2025-11-30T21:27:42.504679] [DEBUG] 生成クエリ: (from:emma_august_ OR from:matsukai_mao OR from:Luis_Cammy OR from:Tomoe_Shirayuki OR from:Fuwa_Minato) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.505676] [DEBUG] クエリ対象ユーザー: ['Rai_Galilei', 'kurusu72me', 'mashiro2434', 'Gaon2434', 'SuhaMin2434']
+[2025-11-30T21:27:42.505676] [DEBUG] 生成クエリ: (from:Rai_Galilei OR from:kurusu72me OR from:mashiro2434 OR from:Gaon2434 OR from:SuhaMin2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.506813] [DEBUG] クエリ対象ユーザー: ['honmono_ibrahim', 'furen_2434', 'LaylaAlstro2434', 'VALZ_info', 'Kaida_Haru']
+[2025-11-30T21:27:42.507981] [DEBUG] 生成クエリ: (from:honmono_ibrahim OR from:furen_2434 OR from:LaylaAlstro2434 OR from:VALZ_info OR from:Kaida_Haru) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.507981] [DEBUG] クエリ対象ユーザー: ['1O46V', 'kei_nagao2434', 'NagiSo2434', 'kirame_2434', 'Hisui_Kitakoji']
+[2025-11-30T21:27:42.509055] [DEBUG] 生成クエリ: (from:1O46V OR from:kei_nagao2434 OR from:NagiSo2434 OR from:kirame_2434 OR from:Hisui_Kitakoji) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.509055] [DEBUG] クエリ対象ユーザー: ['Suo_Sango', 'kohaku_todo', 'Chigusa_24zono', 'RayAkira2434', 'RohaLee2434']
+[2025-11-30T21:27:42.510182] [DEBUG] 生成クエリ: (from:Suo_Sango OR from:kohaku_todo OR from:Chigusa_24zono OR from:RayAkira2434 OR from:RohaLee2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.510182] [DEBUG] クエリ対象ユーザー: ['Etna_Crimson', 'JiyuOh2434', 'NariYang2434', 'HariRyu2434', 'DeremKado']
+[2025-11-30T21:27:42.511557] [DEBUG] 生成クエリ: (from:Etna_Crimson OR from:JiyuOh2434 OR from:NariYang2434 OR from:HariRyu2434 OR from:DeremKado) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.511557] [DEBUG] クエリ対象ユーザー: ['NagisaArcinia', 'Seffyna2434', 'oliverD_23', 'Lain_Paterson', 'Leos_Vincent']
+[2025-11-30T21:27:42.512560] [DEBUG] 生成クエリ: (from:NagisaArcinia OR from:Seffyna2434 OR from:oliverD_23 OR from:Lain_Paterson OR from:Leos_Vincent) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.513578] [DEBUG] クエリ対象ユーザー: ['Lauren_iroas', 'NaSera2434', 'HaYun2434', 'Muyu_Amagase', 'Yotsuha_Umise']
+[2025-11-30T21:27:42.513578] [DEBUG] 生成クエリ: (from:Lauren_iroas OR from:NaSera2434 OR from:HaYun2434 OR from:Muyu_Amagase OR from:Yotsuha_Umise) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.513578] [DEBUG] クエリ対象ユーザー: ['ponto_nei', '1000000lome', 'VOLTACTION_info', 'Shikinagi_2434', 'SerAph_DazZ']
+[2025-11-30T21:27:42.515402] [DEBUG] 生成クエリ: (from:ponto_nei OR from:1000000lome OR from:VOLTACTION_info OR from:Shikinagi_2434 OR from:SerAph_DazZ) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.515402] [DEBUG] クエリ対象ユーザー: ['KNTFR2434', 'watarai_hibari', '1garashi_Rika', 'I_Nozomi_', '65_kaburaki']
+[2025-11-30T21:27:42.516411] [DEBUG] 生成クエリ: (from:KNTFR2434 OR from:watarai_hibari OR from:1garashi_Rika OR from:I_Nozomi_ OR from:65_kaburaki) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.516411] [DEBUG] クエリ対象ユーザー: ['k_meruto', 'toru_2434', '44do_akari', 'SophiaV214', 'Oriens_honmono']
+[2025-11-30T21:27:42.517577] [DEBUG] 生成クエリ: (from:k_meruto OR from:toru_2434 OR from:44do_akari OR from:SophiaV214 OR from:Oriens_honmono) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.518637] [DEBUG] クエリ対象ユーザー: ['akagi_wen', 'usamirito_power', 'Saiki_Supadari', 'Hibachi_Mana', 'rai_173']
+[2025-11-30T21:27:42.519662] [DEBUG] 生成クエリ: (from:akagi_wen OR from:usamirito_power OR from:Saiki_Supadari OR from:Hibachi_Mana OR from:rai_173) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.520667] [DEBUG] クエリ対象ユーザー: ['Rou_2434', 'Show_SylveSTAR', 'Kagetsu_2434', 'Ruri_4ori8', 'tctt10_10']
+[2025-11-30T21:27:42.520667] [DEBUG] 生成クエリ: (from:Rou_2434 OR from:Show_SylveSTAR OR from:Kagetsu_2434 OR from:Ruri_4ori8 OR from:tctt10_10) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.521928] [DEBUG] クエリ対象ユーザー: ['Milan_Kestrel', '3SKM_INFO', 'Kaisei_2434', 'Kitami_Coolguy', 'Ness_Sakaki']
+[2025-11-30T21:27:42.521928] [DEBUG] 生成クエリ: (from:Milan_Kestrel OR from:3SKM_INFO OR from:Kaisei_2434 OR from:Kitami_Coolguy OR from:Ness_Sakaki) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.522930] [DEBUG] クエリ対象ユーザー: ['AYAKAKI_INFO', 'Kisara_2434', 'KozueMone', 'Shigariko_', '7_tamanoi']
+[2025-11-30T21:27:42.522930] [DEBUG] 生成クエリ: (from:AYAKAKI_INFO OR from:Kisara_2434 OR from:KozueMone OR from:Shigariko_ OR from:7_tamanoi) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.524135] [DEBUG] クエリ対象ユーザー: ['mo_lunlun_gu', 'Speciale_info', 'kirara_tamako', 'Saotome_Berry', 'sakayori_soma']
+[2025-11-30T21:27:42.524135] [DEBUG] 生成クエリ: (from:mo_lunlun_gu OR from:Speciale_info OR from:kirara_tamako OR from:Saotome_Berry OR from:sakayori_soma) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.524135] [DEBUG] クエリ対象ユーザー: ['Tr0uT_2434', 'Suzuna_Nanase', 'Itsuki_Sakyo', 'Aya10_1tsubashi', 'yoiyume_info']
+[2025-11-30T21:27:42.525637] [DEBUG] 生成クエリ: (from:Tr0uT_2434 OR from:Suzuna_Nanase OR from:Itsuki_Sakyo OR from:Aya10_1tsubashi OR from:yoiyume_info) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.526810] [DEBUG] クエリ対象ユーザー: ['Kadou_Mikaru', 'Togawa_Nonoha', 'Nekoyashiki_39', 'YagyuShino', 'splare_info']
+[2025-11-30T21:27:42.526810] [DEBUG] 生成クエリ: (from:Kadou_Mikaru OR from:Togawa_Nonoha OR from:Nekoyashiki_39 OR from:YagyuShino OR from:splare_info) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.527829] [DEBUG] クエリ対象ユーザー: ['Yuno_Shino38', 'Shiro_Isumyan', 'sumeragi_0o', 'Hanakago_2434rr', 'EliraPendora']
+[2025-11-30T21:27:42.528827] [DEBUG] 生成クエリ: (from:Yuno_Shino38 OR from:Shiro_Isumyan OR from:sumeragi_0o OR from:Hanakago_2434rr OR from:EliraPendora) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.529835] [DEBUG] クエリ対象ユーザー: ['FinanaRyugu', 'Petra_Gurin', 'EnnaAlouette', 'MillieParfait', 'luca_kaneshiro']
+[2025-11-30T21:27:42.529835] [DEBUG] 生成クエリ: (from:FinanaRyugu OR from:Petra_Gurin OR from:EnnaAlouette OR from:MillieParfait OR from:luca_kaneshiro) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.530818] [DEBUG] クエリ対象ユーザー: ['shu_yamino', 'Vox_Akuma', 'alban_knox', 'sonny_brisko', 'uki_violeta']
+[2025-11-30T21:27:42.530818] [DEBUG] 生成クエリ: (from:shu_yamino OR from:Vox_Akuma OR from:alban_knox OR from:sonny_brisko OR from:uki_violeta) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.531815] [DEBUG] クエリ対象ユーザー: ['AiaAmare', 'MariaMari0nette', 'RenZott0', 'ScarleYonaguni', 'D_Dropscythe']
+[2025-11-30T21:27:42.531815] [DEBUG] 生成クエリ: (from:AiaAmare OR from:MariaMari0nette OR from:RenZott0 OR from:ScarleYonaguni OR from:D_Dropscythe) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.532811] [DEBUG] クエリ対象ユーザー: ['MelocoKyoran', 'Ver_Vermillion', 'Tyrant_Vanta', 'VezaliusBandage', 'YuQWilson']
+[2025-11-30T21:27:42.533810] [DEBUG] 生成クエリ: (from:MelocoKyoran OR from:Ver_Vermillion OR from:Tyrant_Vanta OR from:VezaliusBandage OR from:YuQWilson) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.533810] [DEBUG] クエリ対象ユーザー: ['ClaudeClawmark', 'KlaraCharmwood', 'RyomaBarrenwort', 'Freo_2434', 'KaelixDebonair']
+[2025-11-30T21:27:42.534805] [DEBUG] 生成クエリ: (from:ClaudeClawmark OR from:KlaraCharmwood OR from:RyomaBarrenwort OR from:Freo_2434 OR from:KaelixDebonair) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:42.535801] [DEBUG] クエリ対象ユーザー: ['Seible_2434', 'ZealGinjoka']
+[2025-11-30T21:27:42.536304] [DEBUG] 生成クエリ: (from:Seible_2434 OR from:ZealGinjoka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-11-30T21:27:43.167568] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T21:27:43.167568] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T21:42:42.521974] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T21:42:42.528264] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T21:57:42.559175] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T21:57:42.560205] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T22:12:42.542859] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T22:12:42.542859] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T22:27:25.906311] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T22:27:25.908497] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T22:42:26.310884] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T22:42:26.310884] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T22:57:27.807683] [DEBUG] Raw API meta: {'newest_id': '1994621341354660157', 'oldest_id': '1994621341354660157', 'result_count': 1}
+[2025-11-30T22:57:27.807683] [DEBUG] 取得ツイート件数: 1
+[2025-11-30T22:57:28.131675] リツイート成功: 1994621341354660157 / 【📢配信告知📢】  29日 19:00- 歌謡曲を歌います。 最近新しく歌謡曲を覚えられていないので...
+[2025-11-30T23:12:28.634624] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T23:12:28.636659] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T23:27:30.207768] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T23:27:30.208774] [DEBUG] 取得ツイート件数: 0
+[2025-11-30T23:42:31.765345] [DEBUG] Raw API meta: {'newest_id': '1994764815102091595', 'oldest_id': '1994764815102091595', 'result_count': 1}
+[2025-11-30T23:42:31.767963] [DEBUG] 取得ツイート件数: 1
+[2025-11-30T23:42:32.037856] リツイート成功: 1994764815102091595 / 🐹【配信告知】🐹 11/30(日)、20:00から！ 告知ありのボカロしばり歌枠をさせていただきます...
+[2025-11-30T23:57:32.554857] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-11-30T23:57:32.556940] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T00:12:34.102269] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T00:12:34.103376] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T00:27:35.659921] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T00:27:35.663001] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T00:42:41.962385] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T00:42:41.962385] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T00:57:42.604117] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T00:57:42.604117] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T01:12:44.089461] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T01:12:44.089461] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T01:27:45.501878] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T01:27:45.501878] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T01:42:46.903027] [DEBUG] Raw API meta: {'newest_id': '1994423269467070639', 'oldest_id': '1994423269467070639', 'result_count': 1}
+[2025-12-01T01:42:46.903027] [DEBUG] 取得ツイート件数: 1
+[2025-12-01T01:42:47.148953] リツイート成功: 1994423269467070639 / 18時からはこちら！ プレミア公開の前です！  米津玄師さんの楽曲ばっかり歌っている歌枠【来栖夏芽/...
+[2025-12-01T01:57:47.557592] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T01:57:47.557592] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T02:12:48.994781] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T02:12:48.994781] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T02:27:49.666969] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T02:27:49.666969] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T02:42:51.090663] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-01T02:42:51.090663] [DEBUG] 取得ツイート件数: 0
+[2025-12-01T02:57:52.509270] [DEBUG] Raw API meta: {'newest_id': '1994719148371579152', 'oldest_id': '1994719148371579152', 'result_count': 1}
+[2025-12-01T02:57:52.509270] [DEBUG] 取得ツイート件数: 1
+[2025-12-01T02:57:52.754478] リツイート成功: 1994719148371579152 / 【カラオケコラボ】 #Seffy_live  11月30日16:00～ ほーい！ソウル組女子会きちゃ...
+[2025-12-01T06:11:35.254626] [FATAL] 例外内容: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+[2025-12-01T06:11:35.384378] [FATAL] Traceback:
+Traceback (most recent call last):
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 287, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\requests\adapters.py", line 644, in send
+    resp = conn.urlopen(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\util\retry.py", line 474, in increment
+    raise reraise(type(error), error, _stacktrace)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\util\util.py", line 38, in reraise
+    raise value.with_traceback(tb)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connectionpool.py", line 534, in _make_request
+    response = conn.getresponse()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\urllib3\connection.py", line 565, in getresponse
+    httplib_response = super().getresponse()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 1374, in getresponse
+    response.begin()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\http\client.py", line 287, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\retweeting_bot.py", line 141, in main
+    raw_resp = search_tweets(
+  File "c:\Users\souta\Desktop\Codes\Twitter_bot_Creation\tools\twitter_api.py", line 193, in search_tweets
+    resp = client.search_recent_tweets(**params)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 1276, in search_recent_tweets
+    return self._make_request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 129, in _make_request
+    response = self.request(method, route, params=request_params,
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 113, in request
+    return self.request(method, route, params, json, user_auth)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\tweepy\client.py", line 84, in request
+    with self.session.request(
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "c:\Users\souta\AppData\Local\Programs\Python\Python310\lib\site-packages\requests\adapters.py", line 659, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+
+[2025-12-08T00:27:52.874207] === リツイートジョブ開始 ===
+[2025-12-08T00:27:52.886312] [DEBUG] start_time=2025-12-06 15:00:00+00:00
+[2025-12-08T00:27:52.887324] [DEBUG] end_time=2025-12-07 15:00:00+00:00
+[2025-12-08T00:27:52.900165] [DEBUG] following.json 読み込み: ['ANYCOLOR_Inc', 'nijisanji_app', 'NIJISANJI_World', 'chronoir_info', 'ROF_MAO', '_Nornis', 'seitokai_07', 'ViVO_info', 'Elu_World', 'ShizuRin23', 'sibuya_hajime', 'MitoTsukino', 'HiguchiKaede', 'Moiramoimoimoi', 'ienaga_mugi23', 'ushimi_ichigo', 'Gilzaren_III', 'rei_Toya_rei', 'gaku_fushimi', 'nekokan_chu', 'AliceMononobe', 'KazakiMorinaka', 'Yuuhi_Riri', 'Youko_Akabane', 'Kanae_2434', 'udukikohh', 'SisterCleaire', 'Darkness_Eater', '___Dola', 'KT_seeds', 'ZulmIhP1nlMOT5y', '846kizuQ', 'midori_2434', 'harusakiair2434', 'saku_sasaki', 'honmahimawari', 'Vamp_Kuzu', 'yuika_siina', 'makaino_ririmu', 'hina__asuka', 'Sayo_Amemori', 'Kanda_Shoichi', 'TakamiyaRion', 'maimoto_k', 'SAKURA_RITSUKI', 'JoeRikiichi', 'debidebiru_sama', 'chima_machita23', 'RindouMikoto', 'BlackShiba_chan', 'belmond_b_2434', 'Rine_Yaguruma', 'kakeru_yumeoi', 'yuzuki_roa', 'onomachi_haruka', 'KataribeTsumugu', 'Ange_Katrina_', 'inui_toko', 'Lize_Helesta', 'manami_aizono', '333akina', 'MahiroYukishiro', 'Ex_Albio', 'Levi_E_2434', 'Nui_Sociere', 'Hayama_Marin', 'H_KAGAMI2434', 'Hakase_Fuyuki', 'rena_yorumi', 'ars_almal', 'amamiya_kokoro', 'Eli_Conifer', 'ratna_petit', 'Hana_Macchia', 'ShellinBurgundy', 'sukosuko_sukoya', 'SouHayase', 'FumiVirtual', 'Sara_Hoshikawa', 'Karuta_Yamagami', 'emma_august_', 'matsukai_mao', 'Luis_Cammy', 'Tomoe_Shirayuki', 'Fuwa_Minato', 'Rai_Galilei', 'kurusu72me', 'mashiro2434', 'Gaon2434', 'SuhaMin2434', 'honmono_ibrahim', 'furen_2434', 'LaylaAlstro2434', 'VALZ_info', 'Kaida_Haru', '1O46V', 'kei_nagao2434', 'NagiSo2434', 'kirame_2434', 'Hisui_Kitakoji', 'Suo_Sango', 'kohaku_todo', 'Chigusa_24zono', 'RayAkira2434', 'RohaLee2434', 'Etna_Crimson', 'JiyuOh2434', 'NariYang2434', 'HariRyu2434', 'DeremKado', 'NagisaArcinia', 'Seffyna2434', 'oliverD_23', 'Lain_Paterson', 'Leos_Vincent', 'Lauren_iroas', 'NaSera2434', 'HaYun2434', 'Muyu_Amagase', 'Yotsuha_Umise', 'ponto_nei', '1000000lome', 'VOLTACTION_info', 'Shikinagi_2434', 'SerAph_DazZ', 'KNTFR2434', 'watarai_hibari', '1garashi_Rika', 'I_Nozomi_', '65_kaburaki', 'k_meruto', 'toru_2434', '44do_akari', 'SophiaV214', 'Oriens_honmono', 'akagi_wen', 'usamirito_power', 'Saiki_Supadari', 'Hibachi_Mana', 'rai_173', 'Rou_2434', 'Show_SylveSTAR', 'Kagetsu_2434', 'Ruri_4ori8', 'tctt10_10', 'Milan_Kestrel', '3SKM_INFO', 'Kaisei_2434', 'Kitami_Coolguy', 'Ness_Sakaki', 'AYAKAKI_INFO', 'Kisara_2434', 'KozueMone', 'Shigariko_', '7_tamanoi', 'mo_lunlun_gu', 'Speciale_info', 'kirara_tamako', 'Saotome_Berry', 'sakayori_soma', 'Tr0uT_2434', 'Suzuna_Nanase', 'Itsuki_Sakyo', 'Aya10_1tsubashi', 'yoiyume_info', 'Kadou_Mikaru', 'Togawa_Nonoha', 'Nekoyashiki_39', 'YagyuShino', 'splare_info', 'Yuno_Shino38', 'Shiro_Isumyan', 'sumeragi_0o', 'Hanakago_2434rr', 'EliraPendora', 'FinanaRyugu', 'Petra_Gurin', 'EnnaAlouette', 'MillieParfait', 'luca_kaneshiro', 'shu_yamino', 'Vox_Akuma', 'alban_knox', 'sonny_brisko', 'uki_violeta', 'AiaAmare', 'MariaMari0nette', 'RenZott0', 'ScarleYonaguni', 'D_Dropscythe', 'MelocoKyoran', 'Ver_Vermillion', 'Tyrant_Vanta', 'VezaliusBandage', 'YuQWilson', 'ClaudeClawmark', 'KlaraCharmwood', 'RyomaBarrenwort', 'Freo_2434', 'KaelixDebonair', 'Seible_2434', 'ZealGinjoka']
+[2025-12-08T00:27:52.901438] [DEBUG] クエリ対象ユーザー: ['ANYCOLOR_Inc', 'nijisanji_app', 'NIJISANJI_World', 'chronoir_info', 'ROF_MAO', '_Nornis']
+[2025-12-08T00:27:52.902467] [DEBUG] 生成クエリ: (from:ANYCOLOR_Inc OR from:nijisanji_app OR from:NIJISANJI_World OR from:chronoir_info OR from:ROF_MAO OR from:_Nornis) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.903472] [DEBUG] クエリ対象ユーザー: ['seitokai_07', 'ViVO_info', 'Elu_World', 'ShizuRin23', 'sibuya_hajime', 'MitoTsukino']
+[2025-12-08T00:27:52.904471] [DEBUG] 生成クエリ: (from:seitokai_07 OR from:ViVO_info OR from:Elu_World OR from:ShizuRin23 OR from:sibuya_hajime OR from:MitoTsukino) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.905471] [DEBUG] クエリ対象ユーザー: ['HiguchiKaede', 'Moiramoimoimoi', 'ienaga_mugi23', 'ushimi_ichigo', 'Gilzaren_III', 'rei_Toya_rei']
+[2025-12-08T00:27:52.905471] [DEBUG] 生成クエリ: (from:HiguchiKaede OR from:Moiramoimoimoi OR from:ienaga_mugi23 OR from:ushimi_ichigo OR from:Gilzaren_III OR from:rei_Toya_rei) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.906471] [DEBUG] クエリ対象ユーザー: ['gaku_fushimi', 'nekokan_chu', 'AliceMononobe', 'KazakiMorinaka', 'Yuuhi_Riri', 'Youko_Akabane']
+[2025-12-08T00:27:52.908471] [DEBUG] 生成クエリ: (from:gaku_fushimi OR from:nekokan_chu OR from:AliceMononobe OR from:KazakiMorinaka OR from:Yuuhi_Riri OR from:Youko_Akabane) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.908471] [DEBUG] クエリ対象ユーザー: ['Kanae_2434', 'udukikohh', 'SisterCleaire', 'Darkness_Eater', '___Dola', 'KT_seeds']
+[2025-12-08T00:27:52.909611] [DEBUG] 生成クエリ: (from:Kanae_2434 OR from:udukikohh OR from:SisterCleaire OR from:Darkness_Eater OR from:___Dola OR from:KT_seeds) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.910610] [DEBUG] クエリ対象ユーザー: ['ZulmIhP1nlMOT5y', '846kizuQ', 'midori_2434', 'harusakiair2434', 'saku_sasaki', 'honmahimawari']
+[2025-12-08T00:27:52.911610] [DEBUG] 生成クエリ: (from:ZulmIhP1nlMOT5y OR from:846kizuQ OR from:midori_2434 OR from:harusakiair2434 OR from:saku_sasaki OR from:honmahimawari) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.911610] [DEBUG] クエリ対象ユーザー: ['Vamp_Kuzu', 'yuika_siina', 'makaino_ririmu', 'hina__asuka', 'Sayo_Amemori', 'Kanda_Shoichi']
+[2025-12-08T00:27:52.912610] [DEBUG] 生成クエリ: (from:Vamp_Kuzu OR from:yuika_siina OR from:makaino_ririmu OR from:hina__asuka OR from:Sayo_Amemori OR from:Kanda_Shoichi) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.913720] [DEBUG] クエリ対象ユーザー: ['TakamiyaRion', 'maimoto_k', 'SAKURA_RITSUKI', 'JoeRikiichi', 'debidebiru_sama', 'chima_machita23']
+[2025-12-08T00:27:52.914797] [DEBUG] 生成クエリ: (from:TakamiyaRion OR from:maimoto_k OR from:SAKURA_RITSUKI OR from:JoeRikiichi OR from:debidebiru_sama OR from:chima_machita23) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.915808] [DEBUG] クエリ対象ユーザー: ['RindouMikoto', 'BlackShiba_chan', 'belmond_b_2434', 'Rine_Yaguruma', 'kakeru_yumeoi', 'yuzuki_roa']
+[2025-12-08T00:27:52.915808] [DEBUG] 生成クエリ: (from:RindouMikoto OR from:BlackShiba_chan OR from:belmond_b_2434 OR from:Rine_Yaguruma OR from:kakeru_yumeoi OR from:yuzuki_roa) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.916810] [DEBUG] クエリ対象ユーザー: ['onomachi_haruka', 'KataribeTsumugu', 'Ange_Katrina_', 'inui_toko', 'Lize_Helesta', 'manami_aizono']
+[2025-12-08T00:27:52.917963] [DEBUG] 生成クエリ: (from:onomachi_haruka OR from:KataribeTsumugu OR from:Ange_Katrina_ OR from:inui_toko OR from:Lize_Helesta OR from:manami_aizono) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.917963] [DEBUG] クエリ対象ユーザー: ['333akina', 'MahiroYukishiro', 'Ex_Albio', 'Levi_E_2434', 'Nui_Sociere', 'Hayama_Marin']
+[2025-12-08T00:27:52.919116] [DEBUG] 生成クエリ: (from:333akina OR from:MahiroYukishiro OR from:Ex_Albio OR from:Levi_E_2434 OR from:Nui_Sociere OR from:Hayama_Marin) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.920146] [DEBUG] クエリ対象ユーザー: ['H_KAGAMI2434', 'Hakase_Fuyuki', 'rena_yorumi', 'ars_almal', 'amamiya_kokoro', 'Eli_Conifer']
+[2025-12-08T00:27:52.921214] [DEBUG] 生成クエリ: (from:H_KAGAMI2434 OR from:Hakase_Fuyuki OR from:rena_yorumi OR from:ars_almal OR from:amamiya_kokoro OR from:Eli_Conifer) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.922213] [DEBUG] クエリ対象ユーザー: ['ratna_petit', 'Hana_Macchia', 'ShellinBurgundy', 'sukosuko_sukoya', 'SouHayase', 'FumiVirtual']
+[2025-12-08T00:27:52.922213] [DEBUG] 生成クエリ: (from:ratna_petit OR from:Hana_Macchia OR from:ShellinBurgundy OR from:sukosuko_sukoya OR from:SouHayase OR from:FumiVirtual) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.923417] [DEBUG] クエリ対象ユーザー: ['Sara_Hoshikawa', 'Karuta_Yamagami', 'emma_august_', 'matsukai_mao', 'Luis_Cammy', 'Tomoe_Shirayuki']
+[2025-12-08T00:27:52.924418] [DEBUG] 生成クエリ: (from:Sara_Hoshikawa OR from:Karuta_Yamagami OR from:emma_august_ OR from:matsukai_mao OR from:Luis_Cammy OR from:Tomoe_Shirayuki) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.925491] [DEBUG] クエリ対象ユーザー: ['Fuwa_Minato', 'Rai_Galilei', 'kurusu72me', 'mashiro2434', 'Gaon2434', 'SuhaMin2434']
+[2025-12-08T00:27:52.926521] [DEBUG] 生成クエリ: (from:Fuwa_Minato OR from:Rai_Galilei OR from:kurusu72me OR from:mashiro2434 OR from:Gaon2434 OR from:SuhaMin2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.927683] [DEBUG] クエリ対象ユーザー: ['honmono_ibrahim', 'furen_2434', 'LaylaAlstro2434', 'VALZ_info', 'Kaida_Haru', '1O46V']
+[2025-12-08T00:27:52.927683] [DEBUG] 生成クエリ: (from:honmono_ibrahim OR from:furen_2434 OR from:LaylaAlstro2434 OR from:VALZ_info OR from:Kaida_Haru OR from:1O46V) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.928685] [DEBUG] クエリ対象ユーザー: ['kei_nagao2434', 'NagiSo2434', 'kirame_2434', 'Hisui_Kitakoji', 'Suo_Sango', 'kohaku_todo']
+[2025-12-08T00:27:52.929696] [DEBUG] 生成クエリ: (from:kei_nagao2434 OR from:NagiSo2434 OR from:kirame_2434 OR from:Hisui_Kitakoji OR from:Suo_Sango OR from:kohaku_todo) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.930701] [DEBUG] クエリ対象ユーザー: ['Chigusa_24zono', 'RayAkira2434', 'RohaLee2434', 'Etna_Crimson', 'JiyuOh2434', 'NariYang2434']
+[2025-12-08T00:27:52.931714] [DEBUG] 生成クエリ: (from:Chigusa_24zono OR from:RayAkira2434 OR from:RohaLee2434 OR from:Etna_Crimson OR from:JiyuOh2434 OR from:NariYang2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.931714] [DEBUG] クエリ対象ユーザー: ['HariRyu2434', 'DeremKado', 'NagisaArcinia', 'Seffyna2434', 'oliverD_23', 'Lain_Paterson']
+[2025-12-08T00:27:52.932717] [DEBUG] 生成クエリ: (from:HariRyu2434 OR from:DeremKado OR from:NagisaArcinia OR from:Seffyna2434 OR from:oliverD_23 OR from:Lain_Paterson) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.933726] [DEBUG] クエリ対象ユーザー: ['Leos_Vincent', 'Lauren_iroas', 'NaSera2434', 'HaYun2434', 'Muyu_Amagase', 'Yotsuha_Umise']
+[2025-12-08T00:27:52.933726] [DEBUG] 生成クエリ: (from:Leos_Vincent OR from:Lauren_iroas OR from:NaSera2434 OR from:HaYun2434 OR from:Muyu_Amagase OR from:Yotsuha_Umise) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.934907] [DEBUG] クエリ対象ユーザー: ['ponto_nei', '1000000lome', 'VOLTACTION_info', 'Shikinagi_2434', 'SerAph_DazZ', 'KNTFR2434']
+[2025-12-08T00:27:52.935916] [DEBUG] 生成クエリ: (from:ponto_nei OR from:1000000lome OR from:VOLTACTION_info OR from:Shikinagi_2434 OR from:SerAph_DazZ OR from:KNTFR2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.935916] [DEBUG] クエリ対象ユーザー: ['watarai_hibari', '1garashi_Rika', 'I_Nozomi_', '65_kaburaki', 'k_meruto', 'toru_2434']
+[2025-12-08T00:27:52.936916] [DEBUG] 生成クエリ: (from:watarai_hibari OR from:1garashi_Rika OR from:I_Nozomi_ OR from:65_kaburaki OR from:k_meruto OR from:toru_2434) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.937916] [DEBUG] クエリ対象ユーザー: ['44do_akari', 'SophiaV214', 'Oriens_honmono', 'akagi_wen', 'usamirito_power', 'Saiki_Supadari']
+[2025-12-08T00:27:52.937916] [DEBUG] 生成クエリ: (from:44do_akari OR from:SophiaV214 OR from:Oriens_honmono OR from:akagi_wen OR from:usamirito_power OR from:Saiki_Supadari) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.938916] [DEBUG] クエリ対象ユーザー: ['Hibachi_Mana', 'rai_173', 'Rou_2434', 'Show_SylveSTAR', 'Kagetsu_2434', 'Ruri_4ori8']
+[2025-12-08T00:27:52.939916] [DEBUG] 生成クエリ: (from:Hibachi_Mana OR from:rai_173 OR from:Rou_2434 OR from:Show_SylveSTAR OR from:Kagetsu_2434 OR from:Ruri_4ori8) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.940916] [DEBUG] クエリ対象ユーザー: ['tctt10_10', 'Milan_Kestrel', '3SKM_INFO', 'Kaisei_2434', 'Kitami_Coolguy', 'Ness_Sakaki']
+[2025-12-08T00:27:52.940916] [DEBUG] 生成クエリ: (from:tctt10_10 OR from:Milan_Kestrel OR from:3SKM_INFO OR from:Kaisei_2434 OR from:Kitami_Coolguy OR from:Ness_Sakaki) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.942050] [DEBUG] クエリ対象ユーザー: ['AYAKAKI_INFO', 'Kisara_2434', 'KozueMone', 'Shigariko_', '7_tamanoi', 'mo_lunlun_gu']
+[2025-12-08T00:27:52.943507] [DEBUG] 生成クエリ: (from:AYAKAKI_INFO OR from:Kisara_2434 OR from:KozueMone OR from:Shigariko_ OR from:7_tamanoi OR from:mo_lunlun_gu) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.944517] [DEBUG] クエリ対象ユーザー: ['Speciale_info', 'kirara_tamako', 'Saotome_Berry', 'sakayori_soma', 'Tr0uT_2434', 'Suzuna_Nanase']
+[2025-12-08T00:27:52.945523] [DEBUG] 生成クエリ: (from:Speciale_info OR from:kirara_tamako OR from:Saotome_Berry OR from:sakayori_soma OR from:Tr0uT_2434 OR from:Suzuna_Nanase) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.945523] [DEBUG] クエリ対象ユーザー: ['Itsuki_Sakyo', 'Aya10_1tsubashi', 'yoiyume_info', 'Kadou_Mikaru', 'Togawa_Nonoha', 'Nekoyashiki_39']
+[2025-12-08T00:27:52.946530] [DEBUG] 生成クエリ: (from:Itsuki_Sakyo OR from:Aya10_1tsubashi OR from:yoiyume_info OR from:Kadou_Mikaru OR from:Togawa_Nonoha OR from:Nekoyashiki_39) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.947533] [DEBUG] クエリ対象ユーザー: ['YagyuShino', 'splare_info', 'Yuno_Shino38', 'Shiro_Isumyan', 'sumeragi_0o', 'Hanakago_2434rr']
+[2025-12-08T00:27:52.947533] [DEBUG] 生成クエリ: (from:YagyuShino OR from:splare_info OR from:Yuno_Shino38 OR from:Shiro_Isumyan OR from:sumeragi_0o OR from:Hanakago_2434rr) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.948535] [DEBUG] クエリ対象ユーザー: ['EliraPendora', 'FinanaRyugu', 'Petra_Gurin', 'EnnaAlouette', 'MillieParfait', 'luca_kaneshiro']
+[2025-12-08T00:27:52.948535] [DEBUG] 生成クエリ: (from:EliraPendora OR from:FinanaRyugu OR from:Petra_Gurin OR from:EnnaAlouette OR from:MillieParfait OR from:luca_kaneshiro) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.949652] [DEBUG] クエリ対象ユーザー: ['shu_yamino', 'Vox_Akuma', 'alban_knox', 'sonny_brisko', 'uki_violeta', 'AiaAmare']
+[2025-12-08T00:27:52.950876] [DEBUG] 生成クエリ: (from:shu_yamino OR from:Vox_Akuma OR from:alban_knox OR from:sonny_brisko OR from:uki_violeta OR from:AiaAmare) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.950876] [DEBUG] クエリ対象ユーザー: ['MariaMari0nette', 'RenZott0', 'ScarleYonaguni', 'D_Dropscythe', 'MelocoKyoran', 'Ver_Vermillion']
+[2025-12-08T00:27:52.952084] [DEBUG] 生成クエリ: (from:MariaMari0nette OR from:RenZott0 OR from:ScarleYonaguni OR from:D_Dropscythe OR from:MelocoKyoran OR from:Ver_Vermillion) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.952084] [DEBUG] クエリ対象ユーザー: ['Tyrant_Vanta', 'VezaliusBandage', 'YuQWilson', 'ClaudeClawmark', 'KlaraCharmwood', 'RyomaBarrenwort']
+[2025-12-08T00:27:52.953345] [DEBUG] 生成クエリ: (from:Tyrant_Vanta OR from:VezaliusBandage OR from:YuQWilson OR from:ClaudeClawmark OR from:KlaraCharmwood OR from:RyomaBarrenwort) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:52.953345] [DEBUG] クエリ対象ユーザー: ['Freo_2434', 'KaelixDebonair', 'Seible_2434', 'ZealGinjoka']
+[2025-12-08T00:27:52.954354] [DEBUG] 生成クエリ: (from:Freo_2434 OR from:KaelixDebonair OR from:Seible_2434 OR from:ZealGinjoka) youtube (歌枠 OR 歌ってみた OR カラオケ) -is:retweet -is:reply
+[2025-12-08T00:27:53.237448] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T00:27:53.238482] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T00:42:54.643528] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T00:42:54.645714] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T00:57:56.049758] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T00:57:56.051849] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T01:12:57.456094] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T01:12:57.459258] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T01:27:59.195567] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T01:27:59.197869] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T01:43:00.649259] [DEBUG] Raw API meta: {'newest_id': '1997639728322297936', 'oldest_id': '1997639728322297936', 'result_count': 1}
+[2025-12-08T01:43:00.650614] [DEBUG] 取得ツイート件数: 1
+[2025-12-08T01:43:00.941709] リツイート成功: 1997639728322297936 / 🌞お歌投稿しました🌻  イージーゲーム Cover　本間ひまわり / 甲斐田晴 https://t....
+[2025-12-08T01:58:01.349599] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T01:58:01.352844] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T02:13:02.811548] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T02:13:02.813756] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T02:28:04.251002] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T02:28:04.254301] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T02:43:05.638765] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T02:43:05.639839] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T02:58:07.064619] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T02:58:07.066976] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T03:13:08.510579] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T03:13:08.513767] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T03:28:09.954063] [DEBUG] Raw API meta: {'newest_id': '1997607017859698750', 'oldest_id': '1997607017859698750', 'result_count': 1}
+[2025-12-08T03:28:09.957286] [DEBUG] 取得ツイート件数: 1
+[2025-12-08T03:28:10.187746] リツイート成功: 1997607017859698750 / =毎日歌投稿=    short動画が投稿されました✨  【一発撮り】Blue Velvet/工藤静...
+[2025-12-08T03:43:10.583503] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T03:43:10.586611] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T03:58:12.000122] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T03:58:12.001175] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T04:13:12.389271] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T04:13:12.390288] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T04:28:13.818328] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T04:28:13.821488] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T04:43:15.537942] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T04:43:15.540109] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T04:58:16.947362] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T04:58:16.949380] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T05:13:17.341226] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T05:13:17.341226] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T05:28:18.965396] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T05:28:18.968660] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T05:43:19.443099] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T05:43:19.445683] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T05:58:20.869291] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T05:58:20.872683] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T06:13:22.102202] [DEBUG] Raw API meta: {'result_count': 0}
+[2025-12-08T06:13:22.105776] [DEBUG] 取得ツイート件数: 0
+[2025-12-08T06:28:22.790454] [DEBUG] Raw API meta: {'newest_id': '1997667607919423722', 'oldest_id': '1997648239265222705', 'result_count': 2}
+[2025-12-08T06:28:22.791470] [DEBUG] 取得ツイート件数: 2
+[2025-12-08T06:28:23.036548] リツイート成功: 1997667607919423722 / こちら本日投稿させていただいた歌ってみた動画です！！よければ観てください！！！！  あなたのことをお...
+[2025-12-08T06:43:23.896164] リツイート成功: 1997648239265222705 / #北見クールガイ新衣装お披露目  配信観てくれてありがとう！！ またクールガイに近づきました！！！！...
+[2025-12-08T06:43:24.111461] [DEBUG] Raw API meta: {'newest_id': '1997610830414987552', 'oldest_id': '1997577859674886230', 'result_count': 2}
+[2025-12-08T06:43:24.113550] [DEBUG] 取得ツイート件数: 2
+[2025-12-08T06:58:24.593171] リツイート成功: 1997610830414987552 / ✦22:00~ かわいい系ジャンルの歌枠やります…！ たまには…普段歌わないジャンルも欲しいかなって...
+[2025-12-08T06:58:24.596738] リツイート上限に達しました。
+[2025-12-08T06:58:24.599932] === リツイート終了（上限到達） ===
