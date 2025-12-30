@@ -25,44 +25,50 @@ from datetime import datetime
 
 import tweepy
 
-from config import (
-    BEARER_TOKEN,
-    API_KEY,
-    API_SECRET,
-    ACCESS_TOKEN,
-    ACCESS_SECRET,
-)
-
 logger = logging.getLogger(__name__)
 
 
 # --------------------------------------------------------------------------
 # 1) Tweepy クライアント生成
 # --------------------------------------------------------------------------
-def create_client() -> tweepy.Client:
+def create_client(
+    bearer_token: str,
+    api_key: str,
+    api_secret: str,
+    access_token: str,
+    access_secret: str,
+) -> tweepy.Client:
     """
     Tweepy.Client を生成して返す。
 
+    Args:
+        bearer_token (str): Bearer Token
+        api_key (str): API Key
+        api_secret (str): API Secret
+        access_token (str): Access Token
+        access_secret (str): Access Token Secret
+
     Returns:
-        tweepy.Client: 認証済みクライアント。
+        tweepy.Client: 認証済みクライアント
 
     Raises:
-        ValueError: 必須の認証情報が不足している場合。
-        tweepy.TweepyException: Tweepy 側の初期化エラーが発生した場合。
+        ValueError: 必須の認証情報が不足している場合
+        tweepy.TweepyException: Tweepy 側の初期化エラー
     """
-    if not BEARER_TOKEN or not API_KEY or not API_SECRET:
+
+    if not all([bearer_token, api_key, api_secret, access_token, access_secret]):
         raise ValueError(
             "Twitter API の認証情報が不足しています。"
-            "BEARER_TOKEN / API_KEY / API_SECRET を確認してください。"
+            "bearer_token / api_key / api_secret / access_token / access_secret"
         )
 
     try:
         client = tweepy.Client(
-            bearer_token=BEARER_TOKEN,
-            consumer_key=API_KEY,
-            consumer_secret=API_SECRET,
-            access_token=ACCESS_TOKEN,
-            access_token_secret=ACCESS_SECRET,
+            bearer_token=bearer_token,
+            consumer_key=api_key,
+            consumer_secret=api_secret,
+            access_token=access_token,
+            access_token_secret=access_secret,
             wait_on_rate_limit=True,
         )
         return client
