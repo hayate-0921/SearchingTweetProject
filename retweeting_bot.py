@@ -96,7 +96,8 @@ def main() -> None:
 
         # --- 各クエリ実行 ---
         for query in queries:
-
+            log_message(RETWEET_LOG_FILE, f"[DEBUG] 検索クエリ実行: {query}")
+            
             # ★ Raw response を取得できるよう return_raw=True
             raw_resp = search_tweets(
                 client=client,
