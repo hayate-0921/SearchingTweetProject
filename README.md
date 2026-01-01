@@ -2,10 +2,8 @@
 
 ```
 SearchingTweetProject/
-├── .env
+├── .gitignore
 ├── README.md
-├── __pycache__/
-│   └── config.cpython-310.pyc
 ├── config.py
 ├── data/
 │   ├── following.json
