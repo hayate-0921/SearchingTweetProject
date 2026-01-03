@@ -14,43 +14,62 @@ class TwitterAuth:
     bearer_token: str
 
 
-def load_twitter_auth(index: int = 1) -> TwitterAuth:
+def load_twitter_auth(suffix: str | None = None) -> TwitterAuth:
     """
     環境変数から Twitter API 認証情報を読み込み、
     必須情報がすべて揃っていることを保証したうえで
     TwitterAuth オブジェクトとして返す。
 
-    本関数は複数アカウント運用を想定し、
-    環境変数名の末尾に 2 桁の番号を付与する方式を採用している。
-    例として、index=1 の場合は以下の環境変数を参照する。
+    本関数は、以下 2 つの運用形態に対応する。
 
-      - API_KEY_01
-      - API_SECRET_01
-      - ACCESS_TOKEN_01
-      - ACCESS_SECRET_01
-      - BEARER_TOKEN_01
+    1. 単一アカウント運用（suffix=None の場合）
+       環境変数名はサフィックスを持たず、以下を参照する。
+
+         - API_KEY
+         - API_SECRET
+         - ACCESS_TOKEN
+         - ACCESS_SECRET
+         - BEARER_TOKEN
+
+    2. 複数アカウント運用（suffix に識別子を指定する場合）
+       環境変数名の末尾に、意味を持つ識別用サフィックスを付与する。
+
+       例: suffix="COVER" の場合
+
+         - API_KEY_COVER
+         - API_SECRET_COVER
+         - ACCESS_TOKEN_COVER
+         - ACCESS_SECRET_COVER
+         - BEARER_TOKEN_COVER
 
     `os.getenv()` の戻り値は仕様上 `str | None` であるため、
     本関数では内部ヘルパー関数を用いて
     「必ず str を返す」ことを型・実行時の両面で保証する。
 
     Args:
-        index (int):
-            使用する Twitter アカウント番号。
-            1 以上の整数を想定する。
-            デフォルトは 1。
+        suffix (str | None):
+            環境変数名の末尾に付与する識別子。
+            None を指定した場合はサフィックスなしの環境変数名を使用する。
 
     Returns:
         TwitterAuth:
-            すべての認証情報が `str` として揃った状態の
+            すべての認証情報が `str` 型として揃った状態の
             TwitterAuth オブジェクト。
 
     Raises:
         ValueError:
-            対応する環境変数のいずれかが未設定、
-            もしくは空文字である場合に送出される。
-            設定漏れを起動時に即座に検出することを目的とする。
+            以下のいずれかに該当する場合に送出される。
+            - suffix が空文字列で指定された場合
+            - 必要な環境変数が未定義、または空文字である場合
+
+            設定ミスや設定漏れをアプリケーション起動時に
+            即座に検出することを目的とする。
     """
+
+    if suffix == "":
+        raise ValueError("suffix に空文字列は指定できません。")
+
+    suffix_part = f"_{suffix}" if suffix is not None else ""
 
     def require_env(name: str) -> str:
         """
@@ -74,13 +93,11 @@ def load_twitter_auth(index: int = 1) -> TwitterAuth:
             raise ValueError(f"環境変数 {name} が設定されていません。")
         return value
 
-    suffix = f"_{index:02d}"
-
-    api_key = require_env(f"API_KEY{suffix}")
-    api_secret = require_env(f"API_SECRET{suffix}")
-    access_token = require_env(f"ACCESS_TOKEN{suffix}")
-    access_secret = require_env(f"ACCESS_SECRET{suffix}")
-    bearer_token = require_env(f"BEARER_TOKEN{suffix}")
+    api_key = require_env(f"API_KEY{suffix_part}")
+    api_secret = require_env(f"API_SECRET{suffix_part}")
+    access_token = require_env(f"ACCESS_TOKEN{suffix_part}")
+    access_secret = require_env(f"ACCESS_SECRET{suffix_part}")
+    bearer_token = require_env(f"BEARER_TOKEN{suffix_part}")
 
     return TwitterAuth(
         api_key=api_key,
@@ -89,12 +106,6 @@ def load_twitter_auth(index: int = 1) -> TwitterAuth:
         access_secret=access_secret,
         bearer_token=bearer_token,
     )
-
-API_KEY = os.getenv("API_KEY")
-API_SECRET = os.getenv("API_SECRET")
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-ACCESS_SECRET = os.getenv("ACCESS_SECRET")
-BEARER_TOKEN = os.getenv("BEARER_TOKEN")
 
 MAX_USERS_PER_SEARCH = 6                        # 一度に検索するユーザー数
 KEYWORDS = ["cover", "歌ってみた"]               # 検索キーワード
