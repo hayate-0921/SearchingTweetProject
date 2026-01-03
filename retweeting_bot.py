@@ -3,6 +3,9 @@ retweeting_bot.py
 ======================
 フォロー対象ユーザー（username）とキーワードに基づいて
 新規ツイートを検索し、自動でリツイートするバッチジョブ。
+
+本モジュールは「1 Twitter アカウント分のリツイート処理」を
+1 タスクとして完結させる設計を採用している。
 """
 
 from __future__ import annotations
@@ -103,34 +106,95 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
 
 
 # ------------------------------------------------------------
-# メイン処理
+# 1アカウント分のリツイートタスク
 # ------------------------------------------------------------
-def main() -> None:
-    log_message(RETWEET_LOG_FILE, "=== リツイートジョブ開始 ===")
+def run_retweet_task(suffix: str | None = None) -> None:
+    """
+    指定された Twitter アカウント（suffix）に対応する検索キーワードを
+    config から自動選択し、前日分ツイートの検索および
+    自動リツイート処理を実行する。
+
+    Args:
+        suffix (str | None):
+            使用する Twitter アカウントの識別子。
+            None の場合はサフィックスなし（KEYWORDS）を使用する。
+
+    Returns:
+        None
+
+    Raises:
+        SystemExit:
+            致命的な例外発生時に異常終了する。
+    """
+    # --------------------------------------------------------
+    # アカウント識別ラベル
+    # --------------------------------------------------------
+    account_label = suffix or "DEFAULT"
+
+    log_message(
+        RETWEET_LOG_FILE,
+        f"=== リツイートジョブ開始 [{account_label}] ===",
+    )
 
     try:
-        # --- API クライアント作成 ---
-        client = create_client()
+        # ----------------------------------------------------
+        # 使用キーワードの決定
+        # ----------------------------------------------------
+        if suffix is None:
+            keywords = KEYWORDS
+            keywords_name = "KEYWORDS"
+        else:
+            keywords_attr = f"KEYWORDS_{suffix}"
+            try:
+                keywords = getattr(sys.modules["config"], keywords_attr)
+                keywords_name = keywords_attr
+            except AttributeError:
+                raise ValueError(
+                    f"config.py に {keywords_attr} が定義されていません。"
+                )
 
-        # --- 過去に RT したツイート IDs ---
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[DEBUG] 使用キーワード定義: {keywords_name} = {list(keywords)}",
+        )
+
+        # ----------------------------------------------------
+        # API クライアント作成
+        # ----------------------------------------------------
+        client = create_client(suffix)
+
+        # ----------------------------------------------------
+        # リツイート済み ID 管理
+        # ----------------------------------------------------
         retweeted_ids = load_retweeted_list()
         total_retweets = 0
 
-        # --- 日付範囲（API は UTC 指定） ---
+        # ----------------------------------------------------
+        # 日付範囲（UTC）
+        # ----------------------------------------------------
         start_time, end_time = get_previous_day_range_utc()
-
         log_message(RETWEET_LOG_FILE, f"[DEBUG] start_time={start_time}")
         log_message(RETWEET_LOG_FILE, f"[DEBUG] end_time={end_time}")
 
-        # --- クエリ生成 ---
-        queries = create_search_queries(KEYWORDS)
+        # ----------------------------------------------------
+        # 検索クエリ生成
+        # ----------------------------------------------------
+        queries = create_search_queries(keywords)
         if not queries:
-            log_message(RETWEET_LOG_FILE, "[ERROR] 検索クエリ生成に失敗")
+            log_message(
+                RETWEET_LOG_FILE,
+                "[ERROR] 検索クエリ生成に失敗",
+            )
             return
 
-        # --- 各クエリ実行 ---
+        # ----------------------------------------------------
+        # 各クエリ実行
+        # ----------------------------------------------------
         for query in queries:
-            log_message(RETWEET_LOG_FILE, f"[DEBUG] 検索クエリ実行: {query}")
+            log_message(
+                RETWEET_LOG_FILE,
+                f"[DEBUG] 検索クエリ実行: {query}",
+            )
 
             raw_resp = search_tweets(
                 client=client,
@@ -141,12 +205,17 @@ def main() -> None:
                 return_raw=True,
             )
 
-            # --- Raw レスポンス情報 ---
             meta = getattr(raw_resp, "meta", None)
-            log_message(RETWEET_LOG_FILE, f"[DEBUG] Raw API meta: {meta}")
+            log_message(
+                RETWEET_LOG_FILE,
+                f"[DEBUG] Raw API meta: {meta}",
+            )
 
             tweets = getattr(raw_resp, "data", None) or []
-            log_message(RETWEET_LOG_FILE, f"[DEBUG] 取得ツイート件数: {len(tweets)}")
+            log_message(
+                RETWEET_LOG_FILE,
+                f"[DEBUG] 取得ツイート件数: {len(tweets)}",
+            )
 
             if not tweets:
                 continue
@@ -158,11 +227,14 @@ def main() -> None:
                     continue
 
                 if total_retweets >= RETWEET_LIMIT:
-                    log_message(RETWEET_LOG_FILE, "リツイート上限に達しました。")
+                    log_message(
+                        RETWEET_LOG_FILE,
+                        "リツイート上限に達しました。",
+                    )
                     save_retweeted_list(retweeted_ids)
                     log_message(
                         RETWEET_LOG_FILE,
-                        "=== リツイート終了（上限到達） ===",
+                        f"=== リツイート終了 [{account_label}]（上限到達） ===",
                     )
                     return
 
@@ -189,11 +261,14 @@ def main() -> None:
         save_retweeted_list(retweeted_ids)
         log_message(
             RETWEET_LOG_FILE,
-            f"=== リツイート完了（{total_retweets}件） ===",
+            f"=== リツイート完了 [{account_label}]（{total_retweets}件） ===",
         )
 
     except Exception as e:
-        log_message(RETWEET_LOG_FILE, f"[FATAL] 例外内容: {e}")
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[FATAL] 例外内容: {e}",
+        )
         log_message(
             RETWEET_LOG_FILE,
             "[FATAL] Traceback:\n" + traceback.format_exc(),
@@ -201,8 +276,10 @@ def main() -> None:
         sys.exit(1)
 
 
+
 # ------------------------------------------------------------
 # エントリポイント
 # ------------------------------------------------------------
 if __name__ == "__main__":
-    main()
+    # 従来互換：サフィックスなし・config.KEYWORDS を使用
+    run_retweet_task()
