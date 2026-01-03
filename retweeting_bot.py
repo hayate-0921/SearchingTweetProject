@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import sys
 import traceback
-
 from typing import List
 
 from config import (
@@ -19,7 +18,12 @@ from config import (
     MAX_USERS_PER_SEARCH,
 )
 
-from tools.core import log_message, get_previous_day_range_utc, RETWEET_LOG_FILE
+from tools.core import (
+    log_message,
+    get_previous_day_range_utc,
+    RETWEET_LOG_FILE,
+)
+
 from tools.data_manager import (
     load_following_list,
     load_retweeted_list,
@@ -34,15 +38,21 @@ from tools.twitter_api import (
 )
 
 
-
-
 # ------------------------------------------------------------
 # 検索クエリ生成
 # ------------------------------------------------------------
 def create_search_queries() -> List[str]:
     """
-    following.json と config の KEYWORDS を使い、
-    MAX_USERS_PER_SEARCH ごとに検索クエリを分割して生成する。
+    following.json と config.KEYWORDS を用いて、
+    MAX_USERS_PER_SEARCH ごとに検索クエリを分割生成する。
+
+    Returns:
+        List[str]:
+            Twitter API v2 search_recent_tweets 用の検索クエリ文字列のリスト。
+
+    Raises:
+        ValueError:
+            following.json に username が存在しない場合。
     """
     usernames = load_following_list()
     if not usernames:
@@ -50,18 +60,19 @@ def create_search_queries() -> List[str]:
 
     log_message(RETWEET_LOG_FILE, f"[DEBUG] following.json 読み込み: {usernames}")
 
-    queries = []
+    queries: List[str] = []
+
     for i in range(0, len(usernames), MAX_USERS_PER_SEARCH):
-        chunk = usernames[i:i + MAX_USERS_PER_SEARCH]
+        chunk = usernames[i : i + MAX_USERS_PER_SEARCH]
         log_message(RETWEET_LOG_FILE, f"[DEBUG] クエリ対象ユーザー: {chunk}")
 
         query = build_search_query(
-            user_identifiers=chunk,
-            identifiers_type="username",
+            usernames=chunk,
             keywords=KEYWORDS,
             exclude_retweets=True,
             exclude_replies=True,
         )
+
         log_message(RETWEET_LOG_FILE, f"[DEBUG] 生成クエリ: {query}")
         queries.append(query)
 
@@ -97,8 +108,7 @@ def main() -> None:
         # --- 各クエリ実行 ---
         for query in queries:
             log_message(RETWEET_LOG_FILE, f"[DEBUG] 検索クエリ実行: {query}")
-            
-            # ★ Raw response を取得できるよう return_raw=True
+
             raw_resp = search_tweets(
                 client=client,
                 query=query,
@@ -108,12 +118,9 @@ def main() -> None:
                 return_raw=True,
             )
 
-            # --- Raw レスポンスの情報をデバッグ出力 ---
-            try:
-                meta = getattr(raw_resp, "meta", None)
-                log_message(RETWEET_LOG_FILE, f"[DEBUG] Raw API meta: {meta}")
-            except Exception:
-                log_message(RETWEET_LOG_FILE, "[DEBUG] Raw response meta 参照不可")
+            # --- Raw レスポンス情報 ---
+            meta = getattr(raw_resp, "meta", None)
+            log_message(RETWEET_LOG_FILE, f"[DEBUG] Raw API meta: {meta}")
 
             tweets = getattr(raw_resp, "data", None) or []
             log_message(RETWEET_LOG_FILE, f"[DEBUG] 取得ツイート件数: {len(tweets)}")
@@ -121,7 +128,6 @@ def main() -> None:
             if not tweets:
                 continue
 
-            # --- 各ツイート処理 ---
             for tw in tweets:
                 tid = str(tw.id)
 
@@ -131,25 +137,44 @@ def main() -> None:
                 if total_retweets >= RETWEET_LIMIT:
                     log_message(RETWEET_LOG_FILE, "リツイート上限に達しました。")
                     save_retweeted_list(retweeted_ids)
-                    log_message(RETWEET_LOG_FILE, "=== リツイート終了（上限到達） ===")
+                    log_message(
+                        RETWEET_LOG_FILE,
+                        "=== リツイート終了（上限到達） ===",
+                    )
                     return
 
                 try:
                     retweet(client, tw.id)
                     retweeted_ids.add(tid)
                     total_retweets += 1
+
                     preview = tw.text.replace("\n", " ")[:50]
-                    log_message(RETWEET_LOG_FILE, f"リツイート成功: {tid} / {preview}...")
+                    log_message(
+                        RETWEET_LOG_FILE,
+                        f"リツイート成功: {tid} / {preview}...",
+                    )
                 except Exception as e:
-                    log_message(RETWEET_LOG_FILE, f"[ERROR] リツイート失敗: {tid} / {e}")
-                    log_message(RETWEET_LOG_FILE, traceback.format_exc())
+                    log_message(
+                        RETWEET_LOG_FILE,
+                        f"[ERROR] リツイート失敗: {tid} / {e}",
+                    )
+                    log_message(
+                        RETWEET_LOG_FILE,
+                        traceback.format_exc(),
+                    )
 
         save_retweeted_list(retweeted_ids)
-        log_message(RETWEET_LOG_FILE, f"=== リツイート完了（{total_retweets}件） ===")
+        log_message(
+            RETWEET_LOG_FILE,
+            f"=== リツイート完了（{total_retweets}件） ===",
+        )
 
     except Exception as e:
         log_message(RETWEET_LOG_FILE, f"[FATAL] 例外内容: {e}")
-        log_message(RETWEET_LOG_FILE, "[FATAL] Traceback:\n" + traceback.format_exc())
+        log_message(
+            RETWEET_LOG_FILE,
+            "[FATAL] Traceback:\n" + traceback.format_exc(),
+        )
         sys.exit(1)
 
 
@@ -158,4 +183,3 @@ def main() -> None:
 # ------------------------------------------------------------
 if __name__ == "__main__":
     main()
-
