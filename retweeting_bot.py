@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import sys
 import traceback
-from typing import List
+from typing import List, Sequence
 
 from config import (
     KEYWORDS,
@@ -41,10 +41,16 @@ from tools.twitter_api import (
 # ------------------------------------------------------------
 # 検索クエリ生成
 # ------------------------------------------------------------
-def create_search_queries() -> List[str]:
+def create_search_queries(keywords: Sequence[str]) -> List[str]:
     """
-    following.json と config.KEYWORDS を用いて、
+    following.json と指定された keywords を用いて、
     MAX_USERS_PER_SEARCH ごとに検索クエリを分割生成する。
+
+    Args:
+        keywords (Sequence[str]):
+            検索に使用するキーワードのリスト。
+            アカウント種別（COVER / ORIGINAL / STREAM 等）ごとに
+            呼び出し側で切り替えることを想定する。
 
     Returns:
         List[str]:
@@ -53,27 +59,44 @@ def create_search_queries() -> List[str]:
     Raises:
         ValueError:
             following.json に username が存在しない場合。
+            keywords が空の場合。
     """
+    if not keywords:
+        raise ValueError("検索キーワードが指定されていません。")
+
     usernames = load_following_list()
     if not usernames:
         raise ValueError("following.json に username が存在しません。")
 
-    log_message(RETWEET_LOG_FILE, f"[DEBUG] following.json 読み込み: {usernames}")
+    log_message(
+        RETWEET_LOG_FILE,
+        f"[DEBUG] following.json 読み込み: {usernames}",
+    )
+    log_message(
+        RETWEET_LOG_FILE,
+        f"[DEBUG] 使用キーワード: {list(keywords)}",
+    )
 
     queries: List[str] = []
 
     for i in range(0, len(usernames), MAX_USERS_PER_SEARCH):
         chunk = usernames[i : i + MAX_USERS_PER_SEARCH]
-        log_message(RETWEET_LOG_FILE, f"[DEBUG] クエリ対象ユーザー: {chunk}")
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[DEBUG] クエリ対象ユーザー: {chunk}",
+        )
 
         query = build_search_query(
             usernames=chunk,
-            keywords=KEYWORDS,
+            keywords=keywords,
             exclude_retweets=True,
             exclude_replies=True,
         )
 
-        log_message(RETWEET_LOG_FILE, f"[DEBUG] 生成クエリ: {query}")
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[DEBUG] 生成クエリ: {query}",
+        )
         queries.append(query)
 
     return queries
@@ -100,7 +123,7 @@ def main() -> None:
         log_message(RETWEET_LOG_FILE, f"[DEBUG] end_time={end_time}")
 
         # --- クエリ生成 ---
-        queries = create_search_queries()
+        queries = create_search_queries(KEYWORDS)
         if not queries:
             log_message(RETWEET_LOG_FILE, "[ERROR] 検索クエリ生成に失敗")
             return
