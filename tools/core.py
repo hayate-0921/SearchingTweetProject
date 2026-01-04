@@ -25,13 +25,48 @@ LOG_PATH.mkdir(parents=True, exist_ok=True)
 
 # --- ログユーティリティ ---
 def log_message(log_file: Path, message: str) -> None:
-    """指定ログファイルに追記出力し、標準出力にも出す"""
+    """
+    指定されたログファイルへメッセージを追記し、
+    同一内容を標準出力（コンソール）にも出力するログユーティリティ関数。
+
+    本関数は以下の責務を持つ。
+    - ログファイルの親ディレクトリが存在しない場合、自動的に作成する
+    - ISO 8601 形式のタイムスタンプを付与してログを追記する
+    - 実行時の可視性確保のため、同じメッセージを標準出力にも出す
+
+    Args:
+        log_file (Path):
+            出力先となるログファイルのパス。
+            親ディレクトリが存在しない場合でも安全に使用できるよう、
+            内部で `mkdir(parents=True, exist_ok=True)` を実行する。
+        message (str):
+            ログとして記録したいメッセージ本文。
+            改行は内部で付与されるため、通常は末尾の改行を含める必要はない。
+
+    Returns:
+        None:
+            本関数は値を返さず、副作用（ファイル出力・標準出力）のみを行う。
+
+    Side Effects:
+        - ログファイルの親ディレクトリを作成する可能性がある
+        - ログファイルへ追記書き込みを行う
+        - 標準出力へメッセージを出力する
+
+    Raises:
+        OSError:
+            ディレクトリ作成やファイル書き込みに失敗した場合。
+            本関数では例外を捕捉せず、そのまま呼び出し元へ送出する設計とする。
+            （上位レイヤーで一括して異常終了・ログ出力を行うことを想定）
+    """
     log_file.parent.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().isoformat()
     line = f"[{timestamp}] {message}\n"
+
     with log_file.open("a", encoding="utf-8") as f:
         f.write(line)
+
     print(message)
+
 
 # ------------------------------------------------------------
 # 前日の日付範囲取得

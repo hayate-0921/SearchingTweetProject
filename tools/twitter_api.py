@@ -3,35 +3,30 @@ twitter_api.py
 ---------------
 Twitter (X) API へのアクセス機能をまとめたモジュール。
 
-このファイルは「API 呼び出し」に関する責務のみを持ち、
-ローカル JSON 操作・ハッシュ管理・ユーザー設定管理などは一切含まない。
-そのため、テスト・モック化・静的解析の切り離しが容易になる。
+本モジュールは「API 呼び出し」のみに責務を限定し、
+設定値の読み込み・ローカルデータ管理・ビジネスロジックは扱わない。
 
 提供する関数:
   - create_client()
   - build_search_query(...)
   - search_tweets(...)
   - retweet(...)
+  - tweet_rate_limit_exceeded_notice(...)
 
-注意:
-  Tweepy の Response オブジェクトは実行時に data/meta が動的に付与されるため、
-  静的解析ツール（Pylance 等）は属性アクセスを警告する場合がある。
-  本モジュールでは getattr(..., "data", None) を用いて安全に扱う。
+設計方針:
+  - 認証情報は config.load_twitter_auth に集約する
+  - Tweepy Response は動的属性を持つため getattr を用いて安全に扱う
 """
 
+from __future__ import annotations
+
 from typing import List, Optional, Sequence, Union, cast
-import logging
 from datetime import datetime
+import logging
 
 import tweepy
 
-from config import (
-    BEARER_TOKEN,
-    API_KEY,
-    API_SECRET,
-    ACCESS_TOKEN,
-    ACCESS_SECRET,
-)
+from config import load_twitter_auth, TwitterAuth
 
 logger = logging.getLogger(__name__)
 
@@ -39,34 +34,40 @@ logger = logging.getLogger(__name__)
 # --------------------------------------------------------------------------
 # 1) Tweepy クライアント生成
 # --------------------------------------------------------------------------
-def create_client() -> tweepy.Client:
+def create_client(suffix: str | None = None) -> tweepy.Client:
     """
+    config.load_twitter_auth を用いて Twitter API 認証情報を取得し、
     Tweepy.Client を生成して返す。
 
+    認証情報の妥当性チェックは load_twitter_auth 側で完結しているため、
+    本関数では Client 初期化のみを責務とする。
+
+    Args:
+        suffix (str | None):
+            使用する Twitter アカウント識別子。
+            None の場合はサフィックスなしの環境変数を使用する。
+
     Returns:
-        tweepy.Client: 認証済みクライアント。
+        tweepy.Client:
+            認証済み Tweepy クライアント。
 
     Raises:
-        ValueError: 必須の認証情報が不足している場合。
-        tweepy.TweepyException: Tweepy 側の初期化エラーが発生した場合。
+        ValueError:
+            環境変数が未設定・不正な場合。
+        tweepy.TweepyException:
+            クライアント初期化時に Tweepy 側で例外が発生した場合。
     """
-    if not BEARER_TOKEN or not API_KEY or not API_SECRET:
-        raise ValueError(
-            "Twitter API の認証情報が不足しています。"
-            "BEARER_TOKEN / API_KEY / API_SECRET を確認してください。"
-        )
+    auth: TwitterAuth = load_twitter_auth(suffix)
 
     try:
-        client = tweepy.Client(
-            bearer_token=BEARER_TOKEN,
-            consumer_key=API_KEY,
-            consumer_secret=API_SECRET,
-            access_token=ACCESS_TOKEN,
-            access_token_secret=ACCESS_SECRET,
+        return tweepy.Client(
+            bearer_token=auth.bearer_token,
+            consumer_key=auth.api_key,
+            consumer_secret=auth.api_secret,
+            access_token=auth.access_token,
+            access_token_secret=auth.access_secret,
             wait_on_rate_limit=True,
         )
-        return client
-
     except tweepy.TweepyException as e:
         logger.error("Tweepy.Client の初期化に失敗しました: %s", e)
         raise
@@ -76,76 +77,68 @@ def create_client() -> tweepy.Client:
 # 2) 検索クエリ生成
 # --------------------------------------------------------------------------
 def build_search_query(
-    user_identifiers: Sequence[str],
-    identifiers_type: str,
+    usernames: Sequence[str],
     keywords: Sequence[str],
     exclude_retweets: bool = True,
     exclude_replies: bool = True,
     start_date: str | None = None,
     end_date: str | None = None,
-    ) -> str:
+) -> str:
     """
-    ユーザー識別子・キーワード・除外条件などから検索クエリ文字列を組み立てる。
-    start_date / end_date を指定することで日付フィルタを追加できる。
-
+    Twitter 検索 API（v2）用の検索クエリ文字列を組み立てる。
+    
     Args:
-        user_identifiers (Sequence[str]):
-            ユーザー名またはユーザーIDのリスト。
-        identifiers_type (str):
-            "username" または "id"。
+        usernames (Sequence[str]):
+            '@' を含まない Twitter username（screen_name）のリスト。
+            'from:username' 形式に変換して OR 結合する。
         keywords (Sequence[str]):
-            検索キーワード。
+            検索キーワードのリスト。
+            各要素は OR 条件として結合される。
         exclude_retweets (bool):
-            True の場合 "-is:retweet" を付加。
+            True の場合、リツイート（-is:retweet）を除外する。
         exclude_replies (bool):
-            True の場合 "-is:reply" を付加。
+            True の場合、リプライ（-is:reply）を除外する。
         start_date (str | None):
-            取得開始日（例: "2025-01-01"）
+            検索開始日（YYYY-MM-DD）。
         end_date (str | None):
-            取得終了日（例: "2025-01-31"）
+            検索終了日（YYYY-MM-DD）。
 
     Returns:
-        str: 組み立てられた検索クエリ。
-
-    Raises:
-        ValueError: identifiers_type が不正な場合。
+        str:
+            Twitter API に渡す検索クエリ文字列。
+            条件が一切指定されない場合は空文字列を返す。
     """
+    parts: list[str] = []
 
-    if identifiers_type not in ("username", "id"):
-        raise ValueError("identifiers_type は 'username' か 'id' を指定してください。")
+    # --- ユーザー条件 ---
+    if usernames:
+        user_parts = [f"from:{u}" for u in usernames]
+        parts.append("(" + " OR ".join(user_parts) + ")")
+        
+    # --- 必須条件: YouTube リンク ---
+    parts.append("youtu")
+    
+    # --- 除外条件: YouTube Shorts ---
+    parts.append("-shorts")
 
-    # --- ユーザー部 ---
-    user_query = ""
-    if user_identifiers:
-        user_parts = [f"from:{u}" for u in user_identifiers]
-        user_query = "(" + " OR ".join(user_parts) + ")"
-
-    # --- キーワード部 ---
-    kw_query = ""
+    # --- キーワード条件 ---
     if keywords:
-        kw_parts = [str(k) for k in keywords]
-        kw_query = "youtu (" + " OR ".join(kw_parts) + ")"
+        keyword_parts = [str(k) for k in keywords]
+        parts.append("(" + " OR ".join(keyword_parts) + ")")
 
     # --- 除外条件 ---
-    exclusions = []
     if exclude_retweets:
-        exclusions.append("-is:retweet")
+        parts.append("-is:retweet")
     if exclude_replies:
-        exclusions.append("-is:reply")
+        parts.append("-is:reply")
 
-    # --- 日付フィルタ部 ---
-    date_filters = []
+    # --- 日付条件 ---
     if start_date:
-        date_filters.append(f"since:{start_date}")
+        parts.append(f"since:{start_date}")
     if end_date:
-        date_filters.append(f"until:{end_date}")
+        parts.append(f"until:{end_date}")
 
-    # --- まとめる ---
-    parts = [p for p in (user_query, kw_query) if p]
-    parts.extend(exclusions)
-    parts.extend(date_filters)
-
-    return " ".join(parts) if parts else ""
+    return " ".join(parts)
 
 
 
@@ -161,18 +154,35 @@ def search_tweets(
     return_raw: bool = False,
 ) -> Union[List[tweepy.Tweet], tweepy.Response]:
     """
-    search_recent_tweets をラップし、Tweet オブジェクトのリスト
-    または Raw API Response を返す。
+    Twitter API v2 の search_recent_tweets を実行する。
+
+    Args:
+        client (tweepy.Client):
+            認証済みクライアント。
+        query (str):
+            検索クエリ文字列。
+        start_time (datetime | None):
+            検索開始時刻（UTC）。
+        end_time (datetime | None):
+            検索終了時刻（UTC）。
+        max_results (int):
+            取得件数（最大 100）。
+        return_raw (bool):
+            True の場合、Tweepy Response をそのまま返す。
+
+    Returns:
+        List[tweepy.Tweet] | tweepy.Response:
+            return_raw=False の場合は Tweet のリスト。
+            True の場合は API 生レスポンス。
+
+    Raises:
+        ValueError:
+            query が空の場合。
+        tweepy.TweepyException:
+            API 呼び出しに失敗した場合。
     """
     if not query:
         raise ValueError("検索クエリが空です。")
-
-    logger.debug("Executing search_tweets")
-    logger.debug("Query: %s", query)
-    if start_time:
-        logger.debug("Start Time (UTC): %s", start_time.isoformat())
-    if end_time:
-        logger.debug("End Time (UTC):   %s", end_time.isoformat())
 
     params = {
         "query": query,
@@ -185,26 +195,11 @@ def search_tweets(
         params["end_time"] = end_time
 
     try:
-        logger.info(
-            f"[REQUEST] Time={datetime.now().isoformat()} Query={query} "
-            f"MaxResults={max_results}"
-        )
-
         resp = client.search_recent_tweets(**params)
-        
-        # レスポンスヘッダをログ
-        headers = getattr(resp, "headers", None)
-        remaining = headers.get("x-rate-limit-remaining", "N/A") if headers else "N/A"
-
-        logger.info(
-            f"[RESPONSE] Status={getattr(resp, 'status_code', 'N/A')} "
-            f"X-Rate-Limit-Remaining={remaining}"
-        )
     except tweepy.TweepyException as e:
         logger.error("search_recent_tweets に失敗しました: %s", e)
         raise
 
-    # return_raw が True なら生データを返す
     if return_raw:
         return cast(tweepy.Response, resp)
 
@@ -216,23 +211,66 @@ def search_tweets(
 # --------------------------------------------------------------------------
 def retweet(client: tweepy.Client, tweet_id: Union[str, int]) -> Optional[dict]:
     """
-    指定ツイート ID をリツイートする。
+    指定されたツイート ID をリツイートする。
 
     Args:
-        client (tweepy.Client): 認証済みクライアント
-        tweet_id (str | int): リツイート対象 ID
+        client (tweepy.Client):
+            認証済みクライアント。
+        tweet_id (str | int):
+            リツイート対象のツイート ID。
 
     Returns:
-        dict | None: レスポンス data
+        dict | None:
+            API レスポンスの data 部分。
+            失敗時は例外が送出される。
 
     Raises:
-        tweepy.TweepyException: API 呼び出し失敗時
+        tweepy.TweepyException:
+            リツイートに失敗した場合。
     """
     try:
         resp = client.retweet(tweet_id)
+        return getattr(resp, "data", None)
     except tweepy.TweepyException as e:
         logger.error("retweet に失敗しました (tweet_id=%s): %s", tweet_id, e)
         raise
 
-    return getattr(resp, "data", None)
 
+# --------------------------------------------------------------------------
+# 5) レート制限超過時の通知ツイート
+# --------------------------------------------------------------------------
+def tweet_rate_limit_exceeded_notice(
+    client: tweepy.Client,
+    message: str | None = None,
+) -> Optional[dict]:
+    """
+    Twitter API の読み取り上限（Rate Limit）超過時に、
+    その旨を通知するツイートを投稿する。
+
+    Args:
+        client (tweepy.Client):
+            認証済みクライアント。
+        message (str | None):
+            投稿する文言。
+            None の場合はデフォルト文言を使用する。
+
+    Returns:
+        dict | None:
+            投稿結果の data 部分。
+
+    Raises:
+        tweepy.TweepyException:
+            ツイート投稿に失敗した場合。
+    """
+    text = message or (
+        "【自動通知】\n"
+        "Twitter API の読み取り上限に達したため、"
+        "一時的に検索処理を停止しています。"
+    )
+
+    try:
+        resp = client.create_tweet(text=text)
+        return getattr(resp, "data", None)
+    except tweepy.TweepyException as e:
+        logger.error("レート制限通知ツイートに失敗しました: %s", e)
+        raise
