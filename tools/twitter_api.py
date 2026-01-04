@@ -114,6 +114,9 @@ def build_search_query(
     if usernames:
         user_parts = [f"from:{u}" for u in usernames]
         parts.append("(" + " OR ".join(user_parts) + ")")
+        
+    # --- 必須条件: YouTube リンク ---
+    parts.append("youtu")
 
     # --- キーワード条件 ---
     if keywords:
