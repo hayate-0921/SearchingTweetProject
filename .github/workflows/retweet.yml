@@ -24,7 +24,30 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ④ Bot 実行
+      # ★④ 環境変数受け渡し確認（Bearer Token 含む）
+      - name: Debug environment variables (safe)
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          API_SECRET: ${{ secrets.API_SECRET }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_SECRET: ${{ secrets.ACCESS_SECRET }}
+          BEARER_TOKEN: ${{ secrets.BEARER_TOKEN }}
+        run: |
+          python - << 'EOF'
+          import os
+
+          def check(name):
+              v = os.getenv(name)
+              print(f"{name}: exists={v is not None}, length={len(v) if v else 0}")
+
+          check("API_KEY")
+          check("API_SECRET")
+          check("ACCESS_TOKEN")
+          check("ACCESS_SECRET")
+          check("BEARER_TOKEN")
+          EOF
+
+      # ⑤ Bot 実行
       - name: Run retweet bot
         env:
           API_KEY: ${{ secrets.API_KEY }}
@@ -35,7 +58,7 @@ jobs:
         run: |
           python retweeting_bot.py
 
-      # ⑤ 実行結果の永続化
+      # ⑥ 実行結果の永続化
       - name: Commit updated data
         run: |
           git config user.name "github-actions"
