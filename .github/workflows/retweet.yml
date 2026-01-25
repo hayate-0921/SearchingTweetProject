@@ -3,6 +3,9 @@ name: Retweet Bot (Manual)
 on:
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   run-retweet:
     runs-on: ubuntu-latest
