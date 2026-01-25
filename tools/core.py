@@ -24,7 +24,7 @@ DATA_PATH.mkdir(parents=True, exist_ok=True)
 LOG_PATH.mkdir(parents=True, exist_ok=True)
 
 # --- ログユーティリティ ---
-def log_message(log_file: Path, message: str) -> None:
+def log_message(log_file: Path, message: str, print_to_console:bool = True) -> None:
     """
     指定されたログファイルへメッセージを追記し、
     同一内容を標準出力（コンソール）にも出力するログユーティリティ関数。
@@ -42,6 +42,9 @@ def log_message(log_file: Path, message: str) -> None:
         message (str):
             ログとして記録したいメッセージ本文。
             改行は内部で付与されるため、通常は末尾の改行を含める必要はない。
+        print_to_console (bool):
+            Trueの場合、ファイルに記録するメッセージと同内容をプリントする。
+            デフォルトはTrue。
 
     Returns:
         None:
@@ -64,8 +67,8 @@ def log_message(log_file: Path, message: str) -> None:
 
     with log_file.open("a", encoding="utf-8") as f:
         f.write(line)
-
-    print(message)
+    if print_to_console:
+        print(message)
 
 
 # ------------------------------------------------------------
