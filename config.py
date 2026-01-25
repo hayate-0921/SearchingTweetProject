@@ -117,7 +117,7 @@ KEYWORDS_ORIGINAL = ["オリジナル曲", "original"] # ORIGINALアカウント
 KEYWORDS_STREAM = ["カラオケ", "歌枠"]           # STREAMアカウント用検索キーワード
 
 # 全体共通定数
-MAX_USERS_PER_SEARCH = 9                        # 一度に検索するユーザー数
+MAX_USERS_PER_SEARCH = 10                        # 一度に検索するユーザー数
 LOOKBACK_DAYS = 1                               # 遡る日数
 RETWEET_LIMIT = 5                               # 1日あたりのリツイート上限
 MAX_TWEETS_PER_SEARCH = 10                      # 一度の検索で取得する最大ツイート数
