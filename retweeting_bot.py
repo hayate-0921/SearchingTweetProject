@@ -73,7 +73,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
 
     log_message(
         RETWEET_LOG_FILE,
-        f"[DEBUG] following.json 読み込み: {usernames}",
+        f"[DEBUG] following.json 読み込み: {len(usernames)}ユーザー",
     )
     log_message(
         RETWEET_LOG_FILE,
@@ -87,6 +87,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
         log_message(
             RETWEET_LOG_FILE,
             f"[DEBUG] クエリ対象ユーザー: {chunk}",
+            print_to_console=False
         )
 
         query = build_search_query(
@@ -99,6 +100,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
         log_message(
             RETWEET_LOG_FILE,
             f"[DEBUG] 生成クエリ: {query}",
+            print_to_console=False
         )
         queries.append(query)
 
