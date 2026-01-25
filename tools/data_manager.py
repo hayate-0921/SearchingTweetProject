@@ -37,7 +37,8 @@ def load_following_list() -> List[str]:
 
     with FOLLOWING_FILE.open("r", encoding="utf-8") as f:
         following_list = json.load(f)
-        print(following_list)
+        # print(following_list)
+        print("following_listを読み込みました。")
         return following_list
 
 
