@@ -1852,3 +1852,117 @@ The `max_results` query parameter value [5] is not between 10 and 100
 [2026-02-02T20:54:01.208056] [DEBUG] Raw API meta: {'result_count': 0}
 [2026-02-02T20:54:01.208184] [DEBUG] 取得ツイート件数: 0
 [2026-02-02T20:54:01.208389] === リツイート完了 [DEFAULT]（3件） ===
+[2026-02-03T15:51:44.503204] === リツイートジョブ開始 [DEFAULT] ===
+[2026-02-03T15:51:44.503317] [DEBUG] 使用キーワード定義: KEYWORDS = ['cover', '歌ってみた']
+[2026-02-03T15:51:44.503544] [DEBUG] start_time=2026-02-02 15:00:00+00:00
+[2026-02-03T15:51:44.503590] [DEBUG] end_time=2026-02-03 15:00:00+00:00
+[2026-02-03T15:51:44.503689] [DEBUG] following.json 読み込み: 202ユーザー
+[2026-02-03T15:51:44.503732] [DEBUG] 使用キーワード: ['cover', '歌ってみた']
+[2026-02-03T15:51:44.503771] [DEBUG] クエリ対象ユーザー: ['ANYCOLOR_Inc', 'nijisanji_app', 'NIJISANJI_World', 'chronoir_info', 'ROF_MAO', '_Nornis', 'seitokai_07', 'ViVO_info', 'Elu_World', 'ShizuRin23']
+[2026-02-03T15:51:44.503816] [DEBUG] 生成クエリ: (from:ANYCOLOR_Inc OR from:nijisanji_app OR from:NIJISANJI_World OR from:chronoir_info OR from:ROF_MAO OR from:_Nornis OR from:seitokai_07 OR from:ViVO_info OR from:Elu_World OR from:ShizuRin23) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.503855] [DEBUG] クエリ対象ユーザー: ['sibuya_hajime', 'MitoTsukino', 'HiguchiKaede', 'Moiramoimoimoi', 'ienaga_mugi23', 'ushimi_ichigo', 'Gilzaren_III', 'rei_Toya_rei', 'gaku_fushimi', 'nekokan_chu']
+[2026-02-03T15:51:44.503899] [DEBUG] 生成クエリ: (from:sibuya_hajime OR from:MitoTsukino OR from:HiguchiKaede OR from:Moiramoimoimoi OR from:ienaga_mugi23 OR from:ushimi_ichigo OR from:Gilzaren_III OR from:rei_Toya_rei OR from:gaku_fushimi OR from:nekokan_chu) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.503937] [DEBUG] クエリ対象ユーザー: ['AliceMononobe', 'KazakiMorinaka', 'Yuuhi_Riri', 'Youko_Akabane', 'Kanae_2434', 'udukikohh', 'SisterCleaire', 'Darkness_Eater', '___Dola', 'KT_seeds']
+[2026-02-03T15:51:44.503984] [DEBUG] 生成クエリ: (from:AliceMononobe OR from:KazakiMorinaka OR from:Yuuhi_Riri OR from:Youko_Akabane OR from:Kanae_2434 OR from:udukikohh OR from:SisterCleaire OR from:Darkness_Eater OR from:___Dola OR from:KT_seeds) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504025] [DEBUG] クエリ対象ユーザー: ['ZulmIhP1nlMOT5y', '846kizuQ', 'midori_2434', 'harusakiair2434', 'saku_sasaki', 'honmahimawari', 'Vamp_Kuzu', 'yuika_siina', 'makaino_ririmu', 'hina__asuka']
+[2026-02-03T15:51:44.504064] [DEBUG] 生成クエリ: (from:ZulmIhP1nlMOT5y OR from:846kizuQ OR from:midori_2434 OR from:harusakiair2434 OR from:saku_sasaki OR from:honmahimawari OR from:Vamp_Kuzu OR from:yuika_siina OR from:makaino_ririmu OR from:hina__asuka) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504099] [DEBUG] クエリ対象ユーザー: ['Sayo_Amemori', 'Kanda_Shoichi', 'TakamiyaRion', 'maimoto_k', 'SAKURA_RITSUKI', 'JoeRikiichi', 'debidebiru_sama', 'chima_machita23', 'RindouMikoto', 'BlackShiba_chan']
+[2026-02-03T15:51:44.504136] [DEBUG] 生成クエリ: (from:Sayo_Amemori OR from:Kanda_Shoichi OR from:TakamiyaRion OR from:maimoto_k OR from:SAKURA_RITSUKI OR from:JoeRikiichi OR from:debidebiru_sama OR from:chima_machita23 OR from:RindouMikoto OR from:BlackShiba_chan) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504181] [DEBUG] クエリ対象ユーザー: ['belmond_b_2434', 'Rine_Yaguruma', 'kakeru_yumeoi', 'yuzuki_roa', 'onomachi_haruka', 'KataribeTsumugu', 'Ange_Katrina_', 'inui_toko', 'Lize_Helesta', 'manami_aizono']
+[2026-02-03T15:51:44.504250] [DEBUG] 生成クエリ: (from:belmond_b_2434 OR from:Rine_Yaguruma OR from:kakeru_yumeoi OR from:yuzuki_roa OR from:onomachi_haruka OR from:KataribeTsumugu OR from:Ange_Katrina_ OR from:inui_toko OR from:Lize_Helesta OR from:manami_aizono) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504316] [DEBUG] クエリ対象ユーザー: ['333akina', 'MahiroYukishiro', 'Ex_Albio', 'Levi_E_2434', 'Nui_Sociere', 'Hayama_Marin', 'H_KAGAMI2434', 'Hakase_Fuyuki', 'rena_yorumi', 'ars_almal']
+[2026-02-03T15:51:44.504360] [DEBUG] 生成クエリ: (from:333akina OR from:MahiroYukishiro OR from:Ex_Albio OR from:Levi_E_2434 OR from:Nui_Sociere OR from:Hayama_Marin OR from:H_KAGAMI2434 OR from:Hakase_Fuyuki OR from:rena_yorumi OR from:ars_almal) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504396] [DEBUG] クエリ対象ユーザー: ['amamiya_kokoro', 'Eli_Conifer', 'ratna_petit', 'Hana_Macchia', 'ShellinBurgundy', 'sukosuko_sukoya', 'SouHayase', 'FumiVirtual', 'Sara_Hoshikawa', 'Karuta_Yamagami']
+[2026-02-03T15:51:44.504434] [DEBUG] 生成クエリ: (from:amamiya_kokoro OR from:Eli_Conifer OR from:ratna_petit OR from:Hana_Macchia OR from:ShellinBurgundy OR from:sukosuko_sukoya OR from:SouHayase OR from:FumiVirtual OR from:Sara_Hoshikawa OR from:Karuta_Yamagami) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504468] [DEBUG] クエリ対象ユーザー: ['emma_august_', 'matsukai_mao', 'Luis_Cammy', 'Tomoe_Shirayuki', 'Fuwa_Minato', 'Rai_Galilei', 'kurusu72me', 'mashiro2434', 'Gaon2434', 'SuhaMin2434']
+[2026-02-03T15:51:44.504506] [DEBUG] 生成クエリ: (from:emma_august_ OR from:matsukai_mao OR from:Luis_Cammy OR from:Tomoe_Shirayuki OR from:Fuwa_Minato OR from:Rai_Galilei OR from:kurusu72me OR from:mashiro2434 OR from:Gaon2434 OR from:SuhaMin2434) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504541] [DEBUG] クエリ対象ユーザー: ['honmono_ibrahim', 'furen_2434', 'LaylaAlstro2434', 'VALZ_info', 'Kaida_Haru', '1O46V', 'kei_nagao2434', 'NagiSo2434', 'kirame_2434', 'Hisui_Kitakoji']
+[2026-02-03T15:51:44.504578] [DEBUG] 生成クエリ: (from:honmono_ibrahim OR from:furen_2434 OR from:LaylaAlstro2434 OR from:VALZ_info OR from:Kaida_Haru OR from:1O46V OR from:kei_nagao2434 OR from:NagiSo2434 OR from:kirame_2434 OR from:Hisui_Kitakoji) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504613] [DEBUG] クエリ対象ユーザー: ['Suo_Sango', 'kohaku_todo', 'Chigusa_24zono', 'RayAkira2434', 'RohaLee2434', 'Etna_Crimson', 'JiyuOh2434', 'NariYang2434', 'HariRyu2434', 'DeremKado']
+[2026-02-03T15:51:44.504657] [DEBUG] 生成クエリ: (from:Suo_Sango OR from:kohaku_todo OR from:Chigusa_24zono OR from:RayAkira2434 OR from:RohaLee2434 OR from:Etna_Crimson OR from:JiyuOh2434 OR from:NariYang2434 OR from:HariRyu2434 OR from:DeremKado) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504693] [DEBUG] クエリ対象ユーザー: ['NagisaArcinia', 'Seffyna2434', 'oliverD_23', 'Lain_Paterson', 'Leos_Vincent', 'Lauren_iroas', 'NaSera2434', 'HaYun2434', 'Muyu_Amagase', 'Yotsuha_Umise']
+[2026-02-03T15:51:44.504729] [DEBUG] 生成クエリ: (from:NagisaArcinia OR from:Seffyna2434 OR from:oliverD_23 OR from:Lain_Paterson OR from:Leos_Vincent OR from:Lauren_iroas OR from:NaSera2434 OR from:HaYun2434 OR from:Muyu_Amagase OR from:Yotsuha_Umise) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504770] [DEBUG] クエリ対象ユーザー: ['ponto_nei', '1000000lome', 'VOLTACTION_info', 'Shikinagi_2434', 'SerAph_DazZ', 'KNTFR2434', 'watarai_hibari', '1garashi_Rika', 'I_Nozomi_', '65_kaburaki']
+[2026-02-03T15:51:44.504807] [DEBUG] 生成クエリ: (from:ponto_nei OR from:1000000lome OR from:VOLTACTION_info OR from:Shikinagi_2434 OR from:SerAph_DazZ OR from:KNTFR2434 OR from:watarai_hibari OR from:1garashi_Rika OR from:I_Nozomi_ OR from:65_kaburaki) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504841] [DEBUG] クエリ対象ユーザー: ['k_meruto', 'toru_2434', '44do_akari', 'SophiaV214', 'Oriens_honmono', 'akagi_wen', 'usamirito_power', 'Saiki_Supadari', 'Hibachi_Mana', 'rai_173']
+[2026-02-03T15:51:44.504876] [DEBUG] 生成クエリ: (from:k_meruto OR from:toru_2434 OR from:44do_akari OR from:SophiaV214 OR from:Oriens_honmono OR from:akagi_wen OR from:usamirito_power OR from:Saiki_Supadari OR from:Hibachi_Mana OR from:rai_173) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504915] [DEBUG] クエリ対象ユーザー: ['Rou_2434', 'Show_SylveSTAR', 'Kagetsu_2434', 'Ruri_4ori8', 'tctt10_10', 'Milan_Kestrel', '3SKM_INFO', 'Kaisei_2434', 'Kitami_Coolguy', 'Ness_Sakaki']
+[2026-02-03T15:51:44.504953] [DEBUG] 生成クエリ: (from:Rou_2434 OR from:Show_SylveSTAR OR from:Kagetsu_2434 OR from:Ruri_4ori8 OR from:tctt10_10 OR from:Milan_Kestrel OR from:3SKM_INFO OR from:Kaisei_2434 OR from:Kitami_Coolguy OR from:Ness_Sakaki) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.504986] [DEBUG] クエリ対象ユーザー: ['AYAKAKI_INFO', 'Kisara_2434', 'KozueMone', 'Shigariko_', '7_tamanoi', 'mo_lunlun_gu', 'Speciale_info', 'kirara_tamako', 'Saotome_Berry', 'sakayori_soma']
+[2026-02-03T15:51:44.505023] [DEBUG] 生成クエリ: (from:AYAKAKI_INFO OR from:Kisara_2434 OR from:KozueMone OR from:Shigariko_ OR from:7_tamanoi OR from:mo_lunlun_gu OR from:Speciale_info OR from:kirara_tamako OR from:Saotome_Berry OR from:sakayori_soma) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505056] [DEBUG] クエリ対象ユーザー: ['Tr0uT_2434', 'Suzuna_Nanase', 'Itsuki_Sakyo', 'Aya10_1tsubashi', 'yoiyume_info', 'Kadou_Mikaru', 'Togawa_Nonoha', 'Nekoyashiki_39', 'YagyuShino', 'splare_info']
+[2026-02-03T15:51:44.505092] [DEBUG] 生成クエリ: (from:Tr0uT_2434 OR from:Suzuna_Nanase OR from:Itsuki_Sakyo OR from:Aya10_1tsubashi OR from:yoiyume_info OR from:Kadou_Mikaru OR from:Togawa_Nonoha OR from:Nekoyashiki_39 OR from:YagyuShino OR from:splare_info) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505131] [DEBUG] クエリ対象ユーザー: ['Yuno_Shino38', 'Shiro_Isumyan', 'sumeragi_0o', 'Hanakago_2434rr', 'EliraPendora', 'FinanaRyugu', 'Petra_Gurin', 'EnnaAlouette', 'MillieParfait', 'luca_kaneshiro']
+[2026-02-03T15:51:44.505168] [DEBUG] 生成クエリ: (from:Yuno_Shino38 OR from:Shiro_Isumyan OR from:sumeragi_0o OR from:Hanakago_2434rr OR from:EliraPendora OR from:FinanaRyugu OR from:Petra_Gurin OR from:EnnaAlouette OR from:MillieParfait OR from:luca_kaneshiro) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505201] [DEBUG] クエリ対象ユーザー: ['shu_yamino', 'Vox_Akuma', 'alban_knox', 'sonny_brisko', 'uki_violeta', 'AiaAmare', 'MariaMari0nette', 'RenZott0', 'ScarleYonaguni', 'D_Dropscythe']
+[2026-02-03T15:51:44.505259] [DEBUG] 生成クエリ: (from:shu_yamino OR from:Vox_Akuma OR from:alban_knox OR from:sonny_brisko OR from:uki_violeta OR from:AiaAmare OR from:MariaMari0nette OR from:RenZott0 OR from:ScarleYonaguni OR from:D_Dropscythe) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505297] [DEBUG] クエリ対象ユーザー: ['MelocoKyoran', 'Ver_Vermillion', 'Tyrant_Vanta', 'VezaliusBandage', 'YuQWilson', 'ClaudeClawmark', 'KlaraCharmwood', 'RyomaBarrenwort', 'Freo_2434', 'KaelixDebonair']
+[2026-02-03T15:51:44.505333] [DEBUG] 生成クエリ: (from:MelocoKyoran OR from:Ver_Vermillion OR from:Tyrant_Vanta OR from:VezaliusBandage OR from:YuQWilson OR from:ClaudeClawmark OR from:KlaraCharmwood OR from:RyomaBarrenwort OR from:Freo_2434 OR from:KaelixDebonair) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505372] [DEBUG] クエリ対象ユーザー: ['Seible_2434', 'ZealGinjoka']
+[2026-02-03T15:51:44.505408] [DEBUG] 生成クエリ: (from:Seible_2434 OR from:ZealGinjoka) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.505441] [DEBUG] 検索クエリ実行: (from:ANYCOLOR_Inc OR from:nijisanji_app OR from:NIJISANJI_World OR from:chronoir_info OR from:ROF_MAO OR from:_Nornis OR from:seitokai_07 OR from:ViVO_info OR from:Elu_World OR from:ShizuRin23) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T15:51:44.626516] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T15:51:44.626607] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T15:51:44.626649] [DEBUG] 検索クエリ実行: (from:sibuya_hajime OR from:MitoTsukino OR from:HiguchiKaede OR from:Moiramoimoimoi OR from:ienaga_mugi23 OR from:ushimi_ichigo OR from:Gilzaren_III OR from:rei_Toya_rei OR from:gaku_fushimi OR from:nekokan_chu) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T16:06:45.873833] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T16:06:45.873933] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T16:06:45.873978] [DEBUG] 検索クエリ実行: (from:AliceMononobe OR from:KazakiMorinaka OR from:Yuuhi_Riri OR from:Youko_Akabane OR from:Kanae_2434 OR from:udukikohh OR from:SisterCleaire OR from:Darkness_Eater OR from:___Dola OR from:KT_seeds) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T16:21:47.090269] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T16:21:47.090373] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T16:21:47.090418] [DEBUG] 検索クエリ実行: (from:ZulmIhP1nlMOT5y OR from:846kizuQ OR from:midori_2434 OR from:harusakiair2434 OR from:saku_sasaki OR from:honmahimawari OR from:Vamp_Kuzu OR from:yuika_siina OR from:makaino_ririmu OR from:hina__asuka) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T16:36:48.327178] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T16:36:48.327304] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T16:36:48.327350] [DEBUG] 検索クエリ実行: (from:Sayo_Amemori OR from:Kanda_Shoichi OR from:TakamiyaRion OR from:maimoto_k OR from:SAKURA_RITSUKI OR from:JoeRikiichi OR from:debidebiru_sama OR from:chima_machita23 OR from:RindouMikoto OR from:BlackShiba_chan) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T16:51:49.563275] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T16:51:49.563361] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T16:51:49.563405] [DEBUG] 検索クエリ実行: (from:belmond_b_2434 OR from:Rine_Yaguruma OR from:kakeru_yumeoi OR from:yuzuki_roa OR from:onomachi_haruka OR from:KataribeTsumugu OR from:Ange_Katrina_ OR from:inui_toko OR from:Lize_Helesta OR from:manami_aizono) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T17:06:50.910508] [DEBUG] Raw API meta: {'newest_id': '2018640823236349975', 'oldest_id': '2018519825987870740', 'result_count': 2}
+[2026-02-03T17:06:50.910584] [DEBUG] 取得ツイート件数: 2
+[2026-02-03T17:06:51.122332] リツイート成功: 2018640823236349975 / はじまる！  【男性が一人二役で】JANE DOE / 米津玄師, 宇多田ヒカル (Covered ...
+[2026-02-03T17:21:52.456999] リツイート成功: 2018519825987870740 / 🎤【歌動画告知】🎤  今夜20時、米津玄師さん＆宇多田ヒカルさんの 「JANE DOE」を歌わせてい...
+[2026-02-03T17:21:52.457105] [DEBUG] 検索クエリ実行: (from:333akina OR from:MahiroYukishiro OR from:Ex_Albio OR from:Levi_E_2434 OR from:Nui_Sociere OR from:Hayama_Marin OR from:H_KAGAMI2434 OR from:Hakase_Fuyuki OR from:rena_yorumi OR from:ars_almal) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T17:21:52.541402] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T17:21:52.541461] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T17:21:52.541502] [DEBUG] 検索クエリ実行: (from:amamiya_kokoro OR from:Eli_Conifer OR from:ratna_petit OR from:Hana_Macchia OR from:ShellinBurgundy OR from:sukosuko_sukoya OR from:SouHayase OR from:FumiVirtual OR from:Sara_Hoshikawa OR from:Karuta_Yamagami) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T17:36:53.819236] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T17:36:53.819341] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T17:36:53.819385] [DEBUG] 検索クエリ実行: (from:emma_august_ OR from:matsukai_mao OR from:Luis_Cammy OR from:Tomoe_Shirayuki OR from:Fuwa_Minato OR from:Rai_Galilei OR from:kurusu72me OR from:mashiro2434 OR from:Gaon2434 OR from:SuhaMin2434) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T17:51:55.119625] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T17:51:55.119760] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T17:51:55.119815] [DEBUG] 検索クエリ実行: (from:honmono_ibrahim OR from:furen_2434 OR from:LaylaAlstro2434 OR from:VALZ_info OR from:Kaida_Haru OR from:1O46V OR from:kei_nagao2434 OR from:NagiSo2434 OR from:kirame_2434 OR from:Hisui_Kitakoji) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T18:06:56.412230] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T18:06:56.412344] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T18:06:56.412390] [DEBUG] 検索クエリ実行: (from:Suo_Sango OR from:kohaku_todo OR from:Chigusa_24zono OR from:RayAkira2434 OR from:RohaLee2434 OR from:Etna_Crimson OR from:JiyuOh2434 OR from:NariYang2434 OR from:HariRyu2434 OR from:DeremKado) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T18:21:57.695575] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T18:21:57.695694] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T18:21:57.695739] [DEBUG] 検索クエリ実行: (from:NagisaArcinia OR from:Seffyna2434 OR from:oliverD_23 OR from:Lain_Paterson OR from:Leos_Vincent OR from:Lauren_iroas OR from:NaSera2434 OR from:HaYun2434 OR from:Muyu_Amagase OR from:Yotsuha_Umise) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T18:36:58.885962] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T18:36:58.886083] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T18:36:58.886128] [DEBUG] 検索クエリ実行: (from:ponto_nei OR from:1000000lome OR from:VOLTACTION_info OR from:Shikinagi_2434 OR from:SerAph_DazZ OR from:KNTFR2434 OR from:watarai_hibari OR from:1garashi_Rika OR from:I_Nozomi_ OR from:65_kaburaki) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T18:52:00.109277] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T18:52:00.109410] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T18:52:00.109461] [DEBUG] 検索クエリ実行: (from:k_meruto OR from:toru_2434 OR from:44do_akari OR from:SophiaV214 OR from:Oriens_honmono OR from:akagi_wen OR from:usamirito_power OR from:Saiki_Supadari OR from:Hibachi_Mana OR from:rai_173) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T19:07:01.371318] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T19:07:01.371441] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T19:07:01.371485] [DEBUG] 検索クエリ実行: (from:Rou_2434 OR from:Show_SylveSTAR OR from:Kagetsu_2434 OR from:Ruri_4ori8 OR from:tctt10_10 OR from:Milan_Kestrel OR from:3SKM_INFO OR from:Kaisei_2434 OR from:Kitami_Coolguy OR from:Ness_Sakaki) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T19:22:02.660204] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T19:22:02.660339] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T19:22:02.660385] [DEBUG] 検索クエリ実行: (from:AYAKAKI_INFO OR from:Kisara_2434 OR from:KozueMone OR from:Shigariko_ OR from:7_tamanoi OR from:mo_lunlun_gu OR from:Speciale_info OR from:kirara_tamako OR from:Saotome_Berry OR from:sakayori_soma) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T19:37:03.909653] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T19:37:03.909786] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T19:37:03.909830] [DEBUG] 検索クエリ実行: (from:Tr0uT_2434 OR from:Suzuna_Nanase OR from:Itsuki_Sakyo OR from:Aya10_1tsubashi OR from:yoiyume_info OR from:Kadou_Mikaru OR from:Togawa_Nonoha OR from:Nekoyashiki_39 OR from:YagyuShino OR from:splare_info) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T19:52:05.184246] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T19:52:05.184377] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T19:52:05.184424] [DEBUG] 検索クエリ実行: (from:Yuno_Shino38 OR from:Shiro_Isumyan OR from:sumeragi_0o OR from:Hanakago_2434rr OR from:EliraPendora OR from:FinanaRyugu OR from:Petra_Gurin OR from:EnnaAlouette OR from:MillieParfait OR from:luca_kaneshiro) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T20:07:06.506508] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T20:07:06.506645] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T20:07:06.506690] [DEBUG] 検索クエリ実行: (from:shu_yamino OR from:Vox_Akuma OR from:alban_knox OR from:sonny_brisko OR from:uki_violeta OR from:AiaAmare OR from:MariaMari0nette OR from:RenZott0 OR from:ScarleYonaguni OR from:D_Dropscythe) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T20:22:07.781290] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T20:22:07.781412] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T20:22:07.781457] [DEBUG] 検索クエリ実行: (from:MelocoKyoran OR from:Ver_Vermillion OR from:Tyrant_Vanta OR from:VezaliusBandage OR from:YuQWilson OR from:ClaudeClawmark OR from:KlaraCharmwood OR from:RyomaBarrenwort OR from:Freo_2434 OR from:KaelixDebonair) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T20:37:09.023417] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T20:37:09.023539] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T20:37:09.023584] [DEBUG] 検索クエリ実行: (from:Seible_2434 OR from:ZealGinjoka) youtu -shorts (cover OR 歌ってみた) -is:retweet -is:reply
+[2026-02-03T20:52:09.250561] [DEBUG] Raw API meta: {'result_count': 0}
+[2026-02-03T20:52:09.250670] [DEBUG] 取得ツイート件数: 0
+[2026-02-03T20:52:09.250882] === リツイート完了 [DEFAULT]（2件） ===
