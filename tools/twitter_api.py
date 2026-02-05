@@ -26,7 +26,7 @@ import logging
 
 import tweepy
 
-from config import load_twitter_auth, TwitterAuth
+from config import EXCLUDE_KEYWORDS, load_twitter_auth, TwitterAuth
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +86,7 @@ def build_search_query(
 ) -> str:
     """
     Twitter 検索 API（v2）用の検索クエリ文字列を組み立てる。
+    config.py の EXCLUDE_KEYWORDS に含まれる語句は除外条件として付与する。
     
     Args:
         usernames (Sequence[str]):
@@ -131,6 +132,9 @@ def build_search_query(
         parts.append("-is:retweet")
     if exclude_replies:
         parts.append("-is:reply")
+    if EXCLUDE_KEYWORDS:
+        exclude_parts = [f'-"{keyword}"' for keyword in EXCLUDE_KEYWORDS]
+        parts.append(" ".join(exclude_parts))
 
     # --- 日付条件 ---
     if start_date:
