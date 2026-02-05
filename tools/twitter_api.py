@@ -26,7 +26,7 @@ import logging
 
 import tweepy
 
-from config import load_twitter_auth, TwitterAuth
+from config import load_twitter_auth, TwitterAuth, EXCLUDE_KEYWORDS
 
 logger = logging.getLogger(__name__)
 
@@ -131,6 +131,10 @@ def build_search_query(
         parts.append("-is:retweet")
     if exclude_replies:
         parts.append("-is:reply")
+    if EXCLUDE_KEYWORDS:
+        exclude_parts = [f'-"{keyword}"' for keyword in EXCLUDE_KEYWORDS]
+        parts.append(" ".join(exclude_parts))
+
 
     # --- 日付条件 ---
     if start_date:
