@@ -111,8 +111,9 @@ def load_twitter_auth(suffix: str | None = None) -> TwitterAuth:
 
 
 # アカウントごとに異なる定数
-KEYWORDS = ["cover", "歌ってみた"]               # 検索キーワード
-KEYWORDS_COVER = ["cover", "歌ってみた"]         # COVERアカウント用検索キーワード
+KEYWORDS = ["cover", "covered", "歌ってみた"]               # 検索キーワード
+
+KEYWORDS_COVER = ["cover", "covered", "歌ってみた"]         # COVERアカウント用検索キーワード
 KEYWORDS_ORIGINAL = ["オリジナル曲", "original"] # ORIGINALアカウント用検索キーワード
 KEYWORDS_STREAM = ["カラオケ", "歌枠"]           # STREAMアカウント用検索キーワード
 
