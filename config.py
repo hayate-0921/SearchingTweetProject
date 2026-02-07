@@ -117,7 +117,7 @@ KEYWORDS_COVER = ["cover", "covered", "歌ってみた"]         # COVERアカ�
 KEYWORDS_ORIGINAL = ["オリジナル曲", "original"] # ORIGINALアカウント用検索キーワード
 KEYWORDS_STREAM = ["カラオケ", "歌枠"]           # STREAMアカウント用検索キーワード
 
-EXCLUDE_KEYWORDS = ["万再生", "万回再生", ]   # 除外キーワード
+EXCLUDE_KEYWORDS = ["万再生", "万回再生", "short", "shorts"]   # 除外キーワード
 
 # 全体共通定数
 MAX_USERS_PER_SEARCH = 10                        # 一度に検索するユーザー数
