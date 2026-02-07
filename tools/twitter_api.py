@@ -117,9 +117,6 @@ def build_search_query(
         
     # --- 必須条件: YouTube リンク ---
     parts.append("youtu")
-    
-    # --- 除外条件: YouTube Shorts ---
-    parts.append("-shorts")
 
     # --- キーワード条件 ---
     if keywords:
