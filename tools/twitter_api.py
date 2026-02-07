@@ -132,7 +132,7 @@ def build_search_query(
     if exclude_replies:
         parts.append("-is:reply")
     if EXCLUDE_KEYWORDS:
-        exclude_parts = [f'-"{keyword}"' for keyword in EXCLUDE_KEYWORDS]
+        exclude_parts = [f'-{keyword}' for keyword in EXCLUDE_KEYWORDS]
         parts.append(" ".join(exclude_parts))
 
 
