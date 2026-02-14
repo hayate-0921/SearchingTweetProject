@@ -250,7 +250,6 @@ def run_retweet_test(suffix: str | None = None) -> None:
                         RETWEET_LOG_FILE,
                         f"リツイート成功: {tid} / {preview}...",
                     )
-                    break
                 except Exception as e:
                     log_message(
                         RETWEET_LOG_FILE,
@@ -286,3 +285,4 @@ def run_retweet_test(suffix: str | None = None) -> None:
 if __name__ == "__main__":
     # 従来互換：サフィックスなし・config.KEYWORDS を使用
     run_retweet_test()
+
