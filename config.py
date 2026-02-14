@@ -122,7 +122,7 @@ EXCLUDE_KEYWORDS = ["万再生", "万回再生", "short", "shorts"]   # 除外�
 # 全体共通定数
 MAX_USERS_PER_SEARCH = 10                        # 一度に検索するユーザー数
 LOOKBACK_DAYS = 1                               # 遡る日数
-RETWEET_LIMIT = 5                               # 1日あたりのリツイート上限
+RETWEET_LIMIT = 10                               # 1日あたりのリツイート上限
 MAX_TWEETS_PER_SEARCH = 10                      # 一度の検索で取得する最大ツイート数
 
 # フォルダ設定
