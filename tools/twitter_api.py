@@ -275,3 +275,45 @@ def tweet_rate_limit_exceeded_notice(
     except tweepy.TweepyException as e:
         logger.error("レート制限通知ツイートに失敗しました: %s", e)
         raise
+
+
+# ------------------------------------------------------------
+# 接続確認（課金クエリを使わない）
+# ------------------------------------------------------------
+def verify_connection(client: tweepy.Client) -> bool:
+    """
+    Twitter API へ正常接続できるかを確認する。
+
+    本関数は検索系エンドポイントを使用せず、
+    軽量な `get_me()` のみを呼び出す。
+
+    これにより課金系検索クエリを発生させず、
+    API認証情報の有効性のみを確認できる。
+
+    Args:
+        client (tweepy.Client):
+            認証済みの Twitter API クライアント
+
+    Returns:
+        bool:
+            接続成功なら True
+            認証失敗・課金エラー等が発生した場合は False
+
+    Raises:
+        例外は内部で捕捉し、False を返す設計
+    """
+    try:
+        response = client.get_me()
+
+        if response and getattr(response, "data", None):
+            print("✅ Twitter API 接続成功")
+            print(f"認証アカウント: {getattr(getattr(response, 'data', None), 'username', None)}")
+            return True
+        else:
+            print("⚠️ 接続は成功したがデータが取得できませんでした")
+            return False
+
+    except Exception as e:
+        print("❌ Twitter API 接続失敗")
+        print(f"エラー内容: {e}")
+        return False
