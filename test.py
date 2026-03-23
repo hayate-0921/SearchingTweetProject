@@ -1,44 +1,19 @@
 """
-retweeting_bot.py
-======================
-フォロー対象ユーザー（username）とキーワードに基づいて
-新規ツイートを検索し、自動でリツイートするバッチジョブ。
+test.py
+=======
+フォロー対象ユーザーと検索キーワードから、実行予定の検索クエリだけを生成して確認する。
 
-本モジュールは「1 Twitter アカウント分のリツイート処理」を
-1 タスクとして完結させる設計を採用している。
+このスクリプトは Twitter API へリクエストを送らず、リツイートも行わない。
 """
 
 from __future__ import annotations
 
-import sys
-import traceback
 from typing import List, Sequence
 
-from config import (
-    KEYWORDS,
-    MAX_TWEETS_PER_SEARCH,
-    RETWEET_LIMIT,
-    MAX_USERS_PER_SEARCH,
-)
-
-from tools.core import (
-    log_message,
-    get_previous_day_range_utc,
-    RETWEET_LOG_FILE,
-)
-
-from tools.data_manager import (
-    load_following_list,
-    load_retweeted_list,
-    save_retweeted_list,
-)
-
-from tools.twitter_api import (
-    create_client,
-    build_search_query,
-    search_tweets,
-    retweet,
-)
+from config import KEYWORDS, MAX_USERS_PER_SEARCH
+from tools.core import log_message, RETWEET_LOG_FILE
+from tools.data_manager import load_following_list
+from tools.twitter_api import build_search_query
 
 
 # ------------------------------------------------------------
@@ -52,8 +27,6 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
     Args:
         keywords (Sequence[str]):
             検索に使用するキーワードのリスト。
-            アカウント種別（COVER / ORIGINAL / STREAM 等）ごとに
-            呼び出し側で切り替えることを想定する。
 
     Returns:
         List[str]:
@@ -87,7 +60,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
         log_message(
             RETWEET_LOG_FILE,
             f"[DEBUG] クエリ対象ユーザー: {chunk}",
-            print_to_console=False
+            print_to_console=False,
         )
 
         query = build_search_query(
@@ -100,7 +73,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
         log_message(
             RETWEET_LOG_FILE,
             f"[DEBUG] 生成クエリ: {query}",
-            print_to_console=False
+            print_to_console=False,
         )
         queries.append(query)
 
@@ -108,181 +81,28 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
 
 
 # ------------------------------------------------------------
-# 1アカウント分のリツイートタスク
+# クエリ確認専用タスク
 # ------------------------------------------------------------
-def run_retweet_test(suffix: str | None = None) -> None:
+def run_query_preview() -> None:
     """
-    指定された Twitter アカウント（suffix）に対応する検索キーワードを
-    config から自動選択し、前日分ツイートの検索および
-    自動リツイート処理を実行する。
+    config.KEYWORDS を使って検索クエリだけを生成し、内容を確認用に出力する。
 
-    Args:
-        suffix (str | None):
-            使用する Twitter アカウントの識別子。
-            None の場合はサフィックスなし（KEYWORDS）を使用する。
-
-    Returns:
-        None
-
-    Raises:
-        SystemExit:
-            致命的な例外発生時に異常終了する。
+    Twitter API の検索やリツイートは一切実行しない。
     """
-    # --------------------------------------------------------
-    # アカウント識別ラベル
-    # --------------------------------------------------------
-    account_label = suffix or "DEFAULT"
+    log_message(
+        RETWEET_LOG_FILE,
+        "=== クエリプレビュー開始 [DEFAULT] ===",
+    )
+
+    queries = create_search_queries(KEYWORDS)
+    for index, query in enumerate(queries, start=1):
+        print(f"[QUERY {index}] {query}")
 
     log_message(
         RETWEET_LOG_FILE,
-        f"=== リツイートジョブ開始 [{account_label}] ===",
+        f"=== クエリプレビュー完了 [DEFAULT]（{len(queries)}件） ===",
     )
 
-    try:
-        # ----------------------------------------------------
-        # 使用キーワードの決定
-        # ----------------------------------------------------
-        if suffix is None:
-            keywords = KEYWORDS
-            keywords_name = "KEYWORDS"
-        else:
-            keywords_attr = f"KEYWORDS_{suffix}"
-            try:
-                keywords = getattr(sys.modules["config"], keywords_attr)
-                keywords_name = keywords_attr
-            except AttributeError:
-                raise ValueError(
-                    f"config.py に {keywords_attr} が定義されていません。"
-                )
 
-        log_message(
-            RETWEET_LOG_FILE,
-            f"[DEBUG] 使用キーワード定義: {keywords_name} = {list(keywords)}",
-        )
-
-        # ----------------------------------------------------
-        # API クライアント作成
-        # ----------------------------------------------------
-        client = create_client(suffix)
-
-        # ----------------------------------------------------
-        # リツイート済み ID 管理
-        # ----------------------------------------------------
-        retweeted_ids = load_retweeted_list()
-        total_retweets = 0
-
-        # ----------------------------------------------------
-        # 日付範囲（UTC）
-        # ----------------------------------------------------
-        start_time, end_time = get_previous_day_range_utc()
-        log_message(RETWEET_LOG_FILE, f"[DEBUG] start_time={start_time}")
-        log_message(RETWEET_LOG_FILE, f"[DEBUG] end_time={end_time}")
-
-        # ----------------------------------------------------
-        # 検索クエリ生成
-        # ----------------------------------------------------
-        queries = create_search_queries(keywords)
-        if not queries:
-            log_message(
-                RETWEET_LOG_FILE,
-                "[ERROR] 検索クエリ生成に失敗",
-            )
-            return
-
-        # ----------------------------------------------------
-        # 各クエリ実行
-        # ----------------------------------------------------
-        for query in queries:
-            log_message(
-                RETWEET_LOG_FILE,
-                f"[DEBUG] 検索クエリ実行: {query}",
-            )
-
-            raw_resp = search_tweets(
-                client=client,
-                query=query,
-                start_time=start_time,
-                end_time=end_time,
-                max_results=MAX_TWEETS_PER_SEARCH,
-                return_raw=True,
-            )
-
-            meta = getattr(raw_resp, "meta", None)
-            log_message(
-                RETWEET_LOG_FILE,
-                f"[DEBUG] Raw API meta: {meta}",
-            )
-
-            tweets = getattr(raw_resp, "data", None) or []
-            log_message(
-                RETWEET_LOG_FILE,
-                f"[DEBUG] 取得ツイート件数: {len(tweets)}",
-            )
-
-            if not tweets:
-                continue
-
-            for tw in tweets:
-                tid = str(tw.id)
-
-                if tid in retweeted_ids:
-                    continue
-
-                if total_retweets >= RETWEET_LIMIT:
-                    log_message(
-                        RETWEET_LOG_FILE,
-                        "リツイート上限に達しました。",
-                    )
-                    save_retweeted_list(retweeted_ids)
-                    log_message(
-                        RETWEET_LOG_FILE,
-                        f"=== リツイート終了 [{account_label}]（上限到達） ===",
-                    )
-                    return
-
-                try:
-                    retweet(client, tw.id)
-                    retweeted_ids.add(tid)
-                    total_retweets += 1
-
-                    preview = tw.text.replace("\n", " ")[:50]
-                    log_message(
-                        RETWEET_LOG_FILE,
-                        f"リツイート成功: {tid} / {preview}...",
-                    )
-                except Exception as e:
-                    log_message(
-                        RETWEET_LOG_FILE,
-                        f"[ERROR] リツイート失敗: {tid} / {e}",
-                    )
-                    log_message(
-                        RETWEET_LOG_FILE,
-                        traceback.format_exc(),
-                    )
-
-        save_retweeted_list(retweeted_ids)
-        log_message(
-            RETWEET_LOG_FILE,
-            f"=== リツイート完了 [{account_label}]（{total_retweets}件） ===",
-        )
-
-    except Exception as e:
-        log_message(
-            RETWEET_LOG_FILE,
-            f"[FATAL] 例外内容: {e}",
-        )
-        log_message(
-            RETWEET_LOG_FILE,
-            "[FATAL] Traceback:\n" + traceback.format_exc(),
-        )
-        sys.exit(1)
-
-
-
-# ------------------------------------------------------------
-# エントリポイント
-# ------------------------------------------------------------
 if __name__ == "__main__":
-    # 従来互換：サフィックスなし・config.KEYWORDS を使用
-    run_retweet_test()
-
+    run_query_preview()
