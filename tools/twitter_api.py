@@ -116,7 +116,7 @@ def build_search_query(
         parts.append("(" + " OR ".join(user_parts) + ")")
         
     # --- 必須条件: YouTube リンク ---
-    parts.append("youtu")
+    parts.append("""(youtu OR youtube OR "youtu.be" OR "YouTube")""")
 
     # --- キーワード条件 ---
     if keywords:
