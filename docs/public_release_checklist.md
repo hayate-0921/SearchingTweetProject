@@ -17,7 +17,7 @@
 ## 履歴洗浄の基本手順
 
 ```bash
-git clone --mirror <YOUR_REPO_URL> repo-cleanup.git
+git clone --mirror https://github.com/hayate-0921/SearchingTweetProject.git repo-cleanup.git
 cd repo-cleanup.git
 git filter-repo --path logs/retweeting.log --invert-paths
 git push --force --mirror origin
