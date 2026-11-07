@@ -139,6 +139,30 @@ class TestVideoFilter(unittest.TestCase):
 
 
 # ----------------------------------------------------------------------
+# 検索クエリ
+# ----------------------------------------------------------------------
+class TestSearchQuery(unittest.TestCase):
+    def test_query_conditions(self):
+        from config import KEYWORDS, MAX_USERS_PER_SEARCH
+        from tools.data_manager import load_following_list
+        from tools.twitter_api import build_search_query
+
+        q = build_search_query(["a", "b"], KEYWORDS)
+        self.assertIn('(url:"youtube.com" OR url:"youtu.be")', q)
+        self.assertIn('-url:"youtube.com/live"', q)
+        self.assertIn('-url:"youtube.com/shorts"', q)
+        self.assertNotIn("youtu OR youtube", q)
+
+        # X の検索クエリは 512 文字まで
+        users = load_following_list()
+        longest = max(
+            len(build_search_query(users[i : i + MAX_USERS_PER_SEARCH], KEYWORDS))
+            for i in range(0, len(users), MAX_USERS_PER_SEARCH)
+        )
+        self.assertLessEqual(longest, 512)
+
+
+# ----------------------------------------------------------------------
 # 検索期間
 # ----------------------------------------------------------------------
 class TestSearchWindow(unittest.TestCase):

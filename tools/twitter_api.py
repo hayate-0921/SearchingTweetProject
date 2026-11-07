@@ -34,6 +34,11 @@ logger = logging.getLogger(__name__)
 # 検索条件: YouTube の動画リンクを含む投稿
 YOUTUBE_URL_CONDITION = '(url:"youtube.com" OR url:"youtu.be")'
 
+# 検索条件: ショート動画（/shorts/）と配信（/live/）のリンクを含む投稿を除外する。
+# 本文の記載に関係なくリンクの形式で除外でき、読み取り費用もかからない（2026-11-07 に実データで確認）。
+# youtu.be 形式のショートは URL から判別できないため除外されない。
+YOUTUBE_EXCLUDE_URL_CONDITION = '-url:"youtube.com/live" -url:"youtube.com/shorts"'
+
 # 取得するツイートの項目。entities は投稿データの一部（追加費用なし）で、展開済み URL の取得に使う。
 TWEET_FIELDS = ["id", "text", "author_id", "created_at", "entities"]
 
@@ -126,6 +131,7 @@ def build_search_query(
     # 検索 API では単語 "youtube" は本文の文字にしか当たらず、リンクだけを貼った
     # 告知を取りこぼす（Phase 0 の調査で確認）。url: は展開済み URL に当たる。
     parts.append(YOUTUBE_URL_CONDITION)
+    parts.append(YOUTUBE_EXCLUDE_URL_CONDITION)
 
     # --- キーワード条件 ---
     if keywords:

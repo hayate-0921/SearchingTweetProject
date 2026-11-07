@@ -50,6 +50,8 @@ SearchingTweetProject/
 2. 前回検索した終わりの時刻〜本日 0:00（JST）を、全クエリ・全ページ検索する
    - YouTube リンクは `url:"youtube.com" OR url:"youtu.be"` で判定する
      （検索 API では単語 `youtube` は本文にしか当たらず、リンクだけの告知を取りこぼすため）
+   - ショート（`youtube.com/shorts`）と配信（`youtube.com/live`）のリンクを含む投稿は、
+     `-url:` で検索の段階から除外する（読み取り費用もかからない）
    - 実行が失敗した日があっても、次の実行で続きから検索する（最大 7 日）
 3. 取得後に判定する（`tools/video_filter.py`）
    - ショート（`/shorts/` リンク）、配信（`/live/` リンクのみ）、除外ワードを含む投稿を除外
