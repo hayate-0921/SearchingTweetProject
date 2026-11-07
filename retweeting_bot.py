@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import sys
 import traceback
-from typing import List, Sequence
+from typing import List, Sequence, Tuple
 
 from config import (
     KEYWORDS,
@@ -40,11 +40,13 @@ from tools.twitter_api import (
     retweet,
 )
 
+from tools.observation import RunRecorder
+
 
 # ------------------------------------------------------------
 # 検索クエリ生成
 # ------------------------------------------------------------
-def create_search_queries(keywords: Sequence[str]) -> List[str]:
+def create_search_queries(keywords: Sequence[str]) -> List[Tuple[List[str], str]]:
     """
     following.json と指定された keywords を用いて、
     MAX_USERS_PER_SEARCH ごとに検索クエリを分割生成する。
@@ -56,8 +58,9 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
             呼び出し側で切り替えることを想定する。
 
     Returns:
-        List[str]:
-            Twitter API v2 search_recent_tweets 用の検索クエリ文字列のリスト。
+        List[Tuple[List[str], str]]:
+            (対象ユーザーのリスト, search_recent_tweets 用の検索クエリ文字列) の組のリスト。
+            対象ユーザーは観測記録（Phase 0）で使用する。
 
     Raises:
         ValueError:
@@ -80,7 +83,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
         f"[DEBUG] 使用キーワード: {list(keywords)}",
     )
 
-    queries: List[str] = []
+    queries: List[Tuple[List[str], str]] = []
 
     for i in range(0, len(usernames), MAX_USERS_PER_SEARCH):
         chunk = usernames[i : i + MAX_USERS_PER_SEARCH]
@@ -102,7 +105,7 @@ def create_search_queries(keywords: Sequence[str]) -> List[str]:
             f"[DEBUG] 生成クエリ: {query}",
             print_to_console=False
         )
-        queries.append(query)
+        queries.append((chunk, query))
 
     return queries
 
@@ -137,6 +140,9 @@ def run_retweet_task(suffix: str | None = None) -> None:
         RETWEET_LOG_FILE,
         f"=== リツイートジョブ開始 [{account_label}] ===",
     )
+
+    recorder: RunRecorder | None = None
+    run_status = "error"
 
     try:
         # ----------------------------------------------------
@@ -179,6 +185,11 @@ def run_retweet_task(suffix: str | None = None) -> None:
         log_message(RETWEET_LOG_FILE, f"[DEBUG] end_time={end_time}")
 
         # ----------------------------------------------------
+        # 観測記録（Phase 0）: API を追加で呼ばないため費用は増えない
+        # ----------------------------------------------------
+        recorder = RunRecorder(account_label, start_time, end_time, keywords)
+
+        # ----------------------------------------------------
         # 検索クエリ生成
         # ----------------------------------------------------
         queries = create_search_queries(keywords)
@@ -187,12 +198,14 @@ def run_retweet_task(suffix: str | None = None) -> None:
                 RETWEET_LOG_FILE,
                 "[ERROR] 検索クエリ生成に失敗",
             )
+            run_status = "no_queries"
             return
+        recorder.set_total_queries(len(queries))
 
         # ----------------------------------------------------
         # 各クエリ実行
         # ----------------------------------------------------
-        for query in queries:
+        for chunk, query in queries:
             log_message(
                 RETWEET_LOG_FILE,
                 f"[DEBUG] 検索クエリ実行: {query}",
@@ -218,6 +231,7 @@ def run_retweet_task(suffix: str | None = None) -> None:
                 RETWEET_LOG_FILE,
                 f"[DEBUG] 取得ツイート件数: {len(tweets)}",
             )
+            recorder.add_search(query, chunk, meta, tweets)
 
             if not tweets:
                 continue
@@ -226,9 +240,11 @@ def run_retweet_task(suffix: str | None = None) -> None:
                 tid = str(tw.id)
 
                 if tid in retweeted_ids:
+                    recorder.set_decision(tid, "already_retweeted")
                     continue
 
                 if total_retweets >= RETWEET_LIMIT:
+                    recorder.set_decision(tid, "limit_reached")
                     log_message(
                         RETWEET_LOG_FILE,
                         "リツイート上限に達しました。",
@@ -238,12 +254,14 @@ def run_retweet_task(suffix: str | None = None) -> None:
                         RETWEET_LOG_FILE,
                         f"=== リツイート終了 [{account_label}]（上限到達） ===",
                     )
+                    run_status = "limit_reached"
                     return
 
                 try:
                     retweet(client, tw.id)
                     retweeted_ids.add(tid)
                     total_retweets += 1
+                    recorder.set_decision(tid, "retweeted")
 
                     preview = tw.text.replace("\n", " ")[:50]
                     log_message(
@@ -251,6 +269,7 @@ def run_retweet_task(suffix: str | None = None) -> None:
                         f"リツイート成功: {tid} / {preview}...",
                     )
                 except Exception as e:
+                    recorder.set_decision(tid, "failed", detail=str(e)[:200])
                     log_message(
                         RETWEET_LOG_FILE,
                         f"[ERROR] リツイート失敗: {tid} / {e}",
@@ -265,8 +284,10 @@ def run_retweet_task(suffix: str | None = None) -> None:
             RETWEET_LOG_FILE,
             f"=== リツイート完了 [{account_label}]（{total_retweets}件） ===",
         )
+        run_status = "completed"
 
     except Exception as e:
+        run_status = "error"
         log_message(
             RETWEET_LOG_FILE,
             f"[FATAL] 例外内容: {e}",
@@ -275,7 +296,29 @@ def run_retweet_task(suffix: str | None = None) -> None:
             RETWEET_LOG_FILE,
             "[FATAL] Traceback:\n" + traceback.format_exc(),
         )
+        _finish_observation(recorder, run_status)
         sys.exit(1)
+
+    finally:
+        if run_status != "error":
+            _finish_observation(recorder, run_status)
+
+
+def _finish_observation(recorder: RunRecorder | None, status: str) -> None:
+    """
+    観測記録を保存し、概要をログに出す。
+
+    記録の保存に失敗しても本番処理（リツイート）には影響させない。
+    """
+    if recorder is None:
+        return
+    try:
+        path = recorder.finish(status)
+        summary = recorder.summary()
+        log_message(RETWEET_LOG_FILE, f"[OBSERVATION] 保存先: {path}")
+        log_message(RETWEET_LOG_FILE, f"[OBSERVATION] 概要: {summary}")
+    except Exception as e:  # noqa: BLE001
+        log_message(RETWEET_LOG_FILE, f"[WARN] 観測記録の保存に失敗: {e}")
 
 
 

@@ -188,7 +188,8 @@ def search_tweets(
     params = {
         "query": query,
         "max_results": max_results,
-        "tweet_fields": ["id", "text", "author_id", "created_at"],
+        # entities は投稿データの一部（追加費用なし）。展開済み URL の取得に使う。
+        "tweet_fields": ["id", "text", "author_id", "created_at", "entities"],
     }
     if start_time:
         params["start_time"] = start_time

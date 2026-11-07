@@ -1,0 +1,43 @@
+{
+  "window_utc": [
+    "2026-10-31T04:14:38.402863+00:00",
+    "2026-11-07T04:12:38.402863+00:00"
+  ],
+  "users": 213,
+  "requests": 88,
+  "estimated_cost_usd": 0.44,
+  "results": {
+    "current": {
+      "label": "現在の条件（本文の単語で YouTube を判定）",
+      "total_7days": 28,
+      "per_day": 4.0,
+      "estimated_read_usd_per_day": 0.02,
+      "max_per_query_7days": 6,
+      "errors": []
+    },
+    "url": {
+      "label": "YouTube を url: で判定（他は現在と同じ）",
+      "total_7days": 28,
+      "per_day": 4.0,
+      "estimated_read_usd_per_day": 0.02,
+      "max_per_query_7days": 6,
+      "errors": []
+    },
+    "url_no_exclude": {
+      "label": "url: で判定し、除外ワードなし（除外は取得後に判定する案）",
+      "total_7days": 37,
+      "per_day": 5.3,
+      "estimated_read_usd_per_day": 0.0264,
+      "max_per_query_7days": 8,
+      "errors": []
+    },
+    "url_no_keyword": {
+      "label": "url: で判定し、キーワード条件なし（YouTube のタイトルで判定する案の上限）",
+      "total_7days": 617,
+      "per_day": 88.1,
+      "estimated_read_usd_per_day": 0.4407,
+      "max_per_query_7days": 58,
+      "errors": []
+    }
+  }
+}

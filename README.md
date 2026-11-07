@@ -43,6 +43,36 @@ SearchingTweetProject/
 - Twitter API の検索は実行しません
 - リツイートもしません
 
+### `analyze_observations.py`（Phase 0: 計測）
+本番の実行ごとに `data/observations/YYYY-MM-DD.json` へ保存される観測記録を集計します。
+
+- X API は呼び出しません（費用なし）
+- 費用の概算、取りこぼしの兆候（打ち切られた検索・上限で見送った投稿）、
+  取りすぎの兆候（ショート・同じ動画の複数告知など）を表示します
+- 観測記録にはツイート本文を保存せず、ID と判定材料だけを保存します
+
+```bash
+python analyze_observations.py --days 7
+```
+
+### `compare_query_counts.py`（Phase 0: 計測）
+検索条件の案ごとに、直近 7 日間のヒット件数だけを数えて比較します。
+
+- X API の Counts: Recent を使います（件数に関係なく 1 リクエスト $0.005）
+- `--yes` を付けない限り API は呼ばず、費用の見積もりだけを表示します
+- 手動実行専用です（GitHub Actions からは実行しません）
+
+```bash
+python compare_query_counts.py          # 見積もりのみ
+python compare_query_counts.py --yes    # 実行（213 ユーザー × 4 案で約 $0.44）
+```
+
+### `inspect_query_hits.py`（Phase 0: 計測）
+検索条件に当たる直近 7 日間の投稿を実際に取得し、`retweeted.json` と照合して取りこぼしを調べます。
+
+- 取得件数 × $0.005 の費用がかかります（`--yes` を付けない限り API は呼びません）
+- 本文は画面に表示するだけで、`data/query_inspections/` には ID と判定材料だけを保存します
+
 ### `connection_check.py`
 接続確認専用スクリプトです。
 
@@ -55,9 +85,9 @@ SearchingTweetProject/
 本プロジェクトは GitHub Actions により自動実行されます。
 
 - 実行スクリプト: `retweeting_bot.py`
-- 実行頻度: 毎日 JST 9:00
+- 実行頻度: 毎日 JST 0:00（cron `0 15 * * *` は UTC 表記）
 - 定義ファイル: `.github/workflows/retweet.yml`
-- 永続化対象: `data/*.json` のみ
+- 永続化対象: `data/` 以下（`following.json`、`retweeted.json`、`observations/`）
 
 ## 必要な Secrets
 
