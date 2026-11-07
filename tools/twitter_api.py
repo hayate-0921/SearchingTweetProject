@@ -10,6 +10,7 @@ Twitter (X) API へのアクセス機能をまとめたモジュール。
   - create_client()
   - build_search_query(...)
   - search_tweets(...)
+  - search_all_tweets(...)
   - retweet(...)
   - tweet_rate_limit_exceeded_notice(...)
 
@@ -20,7 +21,7 @@ Twitter (X) API へのアクセス機能をまとめたモジュール。
 
 from __future__ import annotations
 
-from typing import List, Optional, Sequence, Union, cast
+from typing import List, Optional, Sequence, Tuple, Union, cast
 from datetime import datetime
 import logging
 
@@ -29,6 +30,12 @@ import tweepy
 from config import load_twitter_auth, TwitterAuth, EXCLUDE_KEYWORDS
 
 logger = logging.getLogger(__name__)
+
+# 検索条件: YouTube の動画リンクを含む投稿
+YOUTUBE_URL_CONDITION = '(url:"youtube.com" OR url:"youtu.be")'
+
+# 取得するツイートの項目。entities は投稿データの一部（追加費用なし）で、展開済み URL の取得に使う。
+TWEET_FIELDS = ["id", "text", "author_id", "created_at", "entities"]
 
 
 # --------------------------------------------------------------------------
@@ -116,7 +123,9 @@ def build_search_query(
         parts.append("(" + " OR ".join(user_parts) + ")")
         
     # --- 必須条件: YouTube リンク ---
-    parts.append("""(youtu OR youtube OR "youtu.be" OR "YouTube")""")
+    # 検索 API では単語 "youtube" は本文の文字にしか当たらず、リンクだけを貼った
+    # 告知を取りこぼす（Phase 0 の調査で確認）。url: は展開済み URL に当たる。
+    parts.append(YOUTUBE_URL_CONDITION)
 
     # --- キーワード条件 ---
     if keywords:
@@ -188,8 +197,7 @@ def search_tweets(
     params = {
         "query": query,
         "max_results": max_results,
-        # entities は投稿データの一部（追加費用なし）。展開済み URL の取得に使う。
-        "tweet_fields": ["id", "text", "author_id", "created_at", "entities"],
+        "tweet_fields": TWEET_FIELDS,
     }
     if start_time:
         params["start_time"] = start_time
@@ -206,6 +214,66 @@ def search_tweets(
         return cast(tweepy.Response, resp)
 
     return getattr(resp, "data", None) or []
+
+
+def search_all_tweets(
+    client: tweepy.Client,
+    query: str,
+    start_time: Optional[datetime] = None,
+    end_time: Optional[datetime] = None,
+    page_size: int = 100,
+    max_pages: int = 10,
+) -> Tuple[List[tweepy.Tweet], dict]:
+    """
+    next_token をたどって、検索条件に当たる投稿をすべて取得する。
+
+    X API の読み取り料金は「返ってきた投稿の件数」で決まり、リクエスト回数には
+    かからないため、ページを分けても費用は変わらない。
+
+    Args:
+        client (tweepy.Client): 認証済みクライアント。
+        query (str): 検索クエリ文字列。
+        start_time / end_time (datetime | None): 検索期間（UTC）。
+        page_size (int): 1 回のリクエストで取得する件数（10〜100）。
+        max_pages (int):
+            たどるページ数の上限。想定外に大量の投稿が当たった場合に
+            費用が膨らむのを防ぐ安全装置（既定 10 ページ = 最大 1,000 件）。
+
+    Returns:
+        (List[tweepy.Tweet], dict):
+            取得した投稿と、集計情報
+            {"result_count": 件数, "pages": ページ数, "next_token": 打ち切った場合のトークン}。
+    """
+    tweets: List[tweepy.Tweet] = []
+    pages = 0
+    next_token: Optional[str] = None
+
+    while True:
+        params: dict = {
+            "query": query,
+            "max_results": page_size,
+            "tweet_fields": TWEET_FIELDS,
+        }
+        if start_time:
+            params["start_time"] = start_time
+        if end_time:
+            params["end_time"] = end_time
+        if next_token:
+            params["next_token"] = next_token
+
+        try:
+            resp = client.search_recent_tweets(**params)
+        except tweepy.TweepyException as e:
+            logger.error("search_recent_tweets に失敗しました: %s", e)
+            raise
+
+        pages += 1
+        tweets.extend(getattr(resp, "data", None) or [])
+        next_token = (getattr(resp, "meta", None) or {}).get("next_token")
+        if not next_token or pages >= max_pages:
+            break
+
+    return tweets, {"result_count": len(tweets), "pages": pages, "next_token": next_token}
 
 
 # --------------------------------------------------------------------------

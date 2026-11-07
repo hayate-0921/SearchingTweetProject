@@ -11,6 +11,9 @@ X API の Counts: Recent（GET /2/tweets/counts/recent）を使う。
   費用 = (following.json のユーザー数 ÷ 10) × 案の数 × $0.005
   例: 213 ユーザー → 22 クエリ × 4 案 = 88 リクエスト ≒ $0.44
 
+注意: Counts API は単語 "youtube" をリンク先 URL にも当てるが、検索 API は本文にしか当てない
+（Phase 0 の調査で判明）。単語で判定する条件の件数は、検索 API の結果より多く出る。
+
 手動でのみ実行する（GitHub Actions からは実行しない）。
 
 使い方:
@@ -61,8 +64,15 @@ def _excludes(words: Sequence[str]) -> str:
 # 比較する検索条件の案。キーは --variants で指定する名前。
 VARIANTS: Dict[str, tuple[str, Callable[[Sequence[str]], str]]] = {
     "current": (
-        "現在の条件（本文の単語で YouTube を判定）",
+        "現在の条件（tools/twitter_api.build_search_query）",
         lambda users: build_search_query(users, KEYWORDS),
+    ),
+    "legacy_words": (
+        "Phase 1 以前の条件（本文の単語で YouTube を判定。検索 API ではリンクに当たらない）",
+        lambda users: " ".join([
+            _users(users), YOUTUBE_WORDS, _keywords(KEYWORDS),
+            "-is:retweet -is:reply", _excludes(EXCLUDE_KEYWORDS),
+        ]),
     ),
     "url": (
         "YouTube を url: で判定（他は現在と同じ）",
@@ -92,7 +102,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="検索条件ごとのヒット件数を比較する")
     parser.add_argument("--yes", action="store_true", help="実際に API を呼ぶ（課金あり）")
     parser.add_argument(
-        "--variants", nargs="+", choices=list(VARIANTS), default=list(VARIANTS),
+        "--variants", nargs="+", choices=list(VARIANTS), default=["current", "url_no_exclude", "url_no_keyword"],
         help="比較する案（既定: すべて）",
     )
     args = parser.parse_args()

@@ -13,9 +13,15 @@ data_manager.py
 """
 
 import json
-from typing import List, Set
+from typing import Any, Dict, List, Set
 
-from .core import FOLLOWING_FILE, RETWEETED_FILE
+from .core import (
+    FOLLOWING_FILE,
+    PENDING_FILE,
+    RETWEETED_FILE,
+    RETWEETED_VIDEOS_FILE,
+    STATE_FILE,
+)
 
 
 # ----------------------------------------------------------------------
@@ -65,3 +71,62 @@ def save_retweeted_list(retweeted_ids: Set[str]) -> None:
     """
     with RETWEETED_FILE.open("w", encoding="utf-8") as f:
         json.dump(sorted(list(retweeted_ids)), f, ensure_ascii=False, indent=2)
+
+
+# ----------------------------------------------------------------------
+# 汎用 JSON 読み書き
+# ----------------------------------------------------------------------
+def _load_json(path, default: Any) -> Any:
+    if not path.exists():
+        return default
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _save_json(path, data: Any) -> None:
+    with path.open("w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+
+
+# ----------------------------------------------------------------------
+# リツイート済み動画 ID（動画単位の重複回避）
+# ----------------------------------------------------------------------
+def load_retweeted_videos() -> Dict[str, str]:
+    """
+    リツイート済みの YouTube 動画 ID を {動画 ID: リツイートしたツイート ID} で返す。
+    ファイルが存在しない場合は空の辞書を返す。
+    """
+    return {str(k): str(v) for k, v in _load_json(RETWEETED_VIDEOS_FILE, {}).items()}
+
+
+def save_retweeted_videos(videos: Dict[str, str]) -> None:
+    """リツイート済み動画 ID を動画 ID 順に保存する。"""
+    _save_json(RETWEETED_VIDEOS_FILE, dict(sorted(videos.items())))
+
+
+# ----------------------------------------------------------------------
+# 翌日に回した候補（リツイート上限超過分）
+# ----------------------------------------------------------------------
+def load_pending() -> List[Dict[str, Any]]:
+    """
+    前回の実行で上限を超えて見送った候補を返す。
+    各要素は {"tweet_id": str, "video_ids": [str], "created_at": str | None}。
+    """
+    return list(_load_json(PENDING_FILE, []))
+
+
+def save_pending(pending: List[Dict[str, Any]]) -> None:
+    _save_json(PENDING_FILE, pending)
+
+
+# ----------------------------------------------------------------------
+# 実行状態（前回どこまで検索したか）
+# ----------------------------------------------------------------------
+def load_state() -> Dict[str, Any]:
+    """{"last_searched_until_utc": ISO 8601 文字列} などの実行状態を返す。"""
+    return dict(_load_json(STATE_FILE, {}))
+
+
+def save_state(state: Dict[str, Any]) -> None:
+    _save_json(STATE_FILE, state)

@@ -26,6 +26,7 @@ from config import (
     KEYWORD_CANDIDATES,
 )
 from .core import DATA_PATH
+from .video_filter import expanded_urls as _expanded_urls
 from .youtube_url import extract_video_refs, is_youtube_url
 
 OBSERVATION_DIR = DATA_PATH / "observations"
@@ -36,17 +37,6 @@ def _matched(text: str, words: Sequence[str]) -> List[str]:
     """text に含まれる語を（大文字小文字を区別せず）返す。"""
     lowered = text.lower()
     return [w for w in words if w.lower() in lowered]
-
-
-def _expanded_urls(tweet: Any) -> List[str]:
-    """Tweet の entities.urls から展開済み URL を取り出す。"""
-    entities = getattr(tweet, "entities", None) or {}
-    urls = []
-    for u in entities.get("urls", []) or []:
-        expanded = u.get("unwound_url") or u.get("expanded_url") or u.get("url")
-        if expanded:
-            urls.append(expanded)
-    return urls
 
 
 class RunRecorder:
@@ -63,8 +53,8 @@ class RunRecorder:
     def __init__(
         self,
         account_label: str,
-        start_time: datetime,
-        end_time: datetime,
+        start_time: Optional[datetime],
+        end_time: Optional[datetime],
         keywords: Sequence[str],
         total_queries: int = 0,
     ) -> None:
@@ -73,14 +63,15 @@ class RunRecorder:
             "account": account_label,
             "started_at": self.started_at.isoformat(),
             "search_window": {
-                "start_utc": start_time.isoformat(),
-                "end_utc": end_time.isoformat(),
+                "start_utc": start_time.isoformat() if start_time else None,
+                "end_utc": end_time.isoformat() if end_time else None,
             },
             "keywords": list(keywords),
             "exclude_keywords": list(EXCLUDE_KEYWORDS),
             "total_queries": total_queries,
             "searches": [],
             "tweets": [],
+            "pending_processed": [],
         }
         self._tweet_index: Dict[str, Dict[str, Any]] = {}
 
@@ -109,6 +100,7 @@ class RunRecorder:
                 "usernames": list(usernames),
                 "query_length": len(query),
                 "result_count": meta.get("result_count", len(tweets)),
+                "pages": meta.get("pages", 1),
                 "truncated": bool(meta.get("next_token")),
             }
         )
@@ -148,11 +140,11 @@ class RunRecorder:
         ツイートの処理結果を記録する。
 
         decision の値:
-          - "retweeted"        : リツイートした
-          - "already_retweeted": 過去にリツイート済みのため見送り
-          - "limit_reached"    : 1 日の上限に達したため見送り（翌日にも回らない）
-          - "failed"           : リツイートに失敗
-          - "not_processed"    : 上限到達で処理ループが終了し、判定されなかった
+          - "retweeted"          : リツイートした
+          - "failed"             : リツイートに失敗
+          - "pending"            : 上限を超えたため翌日に回した
+          - "rejected:<理由>"     : 判定で除外（理由は tools/video_filter.py を参照）
+          - "not_processed"      : 判定まで進まなかった（途中でエラーなど）
         """
         record = self._tweet_index.get(str(tweet_id))
         if record is None:
@@ -161,21 +153,46 @@ class RunRecorder:
         if detail:
             record["detail"] = detail
 
+    def set_video(self, tweet_id: str, video_id: Optional[str]) -> None:
+        """判定で採用・除外の根拠になった代表の動画 ID を記録する。"""
+        record = self._tweet_index.get(str(tweet_id))
+        if record is not None and video_id:
+            record["judged_video_id"] = video_id
+
+    def add_pending_result(self, entry: Dict[str, Any], decision: str, detail: str | None = None) -> None:
+        """前回の実行から持ち越した候補の処理結果を記録する。"""
+        item = {
+            "id": str(entry.get("tweet_id")),
+            "video_ids": list(entry.get("video_ids", [])),
+            "decision": decision,
+        }
+        if detail:
+            item["detail"] = detail
+        self.run["pending_processed"].append(item)
+
     # ------------------------------------------------------------
     def summary(self) -> Dict[str, Any]:
         searches = self.run["searches"]
         tweets = self.run["tweets"]
         posts_read = sum(s["result_count"] or 0 for s in searches)
-        retweets = sum(1 for t in tweets if t["decision"] == "retweeted")
+        pending_done = self.run["pending_processed"]
+        retweets = sum(1 for t in tweets if t["decision"] == "retweeted") + sum(
+            1 for p in pending_done if p["decision"] == "retweeted"
+        )
+        rejected: Dict[str, int] = {}
+        for t in tweets:
+            if t["decision"].startswith("rejected:"):
+                reason = t["decision"].split(":", 1)[1]
+                rejected[reason] = rejected.get(reason, 0) + 1
         return {
             "search_requests": len(searches),
             "queries_not_executed": max(self.run["total_queries"] - len(searches), 0),
             "posts_read": posts_read,
             "truncated_searches": sum(1 for s in searches if s["truncated"]),
             "retweets": retweets,
-            "limit_reached_tweets": sum(
-                1 for t in tweets if t["decision"] in ("limit_reached", "not_processed")
-            ),
+            "pending_tweets": sum(1 for t in tweets if t["decision"] == "pending"),
+            "pending_processed": len(pending_done),
+            "rejected_by_reason": rejected,
             "estimated_cost_usd": {
                 "post_read": round(posts_read * COST_POST_READ_USD, 4),
                 "retweet": round(retweets * COST_RETWEET_USD, 4),

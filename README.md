@@ -14,34 +14,69 @@ SearchingTweetProject/
 ├── README.md
 ├── config.py
 ├── connection_check.py
+├── analyze_observations.py
+├── compare_query_counts.py
+├── inspect_query_hits.py
 ├── data/
-│   ├── following.json
-│   └── retweeted.json
+│   ├── following.json          # 検索対象のアカウント
+│   ├── retweeted.json          # リツイート済みのツイート ID
+│   ├── retweeted_videos.json   # リツイート済みの YouTube 動画 ID → ツイート ID
+│   ├── pending.json            # 上限超過で翌日に回した候補（実行時に作成）
+│   ├── state.json              # 前回どこまで検索したか（実行時に作成）
+│   ├── observations/           # 実行ごとの観測記録
+│   ├── query_counts/           # compare_query_counts.py の結果
+│   └── query_inspections/      # inspect_query_hits.py の結果
 ├── requirements.txt
 ├── retweeting_bot.py
 ├── test.py
+├── tests/
+│   └── test_phase12.py
 └── tools/
     ├── __init__.py
     ├── core.py
     ├── data_manager.py
-    └── twitter_api.py
+    ├── observation.py
+    ├── twitter_api.py
+    ├── video_filter.py
+    └── youtube_url.py
 ```
 
 ## 実行スクリプト
 
 ### `retweeting_bot.py`
-本番用スクリプトです。
+本番用スクリプトです。処理の流れは次のとおりです。
 
-- Twitter API の検索を実行します
-- 条件に一致したツイートをリツイートします
-- `data/retweeted.json` を更新します
+1. 前回の実行で翌日に回した候補（`pending.json`）を先に処理する
+2. 前回検索した終わりの時刻〜本日 0:00（JST）を、全クエリ・全ページ検索する
+   - YouTube リンクは `url:"youtube.com" OR url:"youtu.be"` で判定する
+     （検索 API では単語 `youtube` は本文にしか当たらず、リンクだけの告知を取りこぼすため）
+   - 実行が失敗した日があっても、次の実行で続きから検索する（最大 7 日）
+3. 取得後に判定する（`tools/video_filter.py`）
+   - ショート（`/shorts/` リンク）、配信（`/live/` リンクのみ）、除外ワードを含む投稿を除外
+   - 同じ動画は 1 回だけリツイートする（過去にリツイート済みの動画、同じ実行内の 2 件目以降を除外）
+   - 同じ動画の告知が複数あれば、いちばん早い投稿を採用する
+4. 投稿時刻の早い順にリツイートし、上限（`RETWEET_LIMIT`）を超えた分は `pending.json` に回す
+5. リツイート済み ID・動画 ID・実行状態・観測記録を保存する
+
+```bash
+python retweeting_bot.py            # 本番
+python retweeting_bot.py --dry-run  # 検索と判定だけ（リツイート・保存なし。読み取り費用はかかる）
+```
 
 ### `test.py`
-クエリ確認用の dry-run スクリプトです。
+クエリ確認用のスクリプトです。
 
-- 検索クエリ文字列だけを生成します
+- 検索クエリ文字列だけを生成します（本番と同じ関数を使用）
 - Twitter API の検索は実行しません
 - リツイートもしません
+
+### `tests/`（自動テスト）
+X API を呼ばずに、判定ロジックと Bot 全体の流れを確認します。
+直近 7 日間の実データ 37 件（本文なし）を使い、新作 16 本だけが残ることを確かめます。
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 ### `analyze_observations.py`（Phase 0: 計測）
 本番の実行ごとに `data/observations/YYYY-MM-DD.json` へ保存される観測記録を集計します。

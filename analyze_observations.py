@@ -51,7 +51,14 @@ def analyze(runs: List[Dict[str, Any]]) -> Dict[str, Any]:
     # --- 取りこぼしの兆候 ---
     truncated = [s for s in searches if s.get("truncated")]
     not_executed = sum(r.get("summary", {}).get("queries_not_executed", 0) for r in runs)
-    limit_dropped = [t for t in tweets if t.get("decision") in ("limit_reached", "not_processed")]
+    limit_dropped = [
+        t for t in tweets if t.get("decision") in ("limit_reached", "not_processed", "pending")
+    ]
+    rejected_reasons = Counter(
+        str(t["decision"]).split(":", 1)[1]
+        for t in tweets
+        if str(t.get("decision", "")).startswith("rejected:")
+    )
 
     # --- 取りすぎの兆候 ---
     no_youtube = [t for t in tweets if not t.get("has_youtube_url")]
@@ -111,6 +118,7 @@ def analyze(runs: List[Dict[str, Any]]) -> Dict[str, Any]:
                 v: [t["url"] for t in ts] for v, ts in dup_retweets.items()
             },
         },
+        "rejected_by_reason": dict(rejected_reasons.most_common()),
         "keywords": {
             "hits": dict(keyword_hits.most_common()),
             "tweets_without_any_candidate_keyword": len(no_keyword),
@@ -139,11 +147,11 @@ def print_report(rep: Dict[str, Any]) -> None:
     print(f"  うちリツイート分  : {c['retweet_share'] * 100:.1f}%")
 
     print("\n■ 取りこぼしの兆候")
-    print(f"  上限 10 件で打ち切られた検索 : {o['truncated_searches']} 回")
+    print(f"  件数上限で打ち切られた検索   : {o['truncated_searches']} 回")
     if o["truncated_search_users"]:
         print(f"    対象ユーザー例: {o['truncated_search_users'][:10]}")
     print(f"  リツイート上限で未実行の検索 : {o['queries_not_executed_due_to_limit']} 回")
-    print(f"  リツイート上限で見送った投稿 : {o['tweets_dropped_by_limit']} 件（翌日にも回らない）")
+    print(f"  リツイート上限で見送った投稿 : {o['tweets_dropped_by_limit']} 件（Phase 1 以降は翌日に回す）")
 
     print("\n■ 取りすぎの兆候")
     print(f"  取得した投稿          : {f['tweets_total']} 件（動画の種類 {f['unique_videos']} 本）")
@@ -154,6 +162,11 @@ def print_report(rep: Dict[str, Any]) -> None:
     print(f"  live 形式のリンク     : {f['tweets_with_live_url']} 件（配信・プレミア）")
     print(f"  複数回告知された動画  : {f['videos_announced_multiple_times']} 本")
     print(f"  複数回リツイートした動画: {len(f['videos_retweeted_multiple_times'])} 本")
+
+    if rep["rejected_by_reason"]:
+        print("\n■ 判定で除外した投稿（Phase 2）")
+        for reason, n in rep["rejected_by_reason"].items():
+            print(f"  {reason:<24} {n} 件")
 
     print("\n■ 本文に含まれていた語（取得した投稿のうち）")
     for word, n in k["hits"].items():

@@ -17,6 +17,9 @@ LOG_PATH = Path(LOG_DIR)
 
 FOLLOWING_FILE = DATA_PATH / "following.json"
 RETWEETED_FILE = DATA_PATH / "retweeted.json"
+RETWEETED_VIDEOS_FILE = DATA_PATH / "retweeted_videos.json"  # リツイート済みの YouTube 動画 ID
+PENDING_FILE = DATA_PATH / "pending.json"  # 上限超過で翌日に回した候補
+STATE_FILE = DATA_PATH / "state.json"  # 前回どこまで検索したか
 RETWEET_LOG_FILE = LOG_PATH / "retweeting.log"
 
 # --- ディレクトリ初期化 ---
@@ -113,3 +116,40 @@ def get_previous_day_range_utc() -> tuple[datetime, datetime]:
     end_utc = end_jst.astimezone(timezone.utc)
 
     return start_utc, end_utc
+
+
+# ------------------------------------------------------------
+# 検索期間の決定（Phase 1）
+# ------------------------------------------------------------
+def get_search_window_utc(
+    last_searched_until: datetime | None,
+    now: datetime | None = None,
+    max_lookback_days: int = 7,
+) -> tuple[datetime, datetime] | None:
+    """
+    今回の検索期間 (start, end) を UTC で返す。
+
+    - end   : 日本時間の「本日 0:00」
+    - start : 前回の実行で検索した終わりの時刻。記録がなければ日本時間の「昨日 0:00」
+    - 検索 API は 7 日より前を検索できないため、start は (現在 - max_lookback_days + 5 分) 以降に切り詰める
+    - 今日すでに検索済み（start >= end）の場合は None を返す
+
+    実行が失敗した日があっても、次の実行で前回の続きから検索するため取りこぼさない。
+    """
+    JST = timezone(timedelta(hours=9))
+    now = now or datetime.now(timezone.utc)
+    today = now.astimezone(JST).date()
+    end = datetime(today.year, today.month, today.day, tzinfo=JST).astimezone(timezone.utc)
+
+    if last_searched_until is None:
+        start = end - timedelta(days=1)
+    else:
+        start = last_searched_until.astimezone(timezone.utc)
+
+    earliest = now - timedelta(days=max_lookback_days) + timedelta(minutes=5)
+    if start < earliest:
+        start = earliest
+
+    if start >= end:
+        return None
+    return start, end

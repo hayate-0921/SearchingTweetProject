@@ -122,8 +122,10 @@ EXCLUDE_KEYWORDS = ["万再生", "万回再生", "short", "shorts"]   # 除外�
 # 全体共通定数
 MAX_USERS_PER_SEARCH = 10                        # 一度に検索するユーザー数
 LOOKBACK_DAYS = 1                               # 遡る日数
-RETWEET_LIMIT = 10                               # 1日あたりのリツイート上限
-MAX_TWEETS_PER_SEARCH = 10                      # 一度の検索で取得する最大ツイート数
+RETWEET_LIMIT = 30                               # 1回の実行あたりのリツイート上限（超えた分は翌日に回す。暴走防止の安全装置）
+MAX_TWEETS_PER_SEARCH = 100                     # 1 リクエストで取得する件数（続きのページも読む。料金は件数のみで決まる）
+MAX_PAGES_PER_SEARCH = 10                       # 1 クエリでたどるページ数の上限（想定外の大量ヒット時の費用対策）
+MAX_LOOKBACK_DAYS = 7                           # 前回の実行から遡る最大日数（検索 API の上限が 7 日）
 
 # ------------------------------------------------------------
 # Phase 0（計測）用の設定
