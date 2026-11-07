@@ -20,7 +20,7 @@ from __future__ import annotations
 import argparse
 import sys
 import traceback
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Sequence, Tuple
 
 from config import (
@@ -235,6 +235,8 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
             f"判定結果: 取得 {len(set(str(t.id) for t in collected))} 件 → "
             f"採用 {len(accepted)} 件 / 除外 {len(rejected)} 件",
         )
+        if dry_run:
+            _print_judgements(accepted, rejected)
 
         # ----------------------------------------------------
         # リツイート（持ち越し分 → 今回分の順。上限超過分は翌日へ）
@@ -332,6 +334,27 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
     finally:
         if run_status != "error":
             _finish_observation(recorder, run_status, save=not dry_run)
+
+
+def _print_judgements(accepted: List[Judgement], rejected: List[Judgement]) -> None:
+    """dry-run 用: 判定結果を 1 件ずつ画面に表示する（本文は先頭だけ。ファイルには残さない）。"""
+    jst = timezone(timedelta(hours=9))
+
+    def line(j: Judgement, label: str) -> str:
+        when = j.created_at.astimezone(jst).strftime("%m/%d %H:%M") if j.created_at else "--"
+        text = (getattr(j.tweet, "text", "") or "").replace("\n", " ")[:60]
+        return (
+            f"  [{label}] {when} https://x.com/i/status/{j.tweet_id}"
+            f" video={j.video_id or '-'}\n        {text}"
+        )
+
+    print("\n--- リツイートする予定（投稿時刻の早い順） ---")
+    for j in accepted:
+        print(line(j, "採用"))
+    print("\n--- 除外 ---")
+    for j in rejected:
+        print(line(j, j.reason))
+    print()
 
 
 def _finish_observation(recorder: RunRecorder | None, status: str, save: bool = True) -> None:
