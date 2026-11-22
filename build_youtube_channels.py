@@ -3,6 +3,7 @@ build_youtube_channels.py
 =========================
 Phase 3: にじさんじ公式サイトのタレント情報から、
 X の username → YouTube チャンネル ID の対応表（data/youtube_channels.json）を作る。
+あわせて、データベース（data/bot.db）の対象者マスタに表示名・公式サイトの識別子を入れる。
 
 - 対象は following.json に入っているアカウントだけ（ユニット・公式アカウントは対応なし）
 - following.json に入っていないタレントがいれば、一覧を表示する（追加漏れの確認用）
@@ -23,8 +24,10 @@ import re
 import sys
 import time
 import urllib.request
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
+from tools import database
 from tools.data_manager import load_following_list, load_youtube_channels, save_youtube_channels
 
 SITE = "https://www.nijisanji.jp"
@@ -94,6 +97,7 @@ def main() -> None:
     print(f"公式サイトのタレント: {len(talents)} 人")
 
     channels: Dict[str, str] = {}
+    profiles: List[Dict[str, str]] = []
     not_following: List[str] = []
     unresolved: List[str] = []
     for t in talents:
@@ -115,6 +119,7 @@ def main() -> None:
             continue
         for u in users:
             channels[u] = cid
+            profiles.append({"x_username": u, "name": t["name"], "slug": t["slug"], "youtube_channel_id": cid})
 
     old = load_youtube_channels()
     print(f"対応表: {len(channels)} 件（前回 {len(old)} 件）")
@@ -137,6 +142,16 @@ def main() -> None:
         sys.exit(1)
     save_youtube_channels(channels)
     print("\ndata/youtube_channels.json を保存しました。")
+
+    now = datetime.now(timezone.utc)
+    conn = database.connect()
+    try:
+        with conn:
+            database.sync_targets(conn, following, channels, now)
+            n = database.update_profiles(conn, profiles, now)
+    finally:
+        conn.close()
+    print(f"data/bot.db の対象者マスタに {n} 人の表示名を入れました。")
 
 
 if __name__ == "__main__":

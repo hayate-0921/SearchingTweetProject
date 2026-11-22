@@ -12,6 +12,8 @@ retweeting_bot.py
   4. 取得後に判定する（ショート・配信・リツイート済みの動画・同じ動画の重複を除外）
   5. 投稿時刻の早い順にリツイートし、上限を超えた分は pending.json に回す
   6. リツイート済み ID・動画 ID・実行状態・監視中の動画・観測記録を保存する
+  7. 対象者・歌ってみた動画・リツイートした告知・実行の概要を data/bot.db に記録する
+     （tools/database.py。記録に失敗してもリツイートには影響しない）
 
 本モジュールは「1 Twitter アカウント分のリツイート処理」を
 1 タスクとして完結させる設計を採用している。
@@ -73,10 +75,11 @@ from tools.twitter_api import (
     retweet,
 )
 
+from tools import database
 from tools.observation import RunRecorder
 from tools.video_filter import Judgement, select_candidates
 from tools import youtube_fallback as yf
-from tools.youtube_feed import fetch_feeds
+from tools.youtube_feed import fetch_feeds, is_cover_title
 
 
 # ------------------------------------------------------------
@@ -178,6 +181,8 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
 
     recorder: RunRecorder | None = None
     run_status = "error"
+    # データベースに記録する内容（歌ってみた動画・リツイートした告知）
+    ledger: Dict[str, List[Dict[str, Any]]] = {"cover_videos": [], "retweets": []}
 
     try:
         keywords, keywords_name = resolve_keywords(suffix)
@@ -238,10 +243,11 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
         # ----------------------------------------------------
         youtube_watch = None
         if window is not None and YOUTUBE_FALLBACK_ENABLED:
-            youtube_watch, found = run_youtube_fallback(
+            youtube_watch, found, cover_videos = run_youtube_fallback(
                 client, recorder, collected, set(retweeted_videos), end_time
             )
             collected.extend(found)
+            ledger["cover_videos"] = cover_videos
 
         # ----------------------------------------------------
         # 判定（ショート・配信・リツイート済み動画・重複を除外）
@@ -272,10 +278,13 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
         for entry in pending:
             queue.append(("pending", entry, None))
         for j in accepted:
+            author_id = getattr(j.tweet, "author_id", None)
             entry = {
                 "tweet_id": j.tweet_id,
                 "video_ids": j.video_ids,
                 "created_at": j.created_at.isoformat() if j.created_at else None,
+                "author_id": str(author_id) if author_id else None,
+                "found_by": _found_by(recorder.source_of(j.tweet_id)),
             }
             queue.append(("new", entry, j))
 
@@ -316,6 +325,16 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
                     retweeted_videos[v] = tid
                 total_retweets += 1
                 record("retweeted")
+                if video_ids:
+                    ledger["retweets"].append(
+                        {
+                            "tweet_id": tid,
+                            "video_id": video_ids[0],
+                            "author_id": entry.get("author_id"),
+                            "found_by": entry.get("found_by"),
+                            "retweeted_at": datetime.now(timezone.utc),
+                        }
+                    )
                 preview = ""
                 if j is not None and getattr(j.tweet, "text", None):
                     preview = j.tweet.text.replace("\n", " ")[:50]
@@ -362,11 +381,15 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
         log_message(RETWEET_LOG_FILE, f"[FATAL] 例外内容: {e}")
         log_message(RETWEET_LOG_FILE, "[FATAL] Traceback:\n" + traceback.format_exc())
         _finish_observation(recorder, run_status, save=not dry_run)
+        if not dry_run:
+            _record_database(recorder, ledger)
         sys.exit(1)
 
     finally:
         if run_status != "error":
             _finish_observation(recorder, run_status, save=not dry_run)
+            if not dry_run:
+                _record_database(recorder, ledger)
 
 
 def run_youtube_fallback(
@@ -375,7 +398,7 @@ def run_youtube_fallback(
     collected: List[Any],
     retweeted_videos: set,
     end_time: datetime,
-) -> Tuple[Dict[str, Dict[str, Any]] | None, List[Any]]:
+) -> Tuple[Dict[str, Dict[str, Any]] | None, List[Any], List[Dict[str, Any]]]:
     """
     Phase 3: YouTube の RSS で歌ってみたを見つけ、通常の検索で告知が見つからなかった動画について
     X で本人の告知を探す。
@@ -384,14 +407,15 @@ def run_youtube_fallback(
     例外はここで受け止めてログに残す。
 
     Returns:
-        (更新後の監視リスト（保存は呼び出し側）, 見つかった告知の投稿)
-        対応表がない・失敗した場合は (None, [])。
+        (更新後の監視リスト（保存は呼び出し側）, 見つかった告知の投稿, RSS で見つけた歌ってみた)
+        対応表がない・失敗した場合は (None, [], [])。
+        3 つめはデータベースへの記録用（期限内・ショート以外・タイトルが歌ってみた）。
     """
     try:
         channels = load_youtube_channels()
         if not channels:
             log_message(RETWEET_LOG_FILE, "[YOUTUBE] data/youtube_channels.json がないため省略します。")
-            return None, []
+            return None, [], []
 
         now = datetime.now(timezone.utc)
         watch = load_youtube_watch()
@@ -410,6 +434,22 @@ def run_youtube_fallback(
             YOUTUBE_EXCLUDE_TITLE_PATTERN,
             YOUTUBE_WATCH_DAYS,
         )
+
+        limit = now - timedelta(days=YOUTUBE_WATCH_DAYS)
+        cover_videos = [
+            {
+                "video_id": v.video_id,
+                "x_username": channel_to_user[v.channel_id],
+                "channel_id": v.channel_id,
+                "title": v.title,
+                "published_at": v.published,
+            }
+            for v in videos
+            if not v.is_short
+            and v.published >= limit
+            and v.channel_id in channel_to_user
+            and is_cover_title(v.title, YOUTUBE_COVER_TITLE_PATTERN, YOUTUBE_EXCLUDE_TITLE_PATTERN)
+        ]
 
         # 通常の検索で告知が見つかった動画は探さない
         handled = set()
@@ -461,12 +501,19 @@ def run_youtube_fallback(
             log_message(RETWEET_LOG_FILE, f"[YOUTUBE] RSS の取得に失敗: {list(errors.items())[:5]}")
         if skipped:
             log_message(RETWEET_LOG_FILE, f"[YOUTUBE] 上限のため次回に回したタレント: {skipped}")
-        return watch, found
+        return watch, found, cover_videos
 
     except Exception as e:  # noqa: BLE001
         log_message(RETWEET_LOG_FILE, f"[WARN] YouTube を起点にした検索に失敗しました（通常の処理は続けます）: {e}")
         log_message(RETWEET_LOG_FILE, traceback.format_exc(), print_to_console=False)
-        return None, []
+        return None, [], []
+
+
+def _found_by(source: str | None) -> str | None:
+    """観測記録の検索の種類を、データベースの found_by（keyword / youtube_url / full_scan）にする。"""
+    if not source:
+        return None
+    return source.split(":", 1)[-1]
 
 
 def _print_judgements(accepted: List[Judgement], rejected: List[Judgement]) -> None:
@@ -506,6 +553,33 @@ def _finish_observation(recorder: RunRecorder | None, status: str, save: bool = 
         log_message(RETWEET_LOG_FILE, f"[OBSERVATION] 概要: {recorder.summary()}")
     except Exception as e:  # noqa: BLE001
         log_message(RETWEET_LOG_FILE, f"[WARN] 観測記録の保存に失敗: {e}")
+
+
+def _record_database(recorder: RunRecorder | None, ledger: Dict[str, List[Dict[str, Any]]]) -> None:
+    """
+    実行の記録を data/bot.db に保存する（_finish_observation の後に呼ぶ）。
+
+    記録用のため、失敗してもリツイートや JSON の保存には影響させない。
+    """
+    if recorder is None or "status" not in recorder.run:
+        return
+    try:
+        result = database.record_execution(
+            run=recorder.run,
+            summary=recorder.run.get("summary") or recorder.summary(),
+            following=load_following_list(),
+            channels=load_youtube_channels(),
+            cover_videos=ledger.get("cover_videos", []),
+            retweets=ledger.get("retweets", []),
+        )
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[DATABASE] run_id={result['run_id']} / 新しい歌ってみた {result['new_cover_videos']} 本 / "
+            f"告知 {result['new_announce_tweets']} 件を記録",
+        )
+    except Exception as e:  # noqa: BLE001
+        log_message(RETWEET_LOG_FILE, f"[WARN] データベースへの記録に失敗: {e}")
+        log_message(RETWEET_LOG_FILE, traceback.format_exc(), print_to_console=False)
 
 
 # ------------------------------------------------------------

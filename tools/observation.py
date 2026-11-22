@@ -166,6 +166,13 @@ class RunRecorder:
         if record is not None and video_id:
             record["judged_video_id"] = video_id
 
+    def source_of(self, tweet_id: str) -> Optional[str]:
+        """投稿を見つけた検索の種類（"keyword" / "youtube:youtube_url" / "youtube:full_scan"）。"""
+        record = self._tweet_index.get(str(tweet_id))
+        if record is None:
+            return None
+        return self.run["searches"][record["search_index"]].get("source", "keyword")
+
     def set_youtube(self, info: Dict[str, Any]) -> None:
         """Phase 3（YouTube を起点にした告知探し）の結果を記録する。"""
         self.run["youtube"] = info

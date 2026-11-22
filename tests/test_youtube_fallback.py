@@ -268,7 +268,7 @@ class TestBotWithYouTube(unittest.TestCase):
     def setUp(self):
         import retweeting_bot as rb
 
-        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json", "youtube_watch.json"]:
+        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json", "youtube_watch.json", "bot.db"]:
             p = Path("data") / name
             if p.exists():
                 p.unlink()
@@ -340,6 +340,32 @@ class TestBotWithYouTube(unittest.TestCase):
         recorded = {t["id"] for t in run["tweets"]}
         self.assertNotIn("103", recorded)  # 無関係な投稿は記録しない
 
+        # データベース（data/bot.db）にも記録される
+        import sqlite3
+
+        conn = sqlite3.connect("data/bot.db")
+        try:
+            videos = dict(conn.execute("SELECT video_id, x_username FROM cover_videos").fetchall())
+            self.assertEqual(
+                videos,
+                {"Ss_Jj35EG18": "Hibachi_Mana", "H40xNZL_q2Q": "ScarleYonaguni", "tjROC5CQmAo": "Kanae_2434"},
+            )
+            tweets = {
+                r[0]: r[1:]
+                for r in conn.execute("SELECT tweet_id, video_id, x_username, found_by FROM announce_tweets")
+            }
+            self.assertEqual(
+                tweets,
+                {
+                    "100": ("tjROC5CQmAo", "Kanae_2434", "keyword"),
+                    "101": ("Ss_Jj35EG18", "Hibachi_Mana", "youtube_url"),
+                    "102": ("H40xNZL_q2Q", "ScarleYonaguni", "full_scan"),
+                },
+            )
+            status, retweets = conn.execute("SELECT status, retweets FROM runs").fetchone()
+            self.assertEqual((status, retweets), ("completed", 3))
+        finally:
+            conn.close()
 
     def test_youtube_failure_does_not_stop_bot(self):
         def broken(ids, workers, timeout):

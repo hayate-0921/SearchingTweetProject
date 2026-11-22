@@ -3,6 +3,8 @@
 Twitter/X API を利用して、指定ユーザーの投稿から条件に合うものを検索し、
 自動でリツイートする Bot プロジェクトです。
 
+扱うデータの設計は [docs/data_design.md](docs/data_design.md) にまとめています。
+
 ## 現在のファイル構成
 
 ```text
@@ -10,6 +12,7 @@ SearchingTweetProject/
 ├── .github/
 │   └── workflows/
 │       └── retweet.yml
+├── .gitattributes
 ├── .gitignore
 ├── README.md
 ├── config.py
@@ -17,8 +20,10 @@ SearchingTweetProject/
 ├── analyze_observations.py
 ├── build_youtube_channels.py
 ├── compare_query_counts.py
+├── init_database.py
 ├── inspect_query_hits.py
 ├── data/
+│   ├── bot.db                  # 記録用データベース（SQLite。対象者・歌ってみた・告知・実行記録）
 │   ├── following.json          # 検索対象のアカウント
 │   ├── retweeted.json          # リツイート済みのツイート ID
 │   ├── retweeted_videos.json   # リツイート済みの YouTube 動画 ID → ツイート ID
@@ -29,15 +34,19 @@ SearchingTweetProject/
 │   ├── observations/           # 実行ごとの観測記録
 │   ├── query_counts/           # compare_query_counts.py の結果
 │   └── query_inspections/      # inspect_query_hits.py の結果
+├── docs/
+│   └── data_design.md          # データ設計
 ├── requirements.txt
 ├── retweeting_bot.py
 ├── test.py
 ├── tests/
+│   ├── test_database.py
 │   ├── test_phase12.py
 │   └── test_youtube_fallback.py
 └── tools/
     ├── __init__.py
     ├── core.py
+    ├── database.py
     ├── data_manager.py
     ├── observation.py
     ├── twitter_api.py
@@ -66,6 +75,8 @@ SearchingTweetProject/
 4. YouTube を起点に、取りこぼした告知を探し直す（Phase 3。下記）
 5. 投稿時刻の早い順にリツイートし、上限（`RETWEET_LIMIT`）を超えた分は `pending.json` に回す
 6. リツイート済み ID・動画 ID・実行状態・監視中の動画・観測記録を保存する
+7. 対象者・歌ってみた動画・リツイートした告知・実行の概要を `data/bot.db` に記録する
+   （記録に失敗してもリツイートには影響しない）
 
 #### Phase 3: YouTube を起点にした取りこぼし対策
 通常の検索（キーワード + YouTube リンク）では、次の告知を取りこぼすことがあります。
@@ -98,11 +109,25 @@ python retweeting_bot.py --dry-run  # 検索と判定だけ（リツイート・
 （X の username → YouTube チャンネル ID）を作ります。X API は呼びません。
 `following.json` に入っていないタレントがいれば一覧を表示するので、追加漏れの確認にも使えます。
 新しいタレントがデビューしたときなど、`following.json` を更新したら実行し直してください。
+あわせて、`data/bot.db` の対象者マスタに表示名を入れます。
 
 ```bash
 python build_youtube_channels.py            # 対応表を作って保存
 python build_youtube_channels.py --dry-run  # 保存せずに結果だけ表示
 ```
+
+### `init_database.py`（データベースの作成）
+`data/bot.db` を作り、これまでの観測記録と `retweeted_videos.json` を取り込みます（最初に 1 回だけ）。
+X API・YouTube は呼びません。以後は `retweeting_bot.py` が実行のたびに記録します。
+テーブルの内容と集計の例は [docs/data_design.md](docs/data_design.md) を参照してください。
+
+```bash
+python init_database.py          # data/bot.db がなければ作る
+python init_database.py --force  # 作り直す
+```
+
+`bot.db` はバイナリのため、GitHub Actions の更新とぶつかると自動でマージできません。
+ローカルでは本番の実行（dry-run 以外）をしないでください。
 
 ### `test.py`
 クエリ確認用のスクリプトです。
@@ -163,7 +188,7 @@ python compare_query_counts.py --yes    # 実行（213 ユーザー × 4 案で�
 - 実行スクリプト: `retweeting_bot.py`
 - 実行頻度: 毎日 JST 0:00（cron `0 15 * * *` は UTC 表記）
 - 定義ファイル: `.github/workflows/retweet.yml`
-- 永続化対象: `data/` 以下（`following.json`、`retweeted.json`、`observations/`）
+- 永続化対象: `data/` 以下（JSON・`observations/`・`bot.db`）。実行後にリポジトリへコミットされる
 
 ## 必要な Secrets
 

@@ -184,7 +184,7 @@ class TestBotRun(unittest.TestCase):
     def setUp(self):
         import retweeting_bot as rb
 
-        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json"]:
+        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json", "bot.db"]:
             path = Path("data") / name
             if path.exists():
                 path.unlink()
@@ -242,7 +242,7 @@ class TestBotRun(unittest.TestCase):
     def test_dry_run_saves_nothing(self):
         self.rb.run_retweet_task(dry_run=True)
         self.assertEqual(self.calls["retweet"], [])
-        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json"]:
+        for name in ["retweeted.json", "retweeted_videos.json", "pending.json", "state.json", "bot.db"]:
             self.assertFalse((Path("data") / name).exists(), name)
         self.assertFalse(Path("data/observations").exists())
 

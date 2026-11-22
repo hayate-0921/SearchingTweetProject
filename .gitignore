@@ -37,3 +37,8 @@ pytest_cache/
 
 # ログ
 logs/*.log
+
+# SQLite の一時ファイル
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
