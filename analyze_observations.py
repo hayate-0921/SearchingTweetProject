@@ -83,6 +83,16 @@ def analyze(runs: List[Dict[str, Any]]) -> Dict[str, Any]:
     retweet_cost = len(retweeted) * COST_RETWEET_USD
     read_cost = posts_read * COST_POST_READ_USD
 
+    # --- Phase 3（YouTube を起点にした告知探し） ---
+    yt_runs = [r for r in runs if r.get("youtube")]
+    yt_tweets = []
+    for r in runs:
+        sources = {s["index"]: s.get("source", "keyword") for s in r.get("searches", [])}
+        yt_tweets += [
+            t for t in r.get("tweets", []) if str(sources.get(t.get("search_index"), "")).startswith("youtube")
+        ]
+    yt_searches = [s for s in searches if str(s.get("source", "")).startswith("youtube")]
+
     return {
         "period": sorted({r["_file"][:-5] for r in runs}),
         "runs": n_runs,
@@ -117,6 +127,16 @@ def analyze(runs: List[Dict[str, Any]]) -> Dict[str, Any]:
             "videos_retweeted_multiple_times": {
                 v: [t["url"] for t in ts] for v, ts in dup_retweets.items()
             },
+        },
+        "youtube_fallback": {
+            "runs": len(yt_runs),
+            "feed_errors": sum(r["youtube"].get("feed_errors", 0) for r in yt_runs),
+            "videos_added_to_watch": sum(len(r["youtube"].get("added_to_watch", [])) for r in yt_runs),
+            "search_requests": len(yt_searches),
+            "full_scans": sum(1 for s in yt_searches if s.get("source") == "youtube:full_scan"),
+            "posts_read": sum(s.get("result_count") or 0 for s in yt_searches),
+            "found_videos": sorted({v for r in yt_runs for v in r["youtube"].get("found_videos", [])}),
+            "retweeted": [t["url"] for t in yt_tweets if t.get("decision") == "retweeted"],
         },
         "rejected_by_reason": dict(rejected_reasons.most_common()),
         "keywords": {
@@ -162,6 +182,18 @@ def print_report(rep: Dict[str, Any]) -> None:
     print(f"  live 形式のリンク     : {f['tweets_with_live_url']} 件（配信・プレミア）")
     print(f"  複数回告知された動画  : {f['videos_announced_multiple_times']} 本")
     print(f"  複数回リツイートした動画: {len(f['videos_retweeted_multiple_times'])} 本")
+
+    y = rep["youtube_fallback"]
+    if y["runs"]:
+        print("\n■ YouTube を起点にした告知探し（Phase 3）")
+        print(f"  実行回数              : {y['runs']} 回（RSS の取得失敗 {y['feed_errors']} 件）")
+        print(f"  見つけた歌ってみた    : {y['videos_added_to_watch']} 本")
+        print(f"  X の検索              : {y['search_requests']} 回（うち全件読み {y['full_scans']} 回）")
+        print(f"  読み取った投稿        : {y['posts_read']} 件")
+        print(f"  告知が見つかった動画  : {len(y['found_videos'])} 本")
+        print(f"  リツイートした告知    : {len(y['retweeted'])} 件")
+        for u in y["retweeted"]:
+            print(f"    {u}")
 
     if rep["rejected_by_reason"]:
         print("\n■ 判定で除外した投稿（Phase 2）")

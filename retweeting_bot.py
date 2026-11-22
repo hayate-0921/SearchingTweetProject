@@ -4,12 +4,14 @@ retweeting_bot.py
 フォロー対象ユーザー（username）とキーワードに基づいて
 新規の「歌ってみた」動画の告知ツイートを検索し、自動でリツイートするバッチジョブ。
 
-処理の流れ（Phase 1・2）:
+処理の流れ（Phase 1〜3）:
   1. 前回の実行で翌日に回した候補（pending.json）を先に処理する
   2. 前回検索した終わりの時刻〜本日 0:00（JST）を、全クエリで全件検索する
-  3. 取得後に判定する（ショート・配信・リツイート済みの動画・同じ動画の重複を除外）
-  4. 投稿時刻の早い順にリツイートし、上限を超えた分は pending.json に回す
-  5. リツイート済み ID・動画 ID・実行状態・観測記録を保存する
+  3. YouTube の RSS で見つけた歌ってみたのうち、2 で告知が見つからなかった動画について、
+     X で本人の告知を探し直す（Phase 3。tools/youtube_fallback.py）
+  4. 取得後に判定する（ショート・配信・リツイート済みの動画・同じ動画の重複を除外）
+  5. 投稿時刻の早い順にリツイートし、上限を超えた分は pending.json に回す
+  6. リツイート済み ID・動画 ID・実行状態・監視中の動画・観測記録を保存する
 
 本モジュールは「1 Twitter アカウント分のリツイート処理」を
 1 タスクとして完結させる設計を採用している。
@@ -31,6 +33,16 @@ from config import (
     MAX_TWEETS_PER_SEARCH,
     MAX_USERS_PER_SEARCH,
     RETWEET_LIMIT,
+    YOUTUBE_ANNOUNCE_LOOKBACK_DAYS,
+    YOUTUBE_COVER_TITLE_PATTERN,
+    YOUTUBE_EXCLUDE_TITLE_PATTERN,
+    YOUTUBE_FALLBACK_ENABLED,
+    YOUTUBE_FEED_TIMEOUT,
+    YOUTUBE_FEED_WORKERS,
+    YOUTUBE_FULL_SCAN_AFTER_DAYS,
+    YOUTUBE_FULL_SCAN_MAX_POSTS,
+    YOUTUBE_MAX_USERS_PER_RUN,
+    YOUTUBE_WATCH_DAYS,
 )
 
 from tools.core import (
@@ -45,10 +57,13 @@ from tools.data_manager import (
     load_retweeted_list,
     load_retweeted_videos,
     load_state,
+    load_youtube_channels,
+    load_youtube_watch,
     save_pending,
     save_retweeted_list,
     save_retweeted_videos,
     save_state,
+    save_youtube_watch,
 )
 
 from tools.twitter_api import (
@@ -60,6 +75,8 @@ from tools.twitter_api import (
 
 from tools.observation import RunRecorder
 from tools.video_filter import Judgement, select_candidates
+from tools import youtube_fallback as yf
+from tools.youtube_feed import fetch_feeds
 
 
 # ------------------------------------------------------------
@@ -217,6 +234,16 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
                 collected.extend(tweets)
 
         # ----------------------------------------------------
+        # Phase 3: YouTube を起点に、取りこぼした告知を探し直す
+        # ----------------------------------------------------
+        youtube_watch = None
+        if window is not None and YOUTUBE_FALLBACK_ENABLED:
+            youtube_watch, found = run_youtube_fallback(
+                client, recorder, collected, set(retweeted_videos), end_time
+            )
+            collected.extend(found)
+
+        # ----------------------------------------------------
         # 判定（ショート・配信・リツイート済み動画・重複を除外）
         # ----------------------------------------------------
         accepted, rejected = select_candidates(
@@ -314,6 +341,12 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
             save_retweeted_list(retweeted_ids)
             save_retweeted_videos(retweeted_videos)
             save_pending(next_pending)
+            if youtube_watch is not None:
+                # リツイートした動画は監視リストから外す（期限切れは次回の更新で外れる）
+                for v in list(youtube_watch):
+                    if v in retweeted_videos:
+                        del youtube_watch[v]
+                save_youtube_watch(youtube_watch)
             if end_time is not None:
                 state["last_searched_until_utc"] = end_time.isoformat()
                 save_state(state)
@@ -334,6 +367,106 @@ def run_retweet_task(suffix: str | None = None, dry_run: bool = False) -> None:
     finally:
         if run_status != "error":
             _finish_observation(recorder, run_status, save=not dry_run)
+
+
+def run_youtube_fallback(
+    client: Any,
+    recorder: RunRecorder,
+    collected: List[Any],
+    retweeted_videos: set,
+    end_time: datetime,
+) -> Tuple[Dict[str, Dict[str, Any]] | None, List[Any]]:
+    """
+    Phase 3: YouTube の RSS で歌ってみたを見つけ、通常の検索で告知が見つからなかった動画について
+    X で本人の告知を探す。
+
+    YouTube や X の一時的な失敗で本番処理（通常のリツイート）を止めないよう、
+    例外はここで受け止めてログに残す。
+
+    Returns:
+        (更新後の監視リスト（保存は呼び出し側）, 見つかった告知の投稿)
+        対応表がない・失敗した場合は (None, [])。
+    """
+    try:
+        channels = load_youtube_channels()
+        if not channels:
+            log_message(RETWEET_LOG_FILE, "[YOUTUBE] data/youtube_channels.json がないため省略します。")
+            return None, []
+
+        now = datetime.now(timezone.utc)
+        watch = load_youtube_watch()
+        channel_to_user = {cid: user for user, cid in channels.items()}
+
+        videos, errors = fetch_feeds(
+            channel_to_user.keys(), workers=YOUTUBE_FEED_WORKERS, timeout=YOUTUBE_FEED_TIMEOUT
+        )
+        added = yf.update_watch(
+            watch,
+            videos,
+            channel_to_user,
+            retweeted_videos,
+            now,
+            YOUTUBE_COVER_TITLE_PATTERN,
+            YOUTUBE_EXCLUDE_TITLE_PATTERN,
+            YOUTUBE_WATCH_DAYS,
+        )
+
+        # 通常の検索で告知が見つかった動画は探さない
+        handled = set()
+        for tw in collected:
+            handled |= yf.eligible_video_ids(tw)
+
+        plans, skipped = yf.plan_searches(
+            watch,
+            handled,
+            end_time,
+            now,
+            YOUTUBE_ANNOUNCE_LOOKBACK_DAYS,
+            YOUTUBE_MAX_USERS_PER_RUN,
+        )
+
+        def search_fn(**kwargs: Any) -> Tuple[List[Any], dict]:
+            return search_all_tweets(client=client, **kwargs)
+
+        found, logs = yf.find_announcements(
+            plans, search_fn, YOUTUBE_FULL_SCAN_MAX_POSTS, YOUTUBE_FULL_SCAN_AFTER_DAYS
+        )
+        for lg in logs:
+            recorder.add_search(lg.query, [lg.username], lg.meta, lg.matched, source=f"youtube:{lg.step}")
+
+        yf.mark_searched(watch, plans)
+        for tw in found:
+            handled |= yf.eligible_video_ids(tw)
+        yf.mark_found(watch, handled)
+
+        found_videos = sorted({v for p in plans for v in p.found})
+        recorder.set_youtube(
+            {
+                "channels": len(channel_to_user),
+                "feed_errors": len(errors),
+                "feed_videos": len(videos),
+                "added_to_watch": added,
+                "watching": len([v for v, i in watch.items() if i.get("status") != "found"]),
+                "searched_users": [p.username for p in plans],
+                "skipped_users": skipped,
+                "found_videos": found_videos,
+            }
+        )
+        log_message(
+            RETWEET_LOG_FILE,
+            f"[YOUTUBE] RSS {len(channel_to_user)} チャンネル（失敗 {len(errors)}）/ 新しい歌ってみた {len(added)} 本 / "
+            f"告知を探したタレント {len(plans)} 人 / 見つかった動画 {len(found_videos)} 本",
+        )
+        if errors:
+            log_message(RETWEET_LOG_FILE, f"[YOUTUBE] RSS の取得に失敗: {list(errors.items())[:5]}")
+        if skipped:
+            log_message(RETWEET_LOG_FILE, f"[YOUTUBE] 上限のため次回に回したタレント: {skipped}")
+        return watch, found
+
+    except Exception as e:  # noqa: BLE001
+        log_message(RETWEET_LOG_FILE, f"[WARN] YouTube を起点にした検索に失敗しました（通常の処理は続けます）: {e}")
+        log_message(RETWEET_LOG_FILE, traceback.format_exc(), print_to_console=False)
+        return None, []
 
 
 def _print_judgements(accepted: List[Judgement], rejected: List[Judgement]) -> None:

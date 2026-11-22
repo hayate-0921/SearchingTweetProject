@@ -85,9 +85,15 @@ class RunRecorder:
         usernames: Sequence[str],
         meta: Optional[dict],
         tweets: Sequence[Any],
+        source: str = "keyword",
     ) -> int:
         """
         検索 1 回分の結果を記録する。
+
+        source は検索の種類。"keyword"（通常の検索）または
+        "youtube:youtube_url" / "youtube:full_scan"（Phase 3 の告知探し）。
+        Phase 3 の検索では、読んだ件数（費用）は result_count に入るが、
+        記録する投稿は対象の動画を含むものだけ（tweets に渡したもの）。
 
         meta に next_token がある場合は「取得件数の上限で打ち切られ、
         続きを読んでいない」ことを意味する（取りこぼしの証拠）。
@@ -97,6 +103,7 @@ class RunRecorder:
         self.run["searches"].append(
             {
                 "index": index,
+                "source": source,
                 "usernames": list(usernames),
                 "query_length": len(query),
                 "result_count": meta.get("result_count", len(tweets)),
@@ -159,6 +166,10 @@ class RunRecorder:
         if record is not None and video_id:
             record["judged_video_id"] = video_id
 
+    def set_youtube(self, info: Dict[str, Any]) -> None:
+        """Phase 3（YouTube を起点にした告知探し）の結果を記録する。"""
+        self.run["youtube"] = info
+
     def add_pending_result(self, entry: Dict[str, Any], decision: str, detail: str | None = None) -> None:
         """前回の実行から持ち越した候補の処理結果を記録する。"""
         item = {
@@ -184,9 +195,20 @@ class RunRecorder:
             if t["decision"].startswith("rejected:"):
                 reason = t["decision"].split(":", 1)[1]
                 rejected[reason] = rejected.get(reason, 0) + 1
+        youtube_reads = sum(
+            s["result_count"] or 0 for s in searches if str(s.get("source", "")).startswith("youtube")
+        )
         return {
             "search_requests": len(searches),
-            "queries_not_executed": max(self.run["total_queries"] - len(searches), 0),
+            "youtube_search_requests": sum(
+                1 for s in searches if str(s.get("source", "")).startswith("youtube")
+            ),
+            "youtube_posts_read": youtube_reads,
+            "queries_not_executed": max(
+                self.run["total_queries"]
+                - sum(1 for s in searches if s.get("source", "keyword") == "keyword"),
+                0,
+            ),
             "posts_read": posts_read,
             "truncated_searches": sum(1 for s in searches if s["truncated"]),
             "retweets": retweets,

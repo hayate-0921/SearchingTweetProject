@@ -21,6 +21,8 @@ from .core import (
     RETWEETED_FILE,
     RETWEETED_VIDEOS_FILE,
     STATE_FILE,
+    YOUTUBE_CHANNELS_FILE,
+    YOUTUBE_WATCH_FILE,
 )
 
 
@@ -130,3 +132,24 @@ def load_state() -> Dict[str, Any]:
 
 def save_state(state: Dict[str, Any]) -> None:
     _save_json(STATE_FILE, state)
+
+
+# ----------------------------------------------------------------------
+# Phase 3: YouTube チャンネルの対応表と、告知を探している動画
+# ----------------------------------------------------------------------
+def load_youtube_channels() -> Dict[str, str]:
+    """X の username → YouTube チャンネル ID の対応表。ファイルがなければ空。"""
+    return {str(k): str(v) for k, v in _load_json(YOUTUBE_CHANNELS_FILE, {}).items()}
+
+
+def save_youtube_channels(channels: Dict[str, str]) -> None:
+    _save_json(YOUTUBE_CHANNELS_FILE, dict(sorted(channels.items(), key=lambda kv: kv[0].lower())))
+
+
+def load_youtube_watch() -> Dict[str, Dict[str, Any]]:
+    """告知を探している歌ってみた動画（動画 ID → 情報）。ファイルがなければ空。"""
+    return dict(_load_json(YOUTUBE_WATCH_FILE, {}))
+
+
+def save_youtube_watch(watch: Dict[str, Dict[str, Any]]) -> None:
+    _save_json(YOUTUBE_WATCH_FILE, dict(sorted(watch.items())))

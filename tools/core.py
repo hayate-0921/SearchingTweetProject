@@ -20,6 +20,8 @@ RETWEETED_FILE = DATA_PATH / "retweeted.json"
 RETWEETED_VIDEOS_FILE = DATA_PATH / "retweeted_videos.json"  # リツイート済みの YouTube 動画 ID
 PENDING_FILE = DATA_PATH / "pending.json"  # 上限超過で翌日に回した候補
 STATE_FILE = DATA_PATH / "state.json"  # 前回どこまで検索したか
+YOUTUBE_CHANNELS_FILE = DATA_PATH / "youtube_channels.json"  # X の username → YouTube チャンネル ID
+YOUTUBE_WATCH_FILE = DATA_PATH / "youtube_watch.json"  # 告知を探している歌ってみた動画
 RETWEET_LOG_FILE = LOG_PATH / "retweeting.log"
 
 # --- ディレクトリ初期化 ---
