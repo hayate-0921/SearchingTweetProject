@@ -1,0 +1,749 @@
+{
+  "runs": [
+    {
+      "account": "DEFAULT",
+      "started_at": "2026-11-23T05:56:13.749415+09:00",
+      "search_window": {
+        "start_utc": "2026-11-21T15:00:00+00:00",
+        "end_utc": "2026-11-22T15:00:00+00:00"
+      },
+      "keywords": [
+        "cover",
+        "covered",
+        "歌ってみた",
+        "カバー"
+      ],
+      "exclude_keywords": [
+        "万再生",
+        "万回再生",
+        "short",
+        "shorts"
+      ],
+      "total_queries": 22,
+      "searches": [
+        {
+          "index": 0,
+          "source": "keyword",
+          "usernames": [
+            "ANYCOLOR_Inc",
+            "nijisanji_app",
+            "NIJISANJI_World",
+            "chronoir_info",
+            "ROF_MAO",
+            "_Nornis",
+            "seitokai_07",
+            "ViVO_info",
+            "ll_cellmates_ll",
+            "Elu_World"
+          ],
+          "query_length": 370,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 1,
+          "source": "keyword",
+          "usernames": [
+            "ShizuRin23",
+            "sibuya_hajime",
+            "MitoTsukino",
+            "HiguchiKaede",
+            "Moiramoimoimoi",
+            "ienaga_mugi23",
+            "ushimi_ichigo",
+            "Gilzaren_III",
+            "rei_Toya_rei",
+            "gaku_fushimi"
+          ],
+          "query_length": 381,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 2,
+          "source": "keyword",
+          "usernames": [
+            "nekokan_chu",
+            "AliceMononobe",
+            "KazakiMorinaka",
+            "Yuuhi_Riri",
+            "Youko_Akabane",
+            "Kanae_2434",
+            "udukikohh",
+            "SisterCleaire",
+            "Darkness_Eater",
+            "___Dola"
+          ],
+          "query_length": 373,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 3,
+          "source": "keyword",
+          "usernames": [
+            "KT_seeds",
+            "ZulmIhP1nlMOT5y",
+            "846kizuQ",
+            "midori_2434",
+            "harusakiair2434",
+            "saku_sasaki",
+            "honmahimawari",
+            "Vamp_Kuzu",
+            "yuika_siina",
+            "makaino_ririmu"
+          ],
+          "query_length": 374,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 4,
+          "source": "keyword",
+          "usernames": [
+            "hina__asuka",
+            "Sayo_Amemori",
+            "Kanda_Shoichi",
+            "TakamiyaRion",
+            "maimoto_k",
+            "SAKURA_RITSUKI",
+            "JoeRikiichi",
+            "debidebiru_sama",
+            "chima_machita23",
+            "RindouMikoto"
+          ],
+          "query_length": 383,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 5,
+          "source": "keyword",
+          "usernames": [
+            "BlackShiba_chan",
+            "belmond_b_2434",
+            "Rine_Yaguruma",
+            "kakeru_yumeoi",
+            "yuzuki_roa",
+            "onomachi_haruka",
+            "KataribeTsumugu",
+            "Ange_Katrina_",
+            "inui_toko",
+            "Lize_Helesta"
+          ],
+          "query_length": 388,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 6,
+          "source": "keyword",
+          "usernames": [
+            "manami_aizono",
+            "333akina",
+            "MahiroYukishiro",
+            "Ex_Albio",
+            "Levi_E_2434",
+            "Nui_Sociere",
+            "Hayama_Marin",
+            "H_KAGAMI2434",
+            "Hakase_Fuyuki",
+            "rena_yorumi"
+          ],
+          "query_length": 373,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 7,
+          "source": "keyword",
+          "usernames": [
+            "ars_almal",
+            "amamiya_kokoro",
+            "Eli_Conifer",
+            "ratna_petit",
+            "Hana_Macchia",
+            "ShellinBurgundy",
+            "sukosuko_sukoya",
+            "SouHayase",
+            "FumiVirtual",
+            "Sara_Hoshikawa"
+          ],
+          "query_length": 380,
+          "result_count": 2,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 8,
+          "source": "keyword",
+          "usernames": [
+            "Karuta_Yamagami",
+            "emma_august_",
+            "matsukai_mao",
+            "Luis_Cammy",
+            "Tomoe_Shirayuki",
+            "Fuwa_Minato",
+            "Rai_Galilei",
+            "kurusu72me",
+            "mashiro2434",
+            "Gaon2434"
+          ],
+          "query_length": 374,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 9,
+          "source": "keyword",
+          "usernames": [
+            "SuhaMin2434",
+            "honmono_ibrahim",
+            "furen_2434",
+            "LaylaAlstro2434",
+            "VALZ_info",
+            "Kaida_Haru",
+            "1O46V",
+            "kei_nagao2434",
+            "NagiSo2434",
+            "kirame_2434"
+          ],
+          "query_length": 368,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 10,
+          "source": "keyword",
+          "usernames": [
+            "Hisui_Kitakoji",
+            "Suo_Sango",
+            "kohaku_todo",
+            "Chigusa_24zono",
+            "RayAkira2434",
+            "RohaLee2434",
+            "Etna_Crimson",
+            "JiyuOh2434",
+            "NariYang2434",
+            "HariRyu2434"
+          ],
+          "query_length": 375,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 11,
+          "source": "keyword",
+          "usernames": [
+            "DeremKado",
+            "NagisaArcinia",
+            "Seffyna2434",
+            "oliverD_23",
+            "Lain_Paterson",
+            "Leos_Vincent",
+            "Lauren_iroas",
+            "NaSera2434",
+            "HaYun2434",
+            "Muyu_Amagase"
+          ],
+          "query_length": 370,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 12,
+          "source": "keyword",
+          "usernames": [
+            "Yotsuha_Umise",
+            "ponto_nei",
+            "1000000lome",
+            "VOLTACTION_info",
+            "Shikinagi_2434",
+            "SerAph_DazZ",
+            "KNTFR2434",
+            "watarai_hibari",
+            "1garashi_Rika",
+            "I_Nozomi_"
+          ],
+          "query_length": 377,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 13,
+          "source": "keyword",
+          "usernames": [
+            "65_kaburaki",
+            "k_meruto",
+            "toru_2434",
+            "44do_akari",
+            "SophiaV214",
+            "Oriens_honmono",
+            "akagi_wen",
+            "usamirito_power",
+            "Saiki_Supadari",
+            "Hibachi_Mana"
+          ],
+          "query_length": 371,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 14,
+          "source": "keyword",
+          "usernames": [
+            "rai_173",
+            "Rou_2434",
+            "Show_SylveSTAR",
+            "Kagetsu_2434",
+            "Ruri_4ori8",
+            "tctt10_10",
+            "Milan_Kestrel",
+            "3SKM_INFO",
+            "Kaisei_2434",
+            "Kitami_Coolguy"
+          ],
+          "query_length": 366,
+          "result_count": 1,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 15,
+          "source": "keyword",
+          "usernames": [
+            "Ness_Sakaki",
+            "AYAKAKI_INFO",
+            "Kisara_2434",
+            "KozueMone",
+            "Shigariko_",
+            "7_tamanoi",
+            "mo_lunlun_gu",
+            "Speciale_info",
+            "kirara_tamako",
+            "Saotome_Berry"
+          ],
+          "query_length": 372,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 16,
+          "source": "keyword",
+          "usernames": [
+            "sakayori_soma",
+            "Tr0uT_2434",
+            "Suzuna_Nanase",
+            "Itsuki_Sakyo",
+            "Aya10_1tsubashi",
+            "yoiyume_info",
+            "Kadou_Mikaru",
+            "Togawa_Nonoha",
+            "Nekoyashiki_39",
+            "YagyuShino"
+          ],
+          "query_length": 383,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 17,
+          "source": "keyword",
+          "usernames": [
+            "splare_info",
+            "Yuno_Shino38",
+            "Shiro_Isumyan",
+            "sumeragi_0o",
+            "Hanakago_2434rr",
+            "shirasa_ayane",
+            "Madoka_Minamo",
+            "OnoTora333",
+            "Eita_2434",
+            "Kokonami_Iruka"
+          ],
+          "query_length": 380,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 18,
+          "source": "keyword",
+          "usernames": [
+            "Senri_Ayumu",
+            "BIG_Tsukahara",
+            "Mikogami_Kotone",
+            "Rei7_2434",
+            "Rayon_2434",
+            "Purin_lala_mode",
+            "Punch_Pomelo",
+            "Taiga_kaminaga",
+            "Ryuichiro_YMD",
+            "lulu_suzuhara"
+          ],
+          "query_length": 384,
+          "result_count": 2,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 19,
+          "source": "keyword",
+          "usernames": [
+            "EliraPendora",
+            "FinanaRyugu",
+            "Petra_Gurin",
+            "EnnaAlouette",
+            "MillieParfait",
+            "luca_kaneshiro",
+            "shu_yamino",
+            "Vox_Akuma",
+            "alban_knox",
+            "sonny_brisko"
+          ],
+          "query_length": 373,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 20,
+          "source": "keyword",
+          "usernames": [
+            "uki_violeta",
+            "AiaAmare",
+            "MariaMari0nette",
+            "RenZott0",
+            "ScarleYonaguni",
+            "D_Dropscythe",
+            "MelocoKyoran",
+            "Ver_Vermillion",
+            "Tyrant_Vanta",
+            "VezaliusBandage"
+          ],
+          "query_length": 380,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 21,
+          "source": "keyword",
+          "usernames": [
+            "YuQWilson",
+            "ClaudeClawmark",
+            "KlaraCharmwood",
+            "RyomaBarrenwort",
+            "Freo_2434",
+            "KaelixDebonair",
+            "Seible_2434",
+            "ZealGinjoka"
+          ],
+          "query_length": 338,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 22,
+          "source": "youtube:youtube_url",
+          "usernames": [
+            "H_KAGAMI2434"
+          ],
+          "query_length": 77,
+          "result_count": 5,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 23,
+          "source": "youtube:youtube_url",
+          "usernames": [
+            "KlaraCharmwood"
+          ],
+          "query_length": 79,
+          "result_count": 0,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 24,
+          "source": "youtube:full_scan",
+          "usernames": [
+            "KlaraCharmwood"
+          ],
+          "query_length": 41,
+          "result_count": 6,
+          "pages": 1,
+          "truncated": false
+        },
+        {
+          "index": 25,
+          "source": "youtube:youtube_url",
+          "usernames": [
+            "Hibachi_Mana"
+          ],
+          "query_length": 77,
+          "result_count": 5,
+          "pages": 1,
+          "truncated": false
+        }
+      ],
+      "tweets": [
+        {
+          "id": "2124488685672632699",
+          "url": "https://x.com/i/status/2124488685672632699",
+          "author_id": "1162577611228233729",
+          "created_at": "2026-11-22T13:02:28+00:00",
+          "search_index": 7,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "vk1GhWcNWwA",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [
+            "x.com"
+          ],
+          "matched_keywords": [
+            "歌ってみた",
+            "カバー"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "rejected:duplicate_in_run",
+          "judged_video_id": "vk1GhWcNWwA"
+        },
+        {
+          "id": "2124480650434801850",
+          "url": "https://x.com/i/status/2124480650434801850",
+          "author_id": "1162577611228233729",
+          "created_at": "2026-11-22T12:30:32+00:00",
+          "search_index": 7,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "vk1GhWcNWwA",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [
+            "x.com"
+          ],
+          "matched_keywords": [
+            "歌ってみた",
+            "歌いました",
+            "MV"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "vk1GhWcNWwA"
+        },
+        {
+          "id": "2124444045166739534",
+          "url": "https://x.com/i/status/2124444045166739534",
+          "author_id": "1726441063018328064",
+          "created_at": "2026-11-22T10:05:05+00:00",
+          "search_index": 14,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "m1nMcKhzRKo",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [],
+          "matched_keywords": [
+            "cover",
+            "covered"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "m1nMcKhzRKo"
+        },
+        {
+          "id": "2124492502535462984",
+          "url": "https://x.com/i/status/2124492502535462984",
+          "author_id": "2080476828024889344",
+          "created_at": "2026-11-22T13:17:38+00:00",
+          "search_index": 18,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "1Gt7WdpLwuw",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [],
+          "matched_keywords": [
+            "cover"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "rejected:duplicate_in_run",
+          "judged_video_id": "1Gt7WdpLwuw"
+        },
+        {
+          "id": "2124491422774722680",
+          "url": "https://x.com/i/status/2124491422774722680",
+          "author_id": "2080475950501015552",
+          "created_at": "2026-11-22T13:13:20+00:00",
+          "search_index": 18,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "1Gt7WdpLwuw",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [],
+          "matched_keywords": [
+            "cover",
+            "MV",
+            "プレミア"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "1Gt7WdpLwuw"
+        },
+        {
+          "id": "2123008397738209428",
+          "url": "https://x.com/i/status/2123008397738209428",
+          "author_id": "1141971886688989184",
+          "created_at": "2026-11-18T11:00:20+00:00",
+          "search_index": 22,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "750dhj_Eo38",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [
+            "x.com"
+          ],
+          "matched_keywords": [
+            "cover",
+            "カバー"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "750dhj_Eo38"
+        },
+        {
+          "id": "2123374590584041751",
+          "url": "https://x.com/i/status/2123374590584041751",
+          "author_id": "1784617569015701504",
+          "created_at": "2026-11-19T11:15:27+00:00",
+          "search_index": 24,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "eqrD1Ocof7U",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [],
+          "matched_keywords": [
+            "cover"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "eqrD1Ocof7U"
+        },
+        {
+          "id": "2123780941495878025",
+          "url": "https://x.com/i/status/2123780941495878025",
+          "author_id": "1641250995740225538",
+          "created_at": "2026-11-20T14:10:09+00:00",
+          "search_index": 25,
+          "has_youtube_url": true,
+          "youtube": [
+            {
+              "video_id": "Ss_Jj35EG18",
+              "kind": "watch"
+            }
+          ],
+          "other_url_hosts": [
+            "x.com"
+          ],
+          "matched_keywords": [
+            "プレミア"
+          ],
+          "matched_exclude": [],
+          "mentions_short": false,
+          "decision": "retweeted",
+          "judged_video_id": "Ss_Jj35EG18"
+        }
+      ],
+      "pending_processed": [],
+      "youtube": {
+        "channels": 200,
+        "feed_errors": 0,
+        "feed_videos": 2991,
+        "added_to_watch": [
+          "vk1GhWcNWwA",
+          "750dhj_Eo38",
+          "Ss_Jj35EG18",
+          "eqrD1Ocof7U",
+          "m1nMcKhzRKo",
+          "1Gt7WdpLwuw"
+        ],
+        "watching": 0,
+        "searched_users": [
+          "H_KAGAMI2434",
+          "KlaraCharmwood",
+          "Hibachi_Mana"
+        ],
+        "skipped_users": [],
+        "found_videos": [
+          "750dhj_Eo38",
+          "Ss_Jj35EG18",
+          "eqrD1Ocof7U"
+        ]
+      },
+      "status": "completed",
+      "finished_at": "2026-11-23T05:56:23.049160+09:00",
+      "summary": {
+        "search_requests": 26,
+        "youtube_search_requests": 4,
+        "youtube_posts_read": 16,
+        "queries_not_executed": 0,
+        "posts_read": 21,
+        "truncated_searches": 0,
+        "retweets": 6,
+        "pending_tweets": 0,
+        "pending_processed": 0,
+        "rejected_by_reason": {
+          "duplicate_in_run": 2
+        },
+        "estimated_cost_usd": {
+          "post_read": 0.105,
+          "retweet": 0.09,
+          "total": 0.195
+        }
+      }
+    }
+  ]
+}
